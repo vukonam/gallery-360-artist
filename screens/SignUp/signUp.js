@@ -8,20 +8,11 @@ import {
   TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import ForgetPassword from "./screens/SignIn/ForgetPassword";
-
+//import SpashScreen from "./screens/OnBording/SpashScreen.js";
 export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const handleOpenModal = () => {
-    setModalIsVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsVisible(false);
-  };
   const handleSignIn = () => {
     console.log("signed in!!!");
   };
@@ -34,9 +25,9 @@ export default function App() {
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.header}>Welcome Back !</Text>
+        <Text style={styles.header}>Sign Up</Text>
         <View style={styles.accountLoginContainer}>
-          <Text style={styles.smallerText}> login to your account</Text>
+          <Text style={styles.smallerText}> create your new account</Text>
           <View style={styles.iconContainer}>
             <Icon
               name="google"
@@ -62,21 +53,26 @@ export default function App() {
           value={password}
           onChangeText={setPassword}
         />
-        <View style={styles.smallerButtonContainer}>
-          <Text>hello</Text>
-          <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-            <Text style={styles.smallerButtonText}>I forgot my password</Text>
-          </TouchableOpacity>
-        </View>
-        {
-          <ForgetPassword
-            visible={modalIsVisible}
-            closeModal={handleCloseModal}
-          />
-        }
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => console.log("welcome to the forget password page")}
+        >
+          <Text style={styles.smallerButtonText}>
+            I agree to Gallery360's terms & conditions
+          </Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
           <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            console.log("go to sign up although you are already in sign up")
+          }
+        >
+          <Text style={styles.smallerButtonText}>I don't have an account</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -86,7 +82,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "black", // Set this to your desired background color for the whole screen
   },
   imageContainer: {
     padding: 20,
@@ -95,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#CEB89E",
     borderBottomEndRadius: 40,
     borderBottomLeftRadius: 40,
-    height: 380,
+    height: 350,
   },
   accountLoginContainer: {
     flexDirection: "row",
@@ -124,6 +120,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     color: "white",
+    textAlign: "left",
   },
   inputContainer: {
     flex: 1,
@@ -157,11 +154,9 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "transparent", // Set this to your desired button color
-    padding: 2,
+    padding: 20,
     borderRadius: 5,
-
     marginBottom: 10,
-    marginLeft: 100,
   },
   smallerButtonText: {
     color: "#fff", // Set this to your desired button text color

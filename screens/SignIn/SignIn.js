@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import ForgetPassword from "./screens/SignIn/ForgetPassword";
+import ForgetPassword from "./ForgetPassword";
 
 export default function App() {
   const [email, setEmail] = useState("");
