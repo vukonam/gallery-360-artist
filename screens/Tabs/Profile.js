@@ -47,10 +47,7 @@ const SetupProfileScreen = () => {
     <View style={styles.container}>
       <ScrollView>
         <View>
-          <Text style={styles.header}>Setup Profile</Text>
-          <Text style={styles.smallerText}>
-            once your profile is complete, you can start uploading your artwork.
-          </Text>
+          <Text style={styles.header}>Profile</Text>
         </View>
         <View>
           <View style={styles.imageContainer}>
@@ -63,116 +60,90 @@ const SetupProfileScreen = () => {
               }}
               source={require("./assets/images/userImage.jpg")}
             />
-            <Icon
-              name="camera"
-              size={20}
-              color="gray"
+            <Text
               style={{
-                padding: 10,
-                backgroundColor: "white",
-                borderRadius: 20,
-                position: "absolute",
-                bottom: 120,
+                color: "white",
+                fontSize: 22,
+                fontWeight: "bold",
+                padding: 5,
               }}
-            />
+            >
+              John Doe
+            </Text>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 14,
+                fontWeight: "bold",
+                padding: 5,
+              }}
+            >
+              27 jul, 199x
+            </Text>
+
             <View style={styles.iconContainer}>
               <Icon
                 name="facebook"
                 size={25}
-                style={{ padding: 15 }}
+                style={{ padding: 10 }}
                 color="gray"
               />
 
               <Icon
                 name="instagram"
                 size={25}
-                style={{ padding: 15 }}
+                style={{ padding: 10 }}
                 color="gray"
               />
             </View>
-            <View>
-              <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-                <Icon
-                  name="plus"
-                  style={{ marginRight: 10 }}
-                  size={20}
-                  color="white"
-                />
-                <Text style={styles.smallerButtonText}>ADD SOCIAL MEDIA</Text>
-              </TouchableOpacity>
-            </View>
-            {
-              <AddSocialMedia
-                visible={modalIsVisible}
-                closeModal={handleCloseModal}
-              />
-            }
+          </View>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 14,
+              marginBottom: 10,
+            }}
+          >
+            Sibusiso Joe is a respected curator and art historian with over 15
+            years of experience in the art world. He has curated exhibitions in
+            major museums and galleries and has published numerous articles and
+            books on contemporary art.
+          </Text>
+        </View>
+        <Image
+          style={{ width: 300, height: 150, alignSelf: "center" }}
+          source={require("./assets/images/Jon_Kirsch's_Signature.png")}
+        />
+        <View>
+          <Text style={styles.profileHeader}>Account</Text>
+          <View style={styles.subHeadersContainer}>
+            <Text style={styles.subHeaders}>Card Details</Text>
+            <Text style={styles.subHeaders}>*** *** **66</Text>
+          </View>
+          <Text style={styles.profileHeader}>Help & Info</Text>
+          <Text style={styles.subHeaders}>Terms & conditions</Text>
+          <View style={styles.subHeadersContainer}>
+            <Text style={styles.subHeaders}>Return Policy</Text>
+            <Text style={styles.subHeaders}>Gallery360 Default</Text>
           </View>
         </View>
-        {/* Image Input */}
-        {/* Full Name Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="white"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-
-        {/* Contact Number Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="Contact Number"
-          placeholderTextColor="white"
-          value={contactNumber}
-          onChangeText={setContactNumber}
-          keyboardType="numeric"
-        />
-
-        {/* Website Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="Website"
-          placeholderTextColor="white"
-          value={website}
-          onChangeText={setWebsite}
-        />
-
-        {/* Date of Birth Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="Date of Birth"
-          placeholderTextColor="white"
-          value={dateOfBirth}
-          onChangeText={setDateOfBirth}
-          keyboardType="numeric"
-        />
-
-        {/* Bio Input */}
-        <TextInput
-          style={{
-            width: "100%",
-            height: 100,
-            fontSize: 16,
-            borderBottomWidth: 1,
-            borderBottomColor: "#ccc",
-            marginBottom: 20,
-            color: "#fff",
-          }}
-          placeholder="Bio"
-          placeholderTextColor="white"
-          value={bio}
-          onChangeText={setBio}
-          multiline
-        />
         {/* Save Profile Button */}
-        <TouchableOpacity
-          style={styles.signInButton}
-          onPress={handleSaveProfile}
-        >
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
       </ScrollView>
+      <View style={styles.navigationMenu}>
+        <TouchableOpacity style={styles.menuItem}>
+          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
+          <Text style={styles.menuText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem}>
+          <Icon
+            name="facebook"
+            size={20}
+            color="white"
+            style={styles.menuIcon}
+          />
+          <Text style={styles.menuText}>Settings</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -212,35 +183,65 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "left",
   },
+
+  profileHeader: {
+    fontSize: 30,
+
+    marginBottom: 10,
+    color: "white",
+    textAlign: "left",
+  },
   smallerText: {
     color: "#fff", // Set this to your desired button text color
     fontSize: 14,
   },
   imageContainer: {
-    marginTop: 40,
-    padding: 20,
+    marginTop: 80,
+    marginBottom: 20,
+    padding: 10,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "black",
     height: 250,
   },
-  button: {
-    marginTop: 15,
-    backgroundColor: "transparent", // Set this to your desired button color
-    padding: 12,
-    borderRadius: 5,
-    marginBottom: 30,
-    borderRadius: 50,
+  subHeadersContainer: {
     flexDirection: "row",
-    backgroundColor: "gray",
+    justifyContent: "space-between",
+  },
+  subHeaders: {
+    padding: 15,
+    fontSize: 16,
+    color: "gray",
   },
   smallerButtonText: {
     color: "#fff", // Set this to your desired button text color
     fontSize: 14,
   },
   iconContainer: {
-    marginTop: 30,
+    marginTop: 10,
     flexDirection: "row",
+  },
+  navigationMenu: {
+    position: "absolute",
+    backgroundColor: "black",
+    bottom: 0,
+    width: 350,
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderTopWidth: 1,
+    borderColor: "#CEB89E",
+    paddingTop: 10,
+  },
+  menuItem: {
+    alignItems: "center",
+  },
+  menuIcon: {
+    marginBottom: 5,
+  },
+  menuText: {
+    color: "white",
+    fontSize: 10,
   },
 });
 

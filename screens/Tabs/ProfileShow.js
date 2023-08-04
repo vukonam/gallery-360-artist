@@ -46,11 +46,11 @@ const SetupProfileScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View>
-          <Text style={styles.header}>Setup Profile</Text>
-          <Text style={styles.smallerText}>
-            once your profile is complete, you can start uploading your artwork.
-          </Text>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.headerButton}>
+            <Icon name="arrow-left" size={24} color="white" />
+          </TouchableOpacity>
+          <Text style={styles.exhibitionText}> Edit Profile</Text>
         </View>
         <View>
           <View style={styles.imageContainer}>
@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: 40,
+    marginBottom: 30,
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -241,6 +242,19 @@ const styles = StyleSheet.create({
   iconContainer: {
     marginTop: 30,
     flexDirection: "row",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  headerButton: {
+    padding: 10,
+  },
+  exhibitionText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
   },
 });
 

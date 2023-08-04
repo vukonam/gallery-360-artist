@@ -6,8 +6,9 @@ import {
   Text,
   Image,
   TextInput,
+  ScrollView,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import ForgetPassword from "./ForgetPassword";
 
 export default function App() {
@@ -27,58 +28,60 @@ export default function App() {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={{ width: 200, height: 200, alignSelf: "center" }}
-          source={require("./assets/images/gallery36.png")}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.header}>Welcome Back !</Text>
-        <View style={styles.accountLoginContainer}>
-          <Text style={styles.smallerText}> login to your account</Text>
-          <View style={styles.iconContainer}>
-            <Icon
-              name="google"
-              size={20}
-              style={{ paddingRight: 20 }}
-              color="red"
-            />
-            <Icon name="facebook" size={20} color="blue" />
-          </View>
+      <ScrollView>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ width: 200, height: 200, alignSelf: "center" }}
+            source={require("../../assets/images/gallery36.png")}
+          />
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="white"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="white"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <View style={styles.smallerButtonContainer}>
-          <Text>hello</Text>
-          <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-            <Text style={styles.smallerButtonText}>I forgot my password</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.header}>Welcome Back !</Text>
+          <View style={styles.accountLoginContainer}>
+            <Text style={styles.smallerText}> login to your account</Text>
+            <View style={styles.iconContainer}>
+              <Icon
+                name="google"
+                size={20}
+                style={{ paddingRight: 20 }}
+                color="gray"
+              />
+              <Icon name="facebook" size={20} color="gray" />
+            </View>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="white"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="white"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <View style={styles.smallerButtonContainer}>
+            <Text>hello</Text>
+            <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
+              <Text style={styles.smallerButtonText}>I forgot my password</Text>
+            </TouchableOpacity>
+          </View>
+          {
+            <ForgetPassword
+              visible={modalIsVisible}
+              closeModal={handleCloseModal}
+            />
+          }
+
+          <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
+            <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
         </View>
-        {
-          <ForgetPassword
-            visible={modalIsVisible}
-            closeModal={handleCloseModal}
-          />
-        }
-
-        <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-    justifyContent: "center",
+    marginTop: 40,
     alignItems: "center",
     backgroundColor: "transparent", // Set this to your desired background color for the whole screen
   },

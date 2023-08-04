@@ -17,7 +17,7 @@ const SetupProfileScreen = () => {
   const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [website, setWebsite] = useState("");
+  const [address, setAddress] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
 
@@ -47,107 +47,71 @@ const SetupProfileScreen = () => {
     <View style={styles.container}>
       <ScrollView>
         <View>
-          <Text style={styles.header}>Setup Profile</Text>
-          <Text style={styles.smallerText}>
-            once your profile is complete, you can start uploading your artwork.
-          </Text>
+          <Text style={styles.header}>New Artwork</Text>
         </View>
         <View>
           <View style={styles.imageContainer}>
-            <Image
-              style={{
-                width: 150,
-                height: 150,
-                alignSelf: "center",
-                borderRadius: 75,
-              }}
-              source={require("./assets/images/userImage.jpg")}
-            />
             <Icon
               name="camera"
               size={20}
               color="gray"
-              style={{
-                padding: 10,
-                backgroundColor: "white",
-                borderRadius: 20,
-                position: "absolute",
-                bottom: 120,
-              }}
+              style={styles.cameraIcon}
             />
-            <View style={styles.iconContainer}>
-              <Icon
-                name="facebook"
-                size={25}
-                style={{ padding: 15 }}
-                color="gray"
-              />
-
-              <Icon
-                name="instagram"
-                size={25}
-                style={{ padding: 15 }}
-                color="gray"
-              />
-            </View>
-            <View>
-              <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-                <Icon
-                  name="plus"
-                  style={{ marginRight: 10 }}
-                  size={20}
-                  color="white"
-                />
-                <Text style={styles.smallerButtonText}>ADD SOCIAL MEDIA</Text>
-              </TouchableOpacity>
-            </View>
-            {
-              <AddSocialMedia
-                visible={modalIsVisible}
-                closeModal={handleCloseModal}
-              />
-            }
           </View>
         </View>
         {/* Image Input */}
         {/* Full Name Input */}
         <TextInput
           style={styles.input}
-          placeholder="Full Name"
+          placeholder="TITLE"
           placeholderTextColor="white"
           value={fullName}
           onChangeText={setFullName}
         />
 
-        {/* Contact Number Input */}
         <TextInput
           style={styles.input}
-          placeholder="Contact Number"
+          placeholder="MEDIUM"
           placeholderTextColor="white"
-          value={contactNumber}
-          onChangeText={setContactNumber}
-          keyboardType="numeric"
+          value={address}
+          onChangeText={setAddress}
         />
 
-        {/* Website Input */}
         <TextInput
           style={styles.input}
-          placeholder="Website"
+          placeholder="DIMENSIONS"
           placeholderTextColor="white"
-          value={website}
-          onChangeText={setWebsite}
+          value={address}
+          onChangeText={setAddress}
         />
-
-        {/* Date of Birth Input */}
         <TextInput
           style={styles.input}
-          placeholder="Date of Birth"
+          placeholder="YEAR"
           placeholderTextColor="white"
-          value={dateOfBirth}
-          onChangeText={setDateOfBirth}
-          keyboardType="numeric"
+          value={address}
+          onChangeText={setAddress}
         />
-
+        <TextInput
+          style={styles.input}
+          placeholder="PRICE"
+          placeholderTextColor="white"
+          value={address}
+          onChangeText={setAddress}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="CONDITION"
+          placeholderTextColor="white"
+          value={address}
+          onChangeText={setAddress}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="AVAILABILITY"
+          placeholderTextColor="white"
+          value={address}
+          onChangeText={setAddress}
+        />
         {/* Bio Input */}
         <TextInput
           style={{
@@ -159,7 +123,7 @@ const SetupProfileScreen = () => {
             marginBottom: 20,
             color: "#fff",
           }}
-          placeholder="Bio"
+          placeholder="STATEMENT"
           placeholderTextColor="white"
           value={bio}
           onChangeText={setBio}
@@ -206,7 +170,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   header: {
-    fontSize: 44,
+    fontSize: 34,
     fontWeight: "bold",
     marginBottom: 10,
     color: "white",
@@ -216,14 +180,7 @@ const styles = StyleSheet.create({
     color: "#fff", // Set this to your desired button text color
     fontSize: 14,
   },
-  imageContainer: {
-    marginTop: 40,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "black",
-    height: 250,
-  },
+
   button: {
     marginTop: 15,
     backgroundColor: "transparent", // Set this to your desired button color
@@ -241,6 +198,25 @@ const styles = StyleSheet.create({
   iconContainer: {
     marginTop: 30,
     flexDirection: "row",
+  },
+  imageContainer: {
+    marginTop: 40,
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
+    height: 250,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
+    borderStyle: "dashed", // Add dashed border style
+  },
+  cameraIcon: {
+    padding: 10,
+    backgroundColor: "white",
+    borderRadius: 20,
+    position: "absolute",
+    bottom: 100, // Move the camera icon a bit lower to center it
   },
 });
 

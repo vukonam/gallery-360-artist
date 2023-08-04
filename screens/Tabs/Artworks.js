@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
@@ -40,23 +41,27 @@ const ArtworksScreen = () => {
           </View>
         </View>
       );
-    } else if (selectedOption === "UPCOMING") {
+    } else if (selectedOption === "STAND ALONE") {
       const cardsData = [
         {
           id: "1",
           image: require("./assets/images/art1.png"), // Replace with the path to your image
-          title: "Reflections in Color",
-          date: "July 19, 2023",
-          address: "Gallery XYZ, 123 Main Street, Anytown USA",
-          description: `Reflections in Color" is a vibrant and dynamic exhibition featuring the artwork of emerging and established artists who explore the interplay of color and form in their work.`,
+          title: "Card 1",
         },
         {
           id: "2",
           image: require("./assets/images/art2.png"), // Replace with the path to your image
-          title: "Reflections in Color",
-          date: "July 19, 2023",
-          address: "Gallery XYZ, 123 Main Street, Anytown USA",
-          description: `Reflections in Color" is a vibrant and dynamic exhibition featuring the artwork of emerging and established artists who explore the interplay of color and form in their work.`,
+          title: "Card 2",
+        },
+        {
+          id: "3",
+          image: require("./assets/images/art3.png"), // Replace with the path to your image
+          title: "Card 3",
+        },
+        {
+          id: "4",
+          image: require("./assets/images/art4.png"), // Replace with the path to your image
+          title: "Card 4",
         },
         // Add more cards data as needed
       ];
@@ -64,44 +69,44 @@ const ArtworksScreen = () => {
       const renderItem = ({ item }) => (
         <View style={styles.card}>
           <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardInfoContainer}>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardDate}>{item.date}</Text>
-            </View>
-            <Text style={styles.cardAddress}>{item.address}</Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>{item.title}</Text>
           </View>
         </View>
       );
 
       return (
-        <View style={styles.flatlistContainer}>
+        <View style={styles.container}>
           <FlatList
             data={cardsData}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
-            numColumns={1}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
           />
         </View>
       );
-    } else if (selectedOption === "PAST") {
+    } else if (selectedOption === "NATURE'S BEAUTY") {
       const cardsData = [
         {
           id: "1",
           image: require("./assets/images/art1.png"), // Replace with the path to your image
-          title: "Reflections in Color",
-          date: "July 19, 2023",
-          address: "Gallery XYZ, 123 Main Street, Anytown USA",
-          description: `Reflections in Color" is a vibrant and dynamic exhibition featuring the artwork of emerging and established artists who explore the interplay of color and form in their work.`,
+          title: "Card 1",
         },
         {
           id: "2",
           image: require("./assets/images/art2.png"), // Replace with the path to your image
-          title: "Reflections in Color",
-          date: "July 19, 2023",
-          address: "Gallery XYZ, 123 Main Street, Anytown USA",
-          description: `Reflections in Color" is a vibrant and dynamic exhibition featuring the artwork of emerging and established artists who explore the interplay of color and form in their work.`,
+          title: "Card 2",
+        },
+        {
+          id: "3",
+          image: require("./assets/images/art3.png"), // Replace with the path to your image
+          title: "Card 3",
+        },
+        {
+          id: "4",
+          image: require("./assets/images/art4.png"), // Replace with the path to your image
+          title: "Card 4",
         },
         // Add more cards data as needed
       ];
@@ -109,44 +114,44 @@ const ArtworksScreen = () => {
       const renderItem = ({ item }) => (
         <View style={styles.card}>
           <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardInfoContainer}>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardDate}>{item.date}</Text>
-            </View>
-            <Text style={styles.cardAddress}>{item.address}</Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>{item.title}</Text>
           </View>
         </View>
       );
 
       return (
-        <View style={styles.flatlistContainer}>
+        <View style={styles.container}>
           <FlatList
             data={cardsData}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
-            numColumns={1}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
           />
         </View>
       );
-    } else if (selectedOption === "DRAFTS") {
+    } else if (selectedOption === "URBAN LANDSCAPE") {
       const cardsData = [
         {
           id: "1",
           image: require("./assets/images/art1.png"), // Replace with the path to your image
-          title: "Reflections in Color",
-          date: "July 19, 2023",
-          address: "Gallery XYZ, 123 Main Street, Anytown USA",
-          description: `Reflections in Color" is a vibrant and dynamic exhibition featuring the artwork of emerging and established artists who explore the interplay of color and form in their work.`,
+          title: "Card 1",
         },
         {
           id: "2",
           image: require("./assets/images/art2.png"), // Replace with the path to your image
-          title: "Reflections in Color",
-          date: "July 19, 2023",
-          address: "Gallery XYZ, 123 Main Street, Anytown USA",
-          description: `Reflections in Color" is a vibrant and dynamic exhibition featuring the artwork of emerging and established artists who explore the interplay of color and form in their work.`,
+          title: "Card 2",
+        },
+        {
+          id: "3",
+          image: require("./assets/images/art3.png"), // Replace with the path to your image
+          title: "Card 3",
+        },
+        {
+          id: "4",
+          image: require("./assets/images/art4.png"), // Replace with the path to your image
+          title: "Card 4",
         },
         // Add more cards data as needed
       ];
@@ -154,24 +159,20 @@ const ArtworksScreen = () => {
       const renderItem = ({ item }) => (
         <View style={styles.card}>
           <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardInfoContainer}>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardDate}>{item.date}</Text>
-            </View>
-            <Text style={styles.cardAddress}>{item.address}</Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>{item.title}</Text>
           </View>
         </View>
       );
 
       return (
-        <View style={styles.flatlistContainer}>
+        <View style={styles.container}>
           <FlatList
             data={cardsData}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
-            numColumns={1}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
           />
         </View>
       );
@@ -186,82 +187,87 @@ const ArtworksScreen = () => {
         </View>
       </View>
       <View style={styles.newArtworkContainer}>
-        <Text style={styles.welcomeHeader}>Exhibitions</Text>
+        <Text style={styles.welcomeHeader}>Artworks</Text>
         <TouchableOpacity
           style={styles.signInButton}
           onPress={handleAddArtwork}
         >
-          <Text style={styles.buttonText}>NEW EXHIBITION</Text>
+          <Text style={styles.buttonText}>NEW ARTWORK</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.artworksMenu}>
-        {/* Add your navigation menu items here */}
-        <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "All" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("All")}
+      <View style={{ height: 50 }}>
+        <ScrollView
+          horizontal
+          contentContainerStyle={styles.artworksMenu}
+          style={styles.scrollView}
         >
-          <Text
+          <TouchableOpacity
             style={[
-              styles.menuText,
-              selectedOption === "All" && styles.activeMenuText,
+              styles.menuItem,
+              selectedOption === "All" && styles.activeMenuItem,
             ]}
+            onPress={() => setSelectedOption("All")}
           >
-            ALL
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "UPCOMING" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("UPCOMING")}
-        >
-          <Text
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "All" && styles.activeMenuText,
+              ]}
+            >
+              ALL
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              styles.menuText,
-              selectedOption === "UPCOMING" && styles.activeMenuText,
+              styles.menuItem,
+              selectedOption === "STAND ALONE" && styles.activeMenuItem,
             ]}
+            onPress={() => setSelectedOption("STAND ALONE")}
           >
-            UPCOMING
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "PAST" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("PAST")}
-        >
-          <Text
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "STAND ALONE" && styles.activeMenuText,
+              ]}
+            >
+              STAND ALONE
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              styles.menuText,
-              selectedOption === "PAST" && styles.activeMenuText,
+              styles.menuItem,
+              selectedOption === "NATURE'S BEAUTY" && styles.activeMenuItem,
             ]}
+            onPress={() => setSelectedOption("NATURE'S BEAUTY")}
           >
-            PAST
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "DRAFTS" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("DRAFTS")}
-        >
-          <Text
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "NATURE'S BEAUTY" && styles.activeMenuText,
+              ]}
+            >
+              NATURE'S BEAUTY
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              styles.menuText,
-              selectedOption === "DRAFTS" && styles.activeMenuText,
+              styles.menuItem,
+              selectedOption === "URBAN LANDSCAPE" && styles.activeMenuItem,
             ]}
+            onPress={() => setSelectedOption("URBAN LANDSCAPE")}
           >
-            DRAFTS
-          </Text>
-        </TouchableOpacity>
-        {/* Add more menu items as needed */}
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "URBAN LANDSCAPE" && styles.activeMenuText,
+              ]}
+            >
+              URBAN LANDSCAPE
+            </Text>
+          </TouchableOpacity>
+          {/* Add more menu items as needed */}
+        </ScrollView>
       </View>
 
       {/* Profile Card */}
@@ -491,6 +497,71 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 20,
     marginBottom: 30,
+  },
+  card: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 15,
+    overflow: "hidden",
+    margin: 5,
+  },
+  cardImage: {
+    width: "100%",
+    height: 220, // Adjust this value to control the image height
+    resizeMode: "cover",
+  },
+  cardContent: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    padding: 10,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+  },
+  artworksMenu: {
+    height: 25,
+
+    flexDirection: "row",
+  },
+
+  activeMenuItem: {
+    backgroundColor: "#007BFF",
+  },
+  menuText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  activeMenuText: {
+    color: "#fff",
+  },
+  activeMenuItem: {
+    borderRadius: 15,
+    padding: 5,
+    paddingHorizontal: 10,
+    backgroundColor: "#616161",
+  },
+  activeMenuText: {
+    color: "black",
+  },
+  menuText: {
+    color: "white",
+    fontSize: 14,
+  },
+  menuItem: {
+    alignItems: "center",
+    marginRight: 10,
+  },
+  scrollView: {
+    height: 50, // Adjust the height as per your requirements
   },
 });
 
