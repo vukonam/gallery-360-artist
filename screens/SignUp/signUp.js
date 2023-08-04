@@ -8,20 +8,21 @@ import {
   TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-//import SpashScreen from "./screens/OnBording/SpashScreen.js";
-export default function App() {
+import ForgetPassword from "../SignIn/ForgetPassword";
+
+export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignIn = () => {
-    console.log("signed in!!!");
+    navigation.navigate("Profile");
   };
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           style={{ width: 200, height: 200, alignSelf: "center" }}
-          source={require("./assets/images/gallery36.png")}
+          source={require("../../assets/images/gallery36.png")}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -68,9 +69,7 @@ export default function App() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() =>
-            console.log("go to sign up although you are already in sign up")
-          }
+          onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.smallerButtonText}>I don't have an account</Text>
         </TouchableOpacity>

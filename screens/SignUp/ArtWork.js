@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-const MyPage = () => {
+const MyPage = ({ navigation }) => {
   const artworks = [
     "Painting",
     "Drawing",
@@ -79,7 +79,10 @@ const MyPage = () => {
       </View>
 
       {/* Continue Button */}
-      <TouchableOpacity style={styles.continueButton}>
+      <TouchableOpacity
+        style={styles.continueButton}
+        onPress={() => navigation.navigate("Signature")}
+      >
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
     </View>

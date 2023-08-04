@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-const MyPage = () => {
+const MyPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Signature</Text>
@@ -12,7 +12,7 @@ const MyPage = () => {
       <View style={styles.imageContainer}>
         <Image
           style={{ width: 320, height: 450, alignSelf: "center" }}
-          source={require("./assets/images/Jon_Kirsch's_Signature.png")}
+          source={require("../../assets/images/Jon_Kirsch's_Signature.png")}
         />
       </View>
 
@@ -23,7 +23,10 @@ const MyPage = () => {
         <Text style={styles.smallerButtonText}>UPLOAD SIGNATURE</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.continueButton}>
+      <TouchableOpacity
+        style={styles.continueButton}
+        onPress={() => navigation.navigate("Payment")}
+      >
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
     </View>

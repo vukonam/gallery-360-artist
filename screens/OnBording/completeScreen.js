@@ -17,7 +17,7 @@ const SplashScreen = () => {
   );
 };
 
-const Onboarding = () => {
+const Onboarding = ({ navigation }) => {
   const onBording = [
     {
       id: 1,
@@ -80,13 +80,13 @@ const Onboarding = () => {
   );
 };
 
-const App = () => {
+const App = ({ navigation }) => {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   return (
     <View style={styles.container}>
       {showOnboarding ? (
-        <Onboarding />
+        <Onboarding navigation={navigation} />
       ) : (
         <TouchableOpacity onPress={() => setShowOnboarding(true)}>
           <SplashScreen />

@@ -10,10 +10,10 @@ import {
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import AddSocialMedia from "./screens/SignUp/AddSocialMedia";
+import AddSocialMedia from "./AddSocialMedia";
 
 // Replace "FontAwesome5" with the icon library of your choice.
-const SetupProfileScreen = () => {
+const SetupProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -41,6 +41,8 @@ const SetupProfileScreen = () => {
     console.log("Website:", website);
     console.log("Date of Birth:", dateOfBirth);
     console.log("Bio:", bio);
+
+    navigation.navigate("Artwork");
   };
 
   return (
@@ -61,7 +63,7 @@ const SetupProfileScreen = () => {
                 alignSelf: "center",
                 borderRadius: 75,
               }}
-              source={require("./assets/images/userImage.jpg")}
+              source={require("../../assets/images/userImage.jpg")}
             />
             <Icon
               name="camera"

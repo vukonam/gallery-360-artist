@@ -11,7 +11,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ForgetPassword from "./ForgetPassword";
 
-export default function App() {
+export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -24,7 +24,7 @@ export default function App() {
     setModalIsVisible(false);
   };
   const handleSignIn = () => {
-    console.log("signed in!!!");
+    navigation.navigate("Signup");
   };
   return (
     <View style={styles.container}>

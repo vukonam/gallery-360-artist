@@ -5,6 +5,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 //import SplashScreen from "./SplashScreen";
 import Onboarding from "./screens/OnBording/completeScreen";
 import LoginComponent from "./screens/SignIn/SignIn";
+import SignUp from "./screens/SignUp/signUp";
+import Profile from "./screens/SignUp/Profile";
+import Signature from "./screens/SignUp/signature";
+import Artwork from "./screens/SignUp/ArtWork";
+import Payment from "./screens/SignUp/Payment";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +24,11 @@ const App = () => {
       >
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Login" component={LoginComponent} />
+        <Stack.Screen name="Signup" component={SignUp} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Artwork" component={Artwork} />
+        <Stack.Screen name="Signature" component={Signature} />
+        <Stack.Screen name="Payment" component={Payment} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -35,7 +35,7 @@ const PaymentScreen = () => {
             alignSelf: "center",
             borderRadius: 50,
           }}
-          source={require("./assets/images/visa.png")}
+          source={require("../../assets/images/visa.png")}
         />
       </View>
       <Text style={styles.header}>Payment Cards</Text>
