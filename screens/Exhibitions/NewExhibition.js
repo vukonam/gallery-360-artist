@@ -12,7 +12,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 // Replace "FontAwesome5" with the icon library of your choice.
-const SetupProfileScreen = () => {
+const SetupProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -37,9 +37,11 @@ const SetupProfileScreen = () => {
     console.log("Image:", image);
     console.log("Full Name:", fullName);
     console.log("Contact Number:", contactNumber);
-    console.log("Website:", website);
+    //console.log("Website:", website);
     console.log("Date of Birth:", dateOfBirth);
     console.log("Bio:", bio);
+
+    navigation.navigate("ExhibitionCollection");
   };
 
   return (

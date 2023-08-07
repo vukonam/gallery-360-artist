@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-const ArtworksScreen = () => {
+const ArtworksScreen = ({ navigation }) => {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const artworks = ["The Great Collection"];
   function handleArtworkSelection(artwork) {
@@ -153,7 +153,10 @@ const ArtworksScreen = () => {
         {/* Profile Card */}
         {renderContent()}
       </ScrollView>
-      <TouchableOpacity style={styles.signInButton}>
+      <TouchableOpacity
+        style={styles.signInButton}
+        onPress={() => navigation.navigate("ExhibitionShow")}
+      >
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>
     </View>

@@ -29,13 +29,7 @@ const DashboardScreen = () => {
       {/* Navigation Menu */}
 
       {/* Profile Card */}
-      <View
-        style={{
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.cardContainer}>
         <View style={styles.profileCard}>
           <View style={styles.profileInfo}>
             <Icon
@@ -218,6 +212,11 @@ const styles = StyleSheet.create({
   },
   activeMenuText: {
     color: "black",
+  },
+  cardContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "75%",
   },
 });
 

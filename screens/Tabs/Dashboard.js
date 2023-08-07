@@ -41,19 +41,21 @@ const DashboardScreen = () => {
     if (selectedOption === "All") {
       // Render the profile card for "All" option
       return (
-        <View style={styles.profileCard}>
-          <View style={styles.profileInfo}>
-            <Image source={profilePic} style={styles.profilePic} />
-            <View style={styles.profileText}>
-              <Text style={styles.profileName}>{name}</Text>
-              <Text style={styles.profileInfoText}>
-                make your first sale by adding artwork collections
-              </Text>
+        <View style={styles.cardContainer}>
+          <View style={styles.profileCard}>
+            <View style={styles.profileInfo}>
+              <Image source={profilePic} style={styles.profilePic} />
+              <View style={styles.profileText}>
+                <Text style={styles.profileName}>{name}</Text>
+                <Text style={styles.profileInfoText}>
+                  make your first sale by adding artwork collections
+                </Text>
+              </View>
             </View>
+            <TouchableOpacity style={styles.addButton}>
+              <Text style={styles.addButtonText}>Add Artworks</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>Add Artworks</Text>
-          </TouchableOpacity>
         </View>
       );
     } else if (selectedOption === "Painting") {
@@ -345,7 +347,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderColor: "#CEB89E",
     padding: 10,
-    width: 330,
   },
 
   profileText: {
@@ -393,6 +394,11 @@ const styles = StyleSheet.create({
   },
   activeMenuText: {
     color: "black",
+  },
+  cardContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "auto",
   },
 });
 

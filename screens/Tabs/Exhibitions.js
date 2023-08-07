@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-export default function ProfilePic() {
+export default function ProfilePic({ navigation }) {
   const [selectedOption, setSelectedOption] = useState("All");
   const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
   const [name, setName] = useState("John Doe");
 
   const handleAddArtwork = () => {
-    console.log("done!!!");
+    navigation.navigate("NewExhibition");
   };
   const renderContent = () => {
     if (selectedOption === "All") {
@@ -349,10 +349,9 @@ const styles = StyleSheet.create({
   },
 
   cardContainer: {
-    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    alignContent: "center",
+    height: "75%",
   },
   addButton: {
     marginTop: 10,

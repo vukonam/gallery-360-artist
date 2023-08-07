@@ -8,9 +8,8 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesome" with the icon library of your choice.
-import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 
-const ExhibitionScreen = () => {
+const ExhibitionScreen = ({ navigation }) => {
   const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
 
   const description = `You have successfully created a new exhibition for your collection.`;
@@ -46,7 +45,7 @@ const ExhibitionScreen = () => {
       </View>
       <TouchableOpacity
         style={styles.signInButton}
-        onPress={() => console.log("Done!!!")}
+        onPress={() => navigation.popToTop()}
       >
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>

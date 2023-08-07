@@ -369,14 +369,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  cardContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
-  },
   profileCard: {
-    marginTop: 120,
     backgroundColor: "transparent",
     borderRadius: 8,
     borderWidth: 0.2,
@@ -558,6 +551,11 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     height: 50, // Adjust the height as per your requirements
+  },
+  cardContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "75%",
   },
 });
 

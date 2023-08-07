@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesom
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 
-const ExhibitionScreen = () => {
+const ExhibitionScreen = ({ navigation }) => {
   const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
   const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
 
@@ -77,21 +77,12 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
 
         <Text style={styles.description}>{description}</Text>
       </ScrollView>
-      <View style={styles.navigationMenu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="white"
-            style={styles.menuIcon}
-          />
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.signInButton}
+        onPress={() => navigation.navigate("Congradulations")}
+      >
+        <Text style={styles.buttonText}>Continue</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -204,27 +195,18 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginBottom: 10,
   },
-  navigationMenu: {
-    position: "absolute",
-    backgroundColor: "black",
-    bottom: 0,
-    width: 350,
-    marginTop: 10,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderColor: "#CEB89E",
-    paddingTop: 10,
-  },
-  menuItem: {
+  signInButton: {
+    width: "90%",
+    height: 50,
+    alignSelf: "center",
+    backgroundColor: "#CEB89E", // Set this to your desired button background color
+    borderRadius: 25,
+    justifyContent: "center",
     alignItems: "center",
   },
-  menuIcon: {
-    marginBottom: 5,
-  },
-  menuText: {
-    color: "white",
-    fontSize: 10,
+  buttonText: {
+    color: "#fff", // Set this to your desired button text color
+    fontSize: 15,
   },
   input: {
     width: "100%",
