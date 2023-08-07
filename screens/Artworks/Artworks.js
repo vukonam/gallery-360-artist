@@ -15,8 +15,8 @@ const ExhibitionScreen = () => {
   const [name, setName] = useState("John Doe");
   const [rating, setRating] = useState(0);
 
-  const profilePic = require("./assets/images/userImage.jpg"); // Replace with the path to your profile picture
-  const coverImage = require("./assets/images/art3.png"); // Replace with the path to your cover image
+  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
+  const coverImage = require("../../assets/images/art3.png"); // Replace with the path to your cover image
 
   const description = `Sunset Over the Mountains" is a beautiful oil painting that captures the serene beauty of a mountain range at dusk. The painting is rendered in soft, warm hues, with the rich reds and oranges of the sunset blending seamlessly into the deep blues of the mountains in the distance.`;
 

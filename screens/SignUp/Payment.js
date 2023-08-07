@@ -8,8 +8,9 @@ import {
   Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
+import { StackActions } from "@react-navigation/native";
 
-const PaymentScreen = () => {
+const PaymentScreen = ({ navigation }) => {
   const [cardHolder, setCardHolder] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -18,6 +19,9 @@ const PaymentScreen = () => {
   const handleContinue = () => {
     // You can perform any action here, such as processing the payment details
     // For simplicity, we'll just log the data for now.
+
+    navigation.dispatch(StackActions.replace("Tabs"));
+
     console.log("Payment Details:");
     console.log("Card Holder:", cardHolder);
     console.log("Card Number:", cardNumber);

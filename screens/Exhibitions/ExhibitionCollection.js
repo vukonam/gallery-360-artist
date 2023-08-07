@@ -26,22 +26,22 @@ const ArtworksScreen = () => {
     const cardsData = [
       {
         id: "1",
-        image: require("./assets/images/art1.png"), // Replace with the path to your image
+        image: require("../../assets/images/art1.png"), // Replace with the path to your image
         title: "Card 1",
       },
       {
         id: "2",
-        image: require("./assets/images/art2.png"), // Replace with the path to your image
+        image: require("../../assets/images/art2.png"), // Replace with the path to your image
         title: "Card 2",
       },
       {
         id: "3",
-        image: require("./assets/images/art3.png"), // Replace with the path to your image
+        image: require("../../assets/images/art3.png"), // Replace with the path to your image
         title: "Card 3",
       },
       {
         id: "4",
-        image: require("./assets/images/art4.png"), // Replace with the path to your image
+        image: require("../../assets/images/art4.png"), // Replace with the path to your image
         title: "Card 4",
       },
       // Add more cards data as needed

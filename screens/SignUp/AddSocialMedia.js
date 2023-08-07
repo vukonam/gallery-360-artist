@@ -7,7 +7,6 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-import AddSocialMedia from "./ArtWork";
 
 export default function App(props) {
   const [email, setEmail] = useState("");

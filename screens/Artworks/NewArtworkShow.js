@@ -13,13 +13,13 @@ import Carousel from "react-native-snap-carousel"; // Import the library for the
 
 const ExhibitionScreen = () => {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
-  const coverImage = require("./assets/images/red-house.png"); // Replace with the path to your cover image
+  const coverImage = require("../../assets/images/red-house.png"); // Replace with the path to your cover image
   const artworks = ["I agree to Gallery360's Terms & Conditions"];
 
   const images = [
-    require("./assets/images/red-house.png"), // Replace with the paths to your carousel images
-    require("./assets/images/red-house.png"),
-    require("./assets/images/red-house.png"),
+    require("../../assets/images/red-house.png"), // Replace with the paths to your carousel images
+    require("../../assets/images/red-house.png"),
+    require("../../assets/images/red-house.png"),
     // Add more carousel images as needed
   ];
   function handleArtworkSelection(artwork) {

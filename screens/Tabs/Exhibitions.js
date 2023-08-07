@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
 export default function ProfilePic() {
+  const [selectedOption, setSelectedOption] = useState("All");
+  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
+  const [name, setName] = useState("John Doe");
+
+  const handleAddArtwork = () => {
+    console.log("done!!!");
+  };
   const renderContent = () => {
     if (selectedOption === "All") {
       // Render the profile card for "All" option
@@ -26,7 +43,7 @@ export default function ProfilePic() {
       const cardsData = [
         {
           id: "1",
-          image: require("./assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art1.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -34,7 +51,7 @@ export default function ProfilePic() {
         },
         {
           id: "2",
-          image: require("./assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -71,7 +88,7 @@ export default function ProfilePic() {
       const cardsData = [
         {
           id: "1",
-          image: require("./assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art1.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -79,7 +96,7 @@ export default function ProfilePic() {
         },
         {
           id: "2",
-          image: require("./assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -116,7 +133,7 @@ export default function ProfilePic() {
       const cardsData = [
         {
           id: "1",
-          image: require("./assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art1.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -124,7 +141,7 @@ export default function ProfilePic() {
         },
         {
           id: "2",
-          image: require("./assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -150,73 +167,93 @@ export default function ProfilePic() {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.artworksMenu}>
-        {/* Add your navigation menu items here */}
+      <View style={styles.header}>
+        <View style={styles.headerInfo}>
+          <Text style={styles.name}>Hi {name}</Text>
+          <Image source={profilePic} style={styles.profilePic} />
+        </View>
+      </View>
+      <View style={styles.newArtworkContainer}>
+        <Text style={styles.welcomeHeader}>Exhibition</Text>
         <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "All" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("All")}
+          style={styles.signInButton}
+          onPress={handleAddArtwork}
         >
-          <Text
-            style={[
-              styles.menuText,
-              selectedOption === "All" && styles.activeMenuText,
-            ]}
-          >
-            ALL
-          </Text>
+          <Text style={styles.buttonText}>NEW EXHIBITION</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "UPCOMING" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("UPCOMING")}
+      </View>
+      <View style={{ height: 50 }}>
+        <ScrollView
+          horizontal
+          contentContainerStyle={styles.artworksMenu}
+          style={styles.scrollView}
         >
-          <Text
+          <TouchableOpacity
             style={[
-              styles.menuText,
-              selectedOption === "UPCOMING" && styles.activeMenuText,
+              styles.menuItem,
+              selectedOption === "All" && styles.activeMenuItem,
             ]}
+            onPress={() => setSelectedOption("All")}
           >
-            UPCOMING
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "PAST" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("PAST")}
-        >
-          <Text
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "All" && styles.activeMenuText,
+              ]}
+            >
+              ALL
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              styles.menuText,
-              selectedOption === "PAST" && styles.activeMenuText,
+              styles.menuItem,
+              selectedOption === "UPCOMING" && styles.activeMenuItem,
             ]}
+            onPress={() => setSelectedOption("UPCOMING")}
           >
-            PAST
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.menuItem,
-            selectedOption === "DRAFTS" && styles.activeMenuItem,
-          ]}
-          onPress={() => setSelectedOption("DRAFTS")}
-        >
-          <Text
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "UPCOMING" && styles.activeMenuText,
+              ]}
+            >
+              UPCOMING
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              styles.menuText,
-              selectedOption === "DRAFTS" && styles.activeMenuText,
+              styles.menuItem,
+              selectedOption === "PAST" && styles.activeMenuItem,
             ]}
+            onPress={() => setSelectedOption("PAST")}
           >
-            DRAFTS
-          </Text>
-        </TouchableOpacity>
-        {/* Add more menu items as needed */}
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "PAST" && styles.activeMenuText,
+              ]}
+            >
+              PAST
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.menuItem,
+              selectedOption === "DRAFTS" && styles.activeMenuItem,
+            ]}
+            onPress={() => setSelectedOption("DRAFTS")}
+          >
+            <Text
+              style={[
+                styles.menuText,
+                selectedOption === "DRAFTS" && styles.activeMenuText,
+              ]}
+            >
+              DRAFTS
+            </Text>
+          </TouchableOpacity>
+          {/* Add more menu items as needed */}
+        </ScrollView>
       </View>
       {renderContent()}
     </View>

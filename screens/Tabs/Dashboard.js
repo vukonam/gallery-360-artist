@@ -13,6 +13,8 @@ import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAweso
 const DashboardScreen = () => {
   // Sample data for the line chart
   const [name, setName] = useState("John Doe");
+  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
+
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
@@ -22,8 +24,6 @@ const DashboardScreen = () => {
       },
     ],
   };
-
-  const profilePic = require("./assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 
   // Chart configuration
   const chartConfig = {
@@ -235,7 +235,7 @@ const DashboardScreen = () => {
       {/* Profile Card */}
       <ScrollView style={{ marginBottom: 30 }}>{renderContent()}</ScrollView>
 
-      <View style={styles.navigationMenu}>
+      {/* <View style={styles.navigationMenu}>
         <TouchableOpacity style={styles.menuItem}>
           <Icon name="home" size={20} color="white" style={styles.menuIcon} />
           <Text style={styles.menuText}>Home</Text>
@@ -249,7 +249,7 @@ const DashboardScreen = () => {
           />
           <Text style={styles.menuText}>Settings</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

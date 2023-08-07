@@ -10,7 +10,6 @@ import {
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import AddSocialMedia from "./screens/SignUp/AddSocialMedia";
 
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = () => {

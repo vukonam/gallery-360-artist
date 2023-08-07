@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesom
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 
 const ExhibitionScreen = () => {
-  const coverImage = require("./assets/images/art1.png"); // Replace with the path to your cover image
+  const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
 
   const description = `You have successfully created a new exhibition for your collection.`;
   return (

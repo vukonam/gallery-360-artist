@@ -12,17 +12,17 @@ import Carousel from "react-native-snap-carousel"; // Import the library for the
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 
 const ExhibitionScreen = () => {
-  const profilePic = require("./assets/images/userImage.jpg"); // Replace with the path to your profile picture
-  const coverImage = require("./assets/images/art1.png"); // Replace with the path to your cover image
+  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
+  const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
 
   const address = "123 Main Street, City";
   const fromDate = "19 July 2023";
   const toDate = "22 July 2023";
 
   const images = [
-    require("./assets/images/art1.png"), // Replace with the paths to your carousel images
-    require("./assets/images/art2.png"),
-    require("./assets/images/art3.png"),
+    require("../../assets/images/art1.png"), // Replace with the paths to your carousel images
+    require("../../assets/images/art2.png"),
+    require("../../assets/images/art3.png"),
     // Add more carousel images as needed
   ];
 

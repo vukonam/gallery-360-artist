@@ -10,7 +10,7 @@ import {
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import AddSocialMedia from "./screens/SignUp/AddSocialMedia";
+import AddSocialMedia from "../SignUp/AddSocialMedia";
 
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = () => {
@@ -61,7 +61,7 @@ const SetupProfileScreen = () => {
                 alignSelf: "center",
                 borderRadius: 75,
               }}
-              source={require("./assets/images/userImage.jpg")}
+              source={require("../../assets/images/userImage.jpg")}
             />
             <Icon
               name="camera"

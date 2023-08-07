@@ -10,7 +10,6 @@ import {
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import AddSocialMedia from "./screens/SignUp/AddSocialMedia";
 
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = () => {
@@ -58,7 +57,7 @@ const SetupProfileScreen = () => {
                 alignSelf: "center",
                 borderRadius: 75,
               }}
-              source={require("./assets/images/userImage.jpg")}
+              source={require("../../assets/images/userImage.jpg")}
             />
             <Text
               style={{
@@ -112,7 +111,7 @@ const SetupProfileScreen = () => {
         </View>
         <Image
           style={{ width: 300, height: 150, alignSelf: "center" }}
-          source={require("./assets/images/Jon_Kirsch's_Signature.png")}
+          source={require("../../assets/images/Jon_Kirsch's_Signature.png")}
         />
         <View>
           <Text style={styles.profileHeader}>Account</Text>
@@ -129,7 +128,7 @@ const SetupProfileScreen = () => {
         </View>
         {/* Save Profile Button */}
       </ScrollView>
-      <View style={styles.navigationMenu}>
+      {/* <View style={styles.navigationMenu}>
         <TouchableOpacity style={styles.menuItem}>
           <Icon name="home" size={20} color="white" style={styles.menuIcon} />
           <Text style={styles.menuText}>Home</Text>
@@ -143,7 +142,7 @@ const SetupProfileScreen = () => {
           />
           <Text style={styles.menuText}>Settings</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

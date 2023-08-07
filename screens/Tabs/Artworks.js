@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAweso
 
 const ArtworksScreen = () => {
   const [name, setName] = useState("John Doe");
-  const profilePic = require("./assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
+  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 
   const [selectedOption, setSelectedOption] = useState("All");
 
@@ -45,22 +45,22 @@ const ArtworksScreen = () => {
       const cardsData = [
         {
           id: "1",
-          image: require("./assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art1.png"), // Replace with the path to your image
           title: "Card 1",
         },
         {
           id: "2",
-          image: require("./assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Card 2",
         },
         {
           id: "3",
-          image: require("./assets/images/art3.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Card 3",
         },
         {
           id: "4",
-          image: require("./assets/images/art4.png"), // Replace with the path to your image
+          image: require("../../assets/images/art4.png"), // Replace with the path to your image
           title: "Card 4",
         },
         // Add more cards data as needed
@@ -90,22 +90,22 @@ const ArtworksScreen = () => {
       const cardsData = [
         {
           id: "1",
-          image: require("./assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art1.png"), // Replace with the path to your image
           title: "Card 1",
         },
         {
           id: "2",
-          image: require("./assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Card 2",
         },
         {
           id: "3",
-          image: require("./assets/images/art3.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Card 3",
         },
         {
           id: "4",
-          image: require("./assets/images/art4.png"), // Replace with the path to your image
+          image: require("../../assets/images/art4.png"), // Replace with the path to your image
           title: "Card 4",
         },
         // Add more cards data as needed
@@ -135,22 +135,22 @@ const ArtworksScreen = () => {
       const cardsData = [
         {
           id: "1",
-          image: require("./assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art1.png"), // Replace with the path to your image
           title: "Card 1",
         },
         {
           id: "2",
-          image: require("./assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Card 2",
         },
         {
           id: "3",
-          image: require("./assets/images/art3.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Card 3",
         },
         {
           id: "4",
-          image: require("./assets/images/art4.png"), // Replace with the path to your image
+          image: require("../../assets/images/art4.png"), // Replace with the path to your image
           title: "Card 4",
         },
         // Add more cards data as needed
@@ -273,7 +273,7 @@ const ArtworksScreen = () => {
       {/* Profile Card */}
       {renderContent()}
 
-      <View style={styles.navigationMenu}>
+      {/* <View style={styles.navigationMenu}>
         <TouchableOpacity style={styles.menuItem}>
           <Icon name="home" size={20} color="white" style={styles.menuIcon} />
           <Text style={styles.menuText}>Home</Text>
@@ -287,7 +287,7 @@ const ArtworksScreen = () => {
           />
           <Text style={styles.menuText}>Settings</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

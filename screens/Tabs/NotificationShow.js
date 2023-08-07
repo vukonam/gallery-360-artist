@@ -45,7 +45,7 @@ const DashboardScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      {/* 
+
       <View style={styles.navigationMenu}>
         <TouchableOpacity style={styles.menuItem}>
           <Icon name="home" size={20} color="white" style={styles.menuIcon} />
@@ -60,7 +60,7 @@ const DashboardScreen = () => {
           />
           <Text style={styles.menuText}>Settings</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 };

@@ -1,75 +1,104 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+// Onboarding
+import Onboarding from "../screens/OnBording/completeScreen";
+//SignIn
+import LoginComponent from "../screens/SignIn/SignIn";
+//SignUp
+import SignUp from "../screens/SignUp/signUp";
+import Profile from "../screens/SignUp/Profile";
+import Signature from "../screens/SignUp/signature";
+import Artwork from "../screens/SignUp/ArtWork";
+import Payment from "../screens/SignUp/Payment";
+//Tabs Navigation
+import TabsNavigation from "./TabsNavigation";
+//Artworks
+import Artworks from "../screens/Tabs/Artworks";
+import NewArtwork from "../screens/Artworks/NewArtwork";
+import AddArtwork from "../screens/Artworks/NewArtworkShow";
+import SearchArtwork from "../screens/Artworks/Search";
+//Exhibitions
+import Exhibitions from "../screens/Tabs/Exhibitions";
+import NewExhibition from "../screens/Exhibitions/NewExhibition";
+import ExhibitionCollection from "../screens/Exhibitions/ExhibitionCollection";
+import ExhibitionShow from "../screens/Exhibitions/ExhibitionCollectionShow";
+import Congradulations from "../screens/Exhibitions/Congratulations";
+//Notifications
+import Notifications from "../screens/Tabs/Notifications";
+import NotificationShow from "../screens/Tabs/NotificationShow";
+//Profile
+import Profiles from "../screens/Tabs/Profile";
+import EditProfile from "../screens/Tabs/ProfileShow";
 
-//import SplashScreen from "./SplashScreen";
-import Onboarding from "./screens/OnBording/completeScreen";
-import LoginComponent from "./screens/SignIn/SignIn";
-import SignUp from "./screens/SignUp/signUp";
-import Profile from "./screens/SignUp/Profile";
-import Signature from "./screens/SignUp/signature";
-import Artwork from "./screens/SignUp/ArtWork";
-import Payment from "./screens/SignUp/Payment";
+//import Artworks from "../screens/Artworks/Artworks";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
-const SigningIn = () => {
-  // const [showOnboarding, setShowOnboarding] = useState(false);
-
+const MainStack = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="Onboarding"
-      >
-        <Stack.Screen name="Onboarding" component={Onboarding} />
-        <Stack.Screen name="Login" component={LoginComponent} />
-        <Stack.Screen name="Signup" component={SignUp} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Artwork" component={Artwork} />
-        <Stack.Screen name="Signature" component={Signature} />
-        <Stack.Screen name="Payment" component={Payment} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Onboarding"
+    >
+      <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="Login" component={LoginComponent} />
+      <Stack.Screen name="Signup" component={SignUp} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Artwork" component={Artwork} />
+      <Stack.Screen name="Signature" component={Signature} />
+      <Stack.Screen name="Payment" component={Payment} />
+      <Stack.Screen name="Tabs" component={TabsNavigation} />
+    </Stack.Navigator>
   );
 };
 
-//export default App;
+const ArtworkStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Artworks" component={Artworks} />
+      <Stack.Screen name="NewArtwork" component={NewArtwork} />
+      <Stack.Screen name="AddArtwork" component={AddArtwork} />
+      <Stack.Screen name="SearchArtwork" component={SearchArtwork} />
+    </Stack.Navigator>
+  );
+};
 
-//const Stack = createNativeStackNavigator();
-// const MainStack = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{ headerShown: false }}
-//       initialRouteName="StartUp"
-//     >
-//       <Stack.Screen name="StartUp" component={StartUpScreen} />
-//       <Stack.Screen name="Tabs" component={TabsNavigation} />
-//     </Stack.Navigator>
-//   );
-// };
+const NotificationStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Notifications" component={Notifications} />
+      <Stack.Screen name="NotificationShow" component={NotificationShow} />
+    </Stack.Navigator>
+  );
+};
 
-// const ProductStack = () => {
-//   return (
-//     <Stack.Navigator screenOptions={{ headerShown: false }}>
-//       <Stack.Screen name="Home" component={HomeScreen} />
-//       <Stack.Screen name="Details" component={ProductDetailsScreen} />
-//       <Stack.Screen name="CheckoutProduct" component={CheckoutScreen} />
-//       <Stack.Screen name="PaymentProduct" component={PaymentScreen} />
-//     </Stack.Navigator>
-//   );
-// };
+const ExhibitionStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Exhibitions" component={Exhibitions} />
+      <Stack.Screen name="NewExhibition" component={NewExhibition} />
+      <Stack.Screen
+        name="ExhibitionCollection"
+        component={ExhibitionCollection}
+      />
+      <Stack.Screen name="ExhibitionShow" component={ExhibitionShow} />
+      <Stack.Screen name="Congradulations" component={Congradulations} />
+    </Stack.Navigator>
+  );
+};
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Profile" component={Profiles} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+    </Stack.Navigator>
+  );
+};
 
-// const CartStack = () => {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Cart" component={CartScreen} />
-//       <Stack.Screen name="CheckoutCart" component={CheckoutScreen} />
-//       <Stack.Screen name="PaymentCart" component={PaymentScreen} />
-//     </Stack.Navigator>
-//   );
-// };
-
-// export { SigningIn, ProductStack, CartStack };
+export {
+  MainStack,
+  ArtworkStack,
+  NotificationStack,
+  ExhibitionStack,
+  ProfileStack,
+};
