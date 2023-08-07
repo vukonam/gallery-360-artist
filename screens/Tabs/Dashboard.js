@@ -262,9 +262,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: 20,
   },
   profileInfo: {

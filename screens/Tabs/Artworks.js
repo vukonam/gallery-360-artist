@@ -299,9 +299,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: 20,
   },
   profileInfo: {
@@ -323,7 +320,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-    marginRight: 200,
   },
   welcomeHeader: {
     color: "white",

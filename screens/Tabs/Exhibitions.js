@@ -29,12 +29,12 @@ export default function ProfilePic() {
               <View style={styles.profileText}>
                 <Text style={styles.profileName}>{name}</Text>
                 <Text style={styles.profileInfoText}>
-                  make your first sale by adding artwork
+                  Your Exhibitions will be listed here.{" "}
                 </Text>
               </View>
             </View>
             <TouchableOpacity style={styles.addButton}>
-              <Text style={styles.addButtonText}>Add Artworks</Text>
+              <Text style={styles.addButtonText}>LIST EXHIBITION</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -163,6 +163,16 @@ export default function ProfilePic() {
           </View>
         </View>
       );
+      return (
+        <View style={styles.flatlistContainer}>
+          <FlatList
+            data={cardsData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            numColumns={1}
+          />
+        </View>
+      );
     }
   };
   return (
@@ -268,9 +278,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: 20,
   },
   profileInfo: {
@@ -292,7 +299,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-    marginRight: 200,
   },
   welcomeHeader: {
     color: "white",
@@ -441,5 +447,42 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 20,
     marginBottom: 30,
+  },
+  profileCard: {
+    backgroundColor: "transparent",
+    borderRadius: 8,
+    borderWidth: 0.2,
+    borderColor: "#CEB89E",
+    padding: 10,
+    width: 330,
+  },
+
+  profileText: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 320,
+  },
+  profileName: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  profileInfoText: {
+    fontSize: 14,
+    color: "white",
+  },
+  addButton: {
+    marginTop: 10,
+    backgroundColor: "transparent",
+    borderRadius: 10,
+    borderColor: "#CEB89E",
+    borderWidth: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  addButtonText: {
+    color: "white",
+    fontSize: 16,
   },
 });

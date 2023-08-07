@@ -29,22 +29,30 @@ const DashboardScreen = () => {
       {/* Navigation Menu */}
 
       {/* Profile Card */}
-      <ScrollView style={{ marginBottom: 30 }}>
+      <View
+        style={{
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <View style={styles.profileCard}>
           <View style={styles.profileInfo}>
-            <Image source={profilePic} style={styles.profilePic} />
+            <Icon
+              name="comment"
+              size={30}
+              color="white"
+              style={styles.menuIcon}
+            />
             <View style={styles.profileText}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileInfoText}>
-                make your first sale by adding artwork collections
+                Your important announcements and updates will be listed here.
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>Add Artworks</Text>
-          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
       {/* 
       <View style={styles.navigationMenu}>
         <TouchableOpacity style={styles.menuItem}>
@@ -73,9 +81,9 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    //     //flexDirection: "row",
+    //     justifyContent: "space-between",
+    //     alignItems: "center",
     marginBottom: 20,
   },
   profileInfo: {
@@ -97,7 +105,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-    marginRight: 200,
   },
   welcomeHeader: {
     color: "white",
@@ -160,6 +167,7 @@ const styles = StyleSheet.create({
     borderColor: "#CEB89E",
     padding: 10,
     width: 330,
+    alignSelf: "center",
   },
 
   profileText: {
@@ -167,6 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: 320,
+    padding: 10,
   },
   profileName: {
     color: "white",
@@ -176,6 +185,7 @@ const styles = StyleSheet.create({
   profileInfoText: {
     fontSize: 14,
     color: "white",
+    textAlign: "center",
   },
   addButton: {
     marginTop: 10,
@@ -185,6 +195,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 10,
     alignItems: "center",
+    alignSelf: "center",
   },
   addButtonText: {
     color: "white",
