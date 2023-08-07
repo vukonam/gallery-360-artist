@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import AddSocialMedia from "../SignUp/AddSocialMedia";
 
 // Replace "FontAwesome5" with the icon library of your choice.
-const SetupProfileScreen = () => {
+const SetupProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -47,7 +47,10 @@ const SetupProfileScreen = () => {
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.headerButton}>
+          <TouchableOpacity
+            style={styles.headerButton}
+            onPress={() => navigation.popToTop()}
+          >
             <Icon name="arrow-left" size={24} color="white" />
           </TouchableOpacity>
           <Text style={styles.exhibitionText}> Edit Profile</Text>

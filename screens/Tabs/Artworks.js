@@ -10,14 +10,14 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-const ArtworksScreen = () => {
+const ArtworksScreen = ({ navigation }) => {
   const [name, setName] = useState("John Doe");
   const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 
   const [selectedOption, setSelectedOption] = useState("All");
 
   function handleAddArtwork() {
-    console.log("One Art piece add to your collection");
+    navigation.navigate("NewArtwork");
   }
   // Function to render the content based on the selected option
   const renderContent = () => {

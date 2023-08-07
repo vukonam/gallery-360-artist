@@ -12,23 +12,13 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 // Replace "FontAwesome5" with the icon library of your choice.
-const SetupProfileScreen = () => {
+const SetupProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [website, setWebsite] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
-
-  const [modalIsVisible, setModalIsVisible] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalIsVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsVisible(false);
-  };
 
   const handleSaveProfile = () => {
     // Here you can save the profile data to your backend or perform any necessary actions
@@ -45,8 +35,11 @@ const SetupProfileScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View>
+        <View style={styles.headerContainer}>
           <Text style={styles.header}>Profile</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+            <Icon name="edit" size={25} style={{ padding: 10 }} color="gray" />
+          </TouchableOpacity>
         </View>
         <View>
           <View style={styles.imageContainer}>
@@ -128,21 +121,6 @@ const SetupProfileScreen = () => {
         </View>
         {/* Save Profile Button */}
       </ScrollView>
-      {/* <View style={styles.navigationMenu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="white"
-            style={styles.menuIcon}
-          />
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 };
@@ -241,6 +219,11 @@ const styles = StyleSheet.create({
   menuText: {
     color: "white",
     fontSize: 10,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

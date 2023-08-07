@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesom
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 
-const ExhibitionScreen = () => {
+const ExhibitionScreen = ({ navigation }) => {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const coverImage = require("../../assets/images/red-house.png"); // Replace with the path to your cover image
   const artworks = ["I agree to Gallery360's Terms & Conditions"];
@@ -115,7 +115,10 @@ This includes works that incorporate popular culture or consumer objects as subj
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.signInButton}>
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={() => navigation.navigate("SearchArtwork")}
+        >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </View>
