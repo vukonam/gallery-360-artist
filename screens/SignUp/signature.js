@@ -12,7 +12,7 @@ const MyPage = ({ navigation }) => {
       <View style={styles.imageContainer}>
         <Image
           style={{ width: 320, height: 450, alignSelf: "center" }}
-          source={require("../../assets/images/Jon_Kirsch's_Signature.png")}
+          source={require("../../assets/images/sign.png")}
         />
       </View>
 
