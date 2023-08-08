@@ -10,7 +10,13 @@ import {
   ExhibitionStack,
   ProfileStack,
 } from "./StackNavigation";
+// import Chart from "../assets/svg/index";
+// import Notification from "svg";
+// import Shop from "svg";
+// import Profile from "svg";
+// import DesignTool from "svg";
 
+import { View, Image } from "react-native";
 //import CustomTabsBtn from "../Components/CustomTabsBtn";
 import DashboardScreen from "../screens/Tabs/Dashboard";
 
@@ -28,26 +34,45 @@ const getTabBarVisibility = (route) => {
 const TabsNavigation = () => {
   return (
     <Tabs.Navigator
+      activeColor="red"
+      inactiveColor="white"
       screenOptions={{
         headerShown: false,
+        tabBarStyle: {
+          backgroundColor: "black",
+        },
       }}
     >
       <Tabs.Screen
         name="DashboardTab"
         component={DashboardScreen}
         options={({ route }) => ({
-          tabBarStyle: { display: getTabBarVisibility(route) },
+          //tabBarStyle: { display: getTabBarVisibility(route) },
           // tabBarLabel: TabArr[0].label,
           tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Image source={require("../assets/icons/chart.png")} />
+              </View>
+            );
+          },
         })}
       />
       <Tabs.Screen
         name="ArtworkTab"
         component={ArtworkStack}
         options={({ route }) => ({
-          tabBarStyle: { display: getTabBarVisibility(route) },
+          //tabBarStyle: { },
           // tabBarLabel: TabArr[1].label,
           tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Image source={require("../assets/icons/designtools.png")} />
+              </View>
+            );
+          },
         })}
       />
       <Tabs.Screen
@@ -56,6 +81,15 @@ const TabsNavigation = () => {
         options={{
           // tabBarLabel: TabArr[2].label,
           tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Image
+                  source={require("../assets/icons/notification-status.png")}
+                />
+              </View>
+            );
+          },
         }}
       />
       <Tabs.Screen
@@ -64,6 +98,13 @@ const TabsNavigation = () => {
         options={{
           // tabBarLabel: TabArr[3].label,
           tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Image source={require("../assets/icons/shop.png")} />
+              </View>
+            );
+          },
         }}
       />
       <Tabs.Screen
@@ -72,6 +113,13 @@ const TabsNavigation = () => {
         options={{
           // tabBarLabel: TabArr[3].label,
           tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Image source={require("../assets/icons/profile-circle.png")} />
+              </View>
+            );
+          },
         }}
       />
     </Tabs.Navigator>
