@@ -35,7 +35,10 @@ const ArtworksScreen = ({ navigation }) => {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => navigation.navigate("NewArtwork")}
+            >
               <Text style={styles.addButtonText}>Add Artworks</Text>
             </TouchableOpacity>
           </View>
@@ -95,17 +98,17 @@ const ArtworksScreen = ({ navigation }) => {
         },
         {
           id: "2",
-          image: require("../../assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Card 2",
         },
         {
           id: "3",
-          image: require("../../assets/images/art3.png"), // Replace with the path to your image
+          image: require("../../assets/images/art4.png"), // Replace with the path to your image
           title: "Card 3",
         },
         {
           id: "4",
-          image: require("../../assets/images/art4.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Card 4",
         },
         // Add more cards data as needed
@@ -135,7 +138,7 @@ const ArtworksScreen = ({ navigation }) => {
       const cardsData = [
         {
           id: "1",
-          image: require("../../assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art4.png"), // Replace with the path to your image
           title: "Card 1",
         },
         {
@@ -145,12 +148,12 @@ const ArtworksScreen = ({ navigation }) => {
         },
         {
           id: "3",
-          image: require("../../assets/images/art3.png"), // Replace with the path to your image
+          image: require("../../assets/images/art1.png"), // Replace with the path to your image
           title: "Card 3",
         },
         {
           id: "4",
-          image: require("../../assets/images/art4.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Card 4",
         },
         // Add more cards data as needed
@@ -158,10 +161,12 @@ const ArtworksScreen = ({ navigation }) => {
 
       const renderItem = ({ item }) => (
         <View style={styles.card}>
-          <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Artworks2")}>
+            <Image source={item.image} style={styles.cardImage} />
+            <View style={styles.cardContent}>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       );
 
@@ -183,7 +188,9 @@ const ArtworksScreen = ({ navigation }) => {
       <View style={styles.header}>
         <View style={styles.headerInfo}>
           <Text style={styles.name}>Hi {name}</Text>
-          <Image source={profilePic} style={styles.profilePic} />
+          <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
+            <Image source={profilePic} style={styles.profilePic} />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.newArtworkContainer}>
@@ -272,22 +279,6 @@ const ArtworksScreen = ({ navigation }) => {
 
       {/* Profile Card */}
       {renderContent()}
-
-      {/* <View style={styles.navigationMenu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="white"
-            style={styles.menuIcon}
-          />
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 };

@@ -14,6 +14,7 @@ import Payment from "../screens/SignUp/Payment";
 import TabsNavigation from "./TabsNavigation";
 //Artworks
 import Artworks from "../screens/Tabs/Artworks";
+import Artworks2 from "../screens/Artworks/Artworks";
 import NewArtwork from "../screens/Artworks/NewArtwork";
 import AddArtwork from "../screens/Artworks/NewArtworkShow";
 import SearchArtwork from "../screens/Artworks/Search";
@@ -29,6 +30,8 @@ import NotificationShow from "../screens/Tabs/NotificationShow";
 //Profile
 import Profiles from "../screens/Tabs/Profile";
 import EditProfile from "../screens/Tabs/ProfileShow";
+//Dashboard
+import DashboardScreen from "../screens/Tabs/Dashboard";
 
 //import Artworks from "../screens/Artworks/Artworks";
 
@@ -52,10 +55,22 @@ const MainStack = () => {
   );
 };
 
+const DashboardStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
+      <Stack.Screen name="NewArtwork" component={NewArtwork} />
+      <Stack.Screen name="AddArtwork" component={AddArtwork} />
+      <Stack.Screen name="SearchArtwork" component={SearchArtwork} />
+    </Stack.Navigator>
+  );
+};
+
 const ArtworkStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Artworks" component={Artworks} />
+      <Stack.Screen name="Artworks2" component={Artworks2} />
       <Stack.Screen name="NewArtwork" component={NewArtwork} />
       <Stack.Screen name="AddArtwork" component={AddArtwork} />
       <Stack.Screen name="SearchArtwork" component={SearchArtwork} />
@@ -97,6 +112,7 @@ const ProfileStack = () => {
 
 export {
   MainStack,
+  DashboardStack,
   ArtworkStack,
   NotificationStack,
   ExhibitionStack,

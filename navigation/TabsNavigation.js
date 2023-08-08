@@ -1,7 +1,4 @@
-// 4 Tabs
-
-import React from "react";
-
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import {
@@ -9,29 +6,73 @@ import {
   NotificationStack,
   ExhibitionStack,
   ProfileStack,
+  DashboardStack,
 } from "./StackNavigation";
-// import Chart from "../assets/svg/index";
-// import Notification from "svg";
-// import Shop from "svg";
-// import Profile from "svg";
-// import DesignTool from "svg";
-
 import { View, Image } from "react-native";
-//import CustomTabsBtn from "../Components/CustomTabsBtn";
-import DashboardScreen from "../screens/Tabs/Dashboard";
+//import DashboardScreen from "../screens/Tabs/Dashboard";
 
 const Tabs = createBottomTabNavigator();
 
-// Function to dynamically hide tab bars in specific screens
-const getTabBarVisibility = (route) => {
-  const routeName = getFocusedRouteNameFromRoute(route);
-  if (routeName?.includes("Checkout") || routeName?.includes("Payment")) {
-    return "none";
-  }
-  return "flex";
+const TabIcon = ({ focused, selected, icon, highlightedIcon }) => {
+  const iconSource = selected || focused ? highlightedIcon : icon;
+
+  return (
+    <View>
+      <Image source={iconSource} />
+    </View>
+  );
 };
 
+export { TabIcon };
+
 const TabsNavigation = () => {
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+
+  const tabsConfig = [
+    {
+      label: "DashboardTab",
+      icon: require("../assets/icons/chart.png"),
+      highlightedIcon: require("../assets/icons/high-lighted/chart.png"),
+      component: DashboardStack,
+    },
+    {
+      label: "ArtworkTab",
+      icon: require("../assets/icons/designtools.png"),
+      highlightedIcon: require("../assets/icons/high-lighted/designtools.png"),
+      component: ArtworkStack,
+    },
+    {
+      label: "NotificationTab",
+      icon: require("../assets/icons/notification-status.png"),
+      highlightedIcon: require("../assets/icons/high-lighted/notification-status.png"),
+      component: NotificationStack,
+    },
+    {
+      label: "ExhibitionTab",
+      icon: require("../assets/icons/shop.png"),
+      highlightedIcon: require("../assets/icons/high-lighted/shop.png"),
+      component: ExhibitionStack,
+    },
+    {
+      label: "ProfileTab",
+      icon: require("../assets/icons/profile-circle.png"),
+      highlightedIcon: require("../assets/icons/high-lighted/profile-circle.png"),
+      component: ProfileStack,
+    },
+  ];
+
+  const getTabBarVisibility = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName?.includes("Checkout") || routeName?.includes("Payment")) {
+      return "none";
+    }
+    return "flex";
+  };
+
+  const isTabSelected = (tabIndex) => {
+    return selectedTabIndex === tabIndex;
+  };
+
   return (
     <Tabs.Navigator
       activeColor="red"
@@ -43,85 +84,29 @@ const TabsNavigation = () => {
         },
       }}
     >
-      <Tabs.Screen
-        name="DashboardTab"
-        component={DashboardScreen}
-        options={({ route }) => ({
-          //tabBarStyle: { display: getTabBarVisibility(route) },
-          // tabBarLabel: TabArr[0].label,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View>
-                <Image source={require("../assets/icons/chart.png")} />
-              </View>
-            );
-          },
-        })}
-      />
-      <Tabs.Screen
-        name="ArtworkTab"
-        component={ArtworkStack}
-        options={({ route }) => ({
-          //tabBarStyle: { },
-          // tabBarLabel: TabArr[1].label,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View>
-                <Image source={require("../assets/icons/designtools.png")} />
-              </View>
-            );
-          },
-        })}
-      />
-      <Tabs.Screen
-        name="NotificationTab"
-        component={NotificationStack}
-        options={{
-          // tabBarLabel: TabArr[2].label,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View>
-                <Image
-                  source={require("../assets/icons/notification-status.png")}
-                />
-              </View>
-            );
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="ExhibitionTab"
-        component={ExhibitionStack}
-        options={{
-          // tabBarLabel: TabArr[3].label,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View>
-                <Image source={require("../assets/icons/shop.png")} />
-              </View>
-            );
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="ProfileTab"
-        component={ProfileStack}
-        options={{
-          // tabBarLabel: TabArr[3].label,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View>
-                <Image source={require("../assets/icons/profile-circle.png")} />
-              </View>
-            );
-          },
-        }}
-      />
+      {tabsConfig.map((tab, index) => (
+        <Tabs.Screen
+          key={index}
+          name={tab.label}
+          component={tab.component}
+          options={({ route }) => ({
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon
+                focused={focused}
+                selected={isTabSelected(index)}
+                icon={tab.icon}
+                highlightedIcon={tab.highlightedIcon}
+              />
+            ),
+          })}
+          listeners={{
+            tabPress: () => {
+              setSelectedTabIndex(index);
+            },
+          }}
+        />
+      ))}
     </Tabs.Navigator>
   );
 };

@@ -13,7 +13,15 @@ import ForgetPassword from "../SignIn/ForgetPassword";
 export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [selectedItems, setSelectedItems] = useState([]);
+  const Items = ["I agree to Gallery360's Terms & Conditions"];
+  function handleItemSelection(Item) {
+    setSelectedItems((prevSelected) =>
+      prevSelected.includes(Item)
+        ? prevSelected.filter((item) => item !== Item)
+        : [...prevSelected, Item]
+    );
+  }
   const handleSignIn = () => {
     navigation.navigate("Profile");
   };
@@ -55,14 +63,34 @@ export default function App({ navigation }) {
           onChangeText={setPassword}
         />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log("welcome to the forget password page")}
-        >
-          <Text style={styles.smallerButtonText}>
-            I agree to Gallery360's terms & conditions
-          </Text>
-        </TouchableOpacity>
+        <View style={[styles.Items, styles.checkboxContainer]}>
+          {Items.map((Item, index) => (
+            <>
+              <TouchableOpacity
+                key={index}
+                style={[
+                  selectedItems.includes(Item) && styles.selectedCheckbox,
+                ]}
+                onPress={() => handleItemSelection(Item)}
+              >
+                <View style={styles.checkbox}>
+                  {selectedItems.includes(Item) && (
+                    <Icon name="check" size={18} color="white" />
+                  )}
+                </View>
+              </TouchableOpacity>
+              <Text
+                //  key={index}
+                style={[
+                  styles.checkboxText,
+                  selectedItems.includes(Item) && styles.selectedText,
+                ]}
+              >
+                {Item}
+              </Text>
+            </>
+          ))}
+        </View>
 
         <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
           <Text style={styles.buttonText}>Sign In</Text>
@@ -164,5 +192,39 @@ const styles = StyleSheet.create({
   smallerButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    //marginRight: 10,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 5,
+    padding: 10,
+    backgroundColor: "transparent",
+    borderRadius: 15,
+  },
+  checkboxText: {
+    color: "white",
+    marginLeft: 10,
+    // textTransform: "uppercase",
+  },
+  selectedCheckbox: {
+    backgroundColor: "#CEB89E", // Customize the background color when the checkbox is selected
+  },
+  selectedText: {
+    fontWeight: "bold", // Customize the style when the checkbox is selected
+  },
+  Items: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    //flexWrap: "wrap",
   },
 });

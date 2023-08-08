@@ -10,7 +10,7 @@ import {
 import { LineChart } from "react-native-chart-kit";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   // Sample data for the line chart
   const [name, setName] = useState("John Doe");
   const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
@@ -52,7 +52,10 @@ const DashboardScreen = () => {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => navigation.navigate("NewArtwork")}
+            >
               <Text style={styles.addButtonText}>Add Artworks</Text>
             </TouchableOpacity>
           </View>
@@ -149,7 +152,9 @@ const DashboardScreen = () => {
       <View style={styles.header}>
         <View style={styles.headerInfo}>
           <Text style={styles.name}>Hi {name}</Text>
-          <Image source={profilePic} style={styles.profilePic} />
+          <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
+            <Image source={profilePic} style={styles.profilePic} />
+          </TouchableOpacity>
         </View>
       </View>
 

@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesom
 //import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 
-const ExhibitionScreen = () => {
+const ExhibitionScreen = ({ navigation }) => {
   const [name, setName] = useState("John Doe");
   const [rating, setRating] = useState(0);
 
@@ -29,7 +29,10 @@ const ExhibitionScreen = () => {
       {/* Button and Exhibition Text */}
       <View style={styles.topContainer}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.pop()}
+          >
             <Icon name="arrow-left" size={24} color="white" />
           </TouchableOpacity>
           <Text style={styles.exhibitionText}>Artwork</Text>
@@ -92,21 +95,6 @@ const ExhibitionScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <View style={styles.navigationMenu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="white"
-            style={styles.menuIcon}
-          />
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

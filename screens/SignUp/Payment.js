@@ -47,65 +47,47 @@ const PaymentScreen = ({ navigation }) => {
         Payment account that will be used to receive payments
       </Text>
       {/* Card Holder Input */}
-      <View style={styles.inputContainer}>
-        <Icon name="user" size={20} color="#CEB89E" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Card Holder"
-          placeholderTextColor="#CEB89E"
-          value={cardHolder}
-          onChangeText={setCardHolder}
-        />
-      </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Card Holder"
+        placeholderTextColor="white"
+        value={cardHolder}
+        onChangeText={setCardHolder}
+      />
 
       {/* Card Number Input */}
-      <View style={styles.inputContainer}>
-        <Icon
-          name="credit-card"
-          size={20}
-          color="#CEB89E"
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Card Number"
-          placeholderTextColor="#CEB89E"
-          value={cardNumber}
-          onChangeText={setCardNumber}
-          keyboardType="numeric"
-        />
-      </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Card Number"
+        placeholderTextColor="white"
+        value={cardNumber}
+        onChangeText={setCardNumber}
+        keyboardType="numeric"
+      />
 
       {/* Expiry Input */}
-      <View style={styles.inputContainer}>
-        <Icon
-          name="calendar-alt"
-          size={20}
-          color="#CEB89E"
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Expiry (MM/YY)"
-          placeholderTextColor="#CEB89E"
-          value={expiry}
-          onChangeText={setExpiry}
-          keyboardType="numeric"
-        />
-      </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Expiry (MM/YY)"
+        placeholderTextColor="white"
+        value={expiry}
+        onChangeText={setExpiry}
+        keyboardType="numeric"
+      />
 
       {/* CVV Input */}
-      <View style={styles.inputContainer}>
-        <Icon name="lock" size={20} color="#CEB89E" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="CVV"
-          placeholderTextColor="#CEB89E"
-          value={cvv}
-          onChangeText={setCvv}
-          keyboardType="numeric"
-        />
-      </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="CVV"
+        placeholderTextColor="white"
+        value={cvv}
+        onChangeText={setCvv}
+        keyboardType="numeric"
+      />
 
       {/* Continue Button */}
       <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
@@ -137,14 +119,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
   },
-  icon: {
-    marginRight: 10,
-  },
+
   input: {
-    flex: 1,
-    height: 40,
+    width: "100%",
+    height: 50,
     fontSize: 16,
-    color: "#CEB89E",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginBottom: 20,
+    color: "#fff",
   },
   continueButton: {
     backgroundColor: "#CEB89E",

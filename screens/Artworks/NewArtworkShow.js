@@ -114,14 +114,13 @@ This includes works that incorporate popular culture or consumer objects as subj
           </View>
         </View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.signInButton}
-          onPress={() => navigation.navigate("SearchArtwork")}
-        >
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
-      </View>
+
+      <TouchableOpacity
+        style={styles.signInButton}
+        onPress={() => navigation.navigate("SearchArtwork")}
+      >
+        <Text style={styles.buttonText}>Continue</Text>
+      </TouchableOpacity>
     </View>
   );
 };

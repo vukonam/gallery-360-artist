@@ -180,7 +180,9 @@ export default function ProfilePic({ navigation }) {
       <View style={styles.header}>
         <View style={styles.headerInfo}>
           <Text style={styles.name}>Hi {name}</Text>
-          <Image source={profilePic} style={styles.profilePic} />
+          <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
+            <Image source={profilePic} style={styles.profilePic} />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.newArtworkContainer}>
