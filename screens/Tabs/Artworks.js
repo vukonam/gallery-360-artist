@@ -71,10 +71,12 @@ const ArtworksScreen = ({ navigation }) => {
 
       const renderItem = ({ item }) => (
         <View style={styles.card}>
-          <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Artworks2")}>
+            <Image source={item.image} style={styles.cardImage} />
+            <View style={styles.cardContent}>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       );
 
@@ -116,10 +118,12 @@ const ArtworksScreen = ({ navigation }) => {
 
       const renderItem = ({ item }) => (
         <View style={styles.card}>
-          <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Artworks2")}>
+            <Image source={item.image} style={styles.cardImage} />
+            <View style={styles.cardContent}>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       );
 

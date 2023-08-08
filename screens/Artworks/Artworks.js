@@ -90,7 +90,10 @@ const ExhibitionScreen = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => console.log("comment added!!!")}
+          >
             <Text style={styles.addButtonText}>Add Comment</Text>
           </TouchableOpacity>
         </View>
@@ -270,12 +273,13 @@ const styles = StyleSheet.create({
     marginRight: 200,
   },
   profileCard: {
+    marginTop: 10,
     backgroundColor: "transparent",
     borderRadius: 8,
     borderWidth: 0.2,
     borderColor: "#CEB89E",
     padding: 10,
-    width: 330,
+    alignSelf: "center",
   },
 
   profileText: {

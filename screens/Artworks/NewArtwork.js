@@ -51,14 +51,14 @@ const SetupProfileScreen = ({ navigation }) => {
           <Text style={styles.header}>New Artwork</Text>
         </View>
         <View>
-          <View style={styles.imageContainer}>
+          <TouchableOpacity style={styles.imageContainer}>
             <Icon
               name="camera"
               size={20}
               color="gray"
               style={styles.cameraIcon}
             />
-          </View>
+          </TouchableOpacity>
         </View>
         {/* Image Input */}
         {/* Full Name Input */}
@@ -131,6 +131,7 @@ const SetupProfileScreen = ({ navigation }) => {
           multiline
         />
         {/* Save Profile Button */}
+
         <TouchableOpacity
           style={styles.signInButton}
           onPress={handleSaveProfile}

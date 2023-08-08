@@ -51,7 +51,7 @@ const SetupProfileScreen = ({ navigation }) => {
           <Text style={styles.header}>New Exhibition</Text>
         </View>
         <View>
-          <View style={styles.imageContainer}>
+          <TouchableOpacity style={styles.imageContainer}>
             <Icon
               name="camera"
               size={20}
@@ -59,9 +59,9 @@ const SetupProfileScreen = ({ navigation }) => {
               style={styles.cameraIcon}
             />
             <Text style={styles.textIcon}>Exhibition Thumbnail</Text>
-          </View>
+          </TouchableOpacity>
           <Text style={styles.header2}>EXHIBITION CONTENT</Text>
-          <View style={styles.imageContainer2}>
+          <TouchableOpacity style={styles.imageContainer2}>
             <Icon
               name="image"
               size={20}
@@ -69,7 +69,7 @@ const SetupProfileScreen = ({ navigation }) => {
               style={styles.cameraIcon2}
             />
             <Text style={styles.textIcon}>Add Collection</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         {/* Image Input */}
         {/* Full Name Input */}

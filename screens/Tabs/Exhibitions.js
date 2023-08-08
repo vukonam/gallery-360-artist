@@ -43,7 +43,7 @@ export default function ProfilePic({ navigation }) {
       const cardsData = [
         {
           id: "1",
-          image: require("../../assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -51,7 +51,7 @@ export default function ProfilePic({ navigation }) {
         },
         {
           id: "2",
-          image: require("../../assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art4.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -62,15 +62,19 @@ export default function ProfilePic({ navigation }) {
 
       const renderItem = ({ item }) => (
         <View style={styles.card}>
-          <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardInfoContainer}>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardDate}>{item.date}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ExhibitionShow")}
+          >
+            <Image source={item.image} style={styles.cardImage} />
+            <View style={styles.cardInfoContainer}>
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                <Text style={styles.cardDate}>{item.date}</Text>
+              </View>
+              <Text style={styles.cardAddress}>{item.address}</Text>
+              <Text style={styles.cardDescription}>{item.description}</Text>
             </View>
-            <Text style={styles.cardAddress}>{item.address}</Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       );
 
@@ -88,7 +92,7 @@ export default function ProfilePic({ navigation }) {
       const cardsData = [
         {
           id: "1",
-          image: require("../../assets/images/art1.png"), // Replace with the path to your image
+          image: require("../../assets/images/art2.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -96,7 +100,7 @@ export default function ProfilePic({ navigation }) {
         },
         {
           id: "2",
-          image: require("../../assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -107,15 +111,19 @@ export default function ProfilePic({ navigation }) {
 
       const renderItem = ({ item }) => (
         <View style={styles.card}>
-          <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardInfoContainer}>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardDate}>{item.date}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ExhibitionShow")}
+          >
+            <Image source={item.image} style={styles.cardImage} />
+            <View style={styles.cardInfoContainer}>
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                <Text style={styles.cardDate}>{item.date}</Text>
+              </View>
+              <Text style={styles.cardAddress}>{item.address}</Text>
+              <Text style={styles.cardDescription}>{item.description}</Text>
             </View>
-            <Text style={styles.cardAddress}>{item.address}</Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       );
 
@@ -141,7 +149,7 @@ export default function ProfilePic({ navigation }) {
         },
         {
           id: "2",
-          image: require("../../assets/images/art2.png"), // Replace with the path to your image
+          image: require("../../assets/images/art3.png"), // Replace with the path to your image
           title: "Reflections in Color",
           date: "July 19, 2023",
           address: "Gallery XYZ, 123 Main Street, Anytown USA",
@@ -152,15 +160,19 @@ export default function ProfilePic({ navigation }) {
 
       const renderItem = ({ item }) => (
         <View style={styles.card}>
-          <Image source={item.image} style={styles.cardImage} />
-          <View style={styles.cardInfoContainer}>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardDate}>{item.date}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ExhibitionShow")}
+          >
+            <Image source={item.image} style={styles.cardImage} />
+            <View style={styles.cardInfoContainer}>
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                <Text style={styles.cardDate}>{item.date}</Text>
+              </View>
+              <Text style={styles.cardAddress}>{item.address}</Text>
+              <Text style={styles.cardDescription}>{item.description}</Text>
             </View>
-            <Text style={styles.cardAddress}>{item.address}</Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       );
       return (

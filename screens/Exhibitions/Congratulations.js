@@ -145,7 +145,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   footer: {
-    marginTop: 100,
+    flexDirection: "column",
+    height: "20%",
+    justifyContent: "flex-end",
+    alignItems: "center",
     paddingHorizontal: 10,
   },
 });
