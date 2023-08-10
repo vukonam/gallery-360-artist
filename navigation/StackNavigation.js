@@ -27,6 +27,7 @@ import Congradulations from "../screens/Exhibitions/Congratulations";
 //Notifications
 import Notifications from "../screens/Tabs/Notifications";
 import NotificationShow from "../screens/Tabs/NotificationShow";
+import NotificationPolicy from "../screens/Tabs/NotificationsPolicy";
 //Profile
 import Profiles from "../screens/Tabs/Profile";
 import EditProfile from "../screens/Tabs/ProfileShow";
@@ -83,6 +84,7 @@ const NotificationStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Notifications" component={Notifications} />
       <Stack.Screen name="NotificationShow" component={NotificationShow} />
+      <Stack.Screen name="NotificationPolicy" component={NotificationPolicy} />
     </Stack.Navigator>
   );
 };

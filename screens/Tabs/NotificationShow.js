@@ -31,43 +31,49 @@ const DashboardScreen = ({ navigation }) => {
       {/* Navigation Menu */}
 
       {/* Profile Card */}
-      <TouchableOpacity
-        style={styles.cardContainer}
-        onPress={() => navigation.navigate("NotificationShow")}
-      >
+      <View style={styles.cardContainer}>
         <View style={styles.profileCard}>
           <View style={styles.profileInfo}>
-            <Icon
-              name="comment"
-              size={30}
-              color="white"
-              style={styles.menuIcon}
-            />
-            <View style={styles.profileText}>
-              <Text style={styles.profileName}>{name}</Text>
-              <Text style={styles.profileInfoText}>
-                Your important announcements and updates will be listed here.
-              </Text>
-            </View>
+            <Icon name="file" size={30} color="white" style={styles.menuIcon} />
+            <Text style={styles.profileName}>Return Policy update</Text>
           </View>
+          <View style={styles.profileText}>
+            <Text style={styles.profileInfoText}>
+              Effective immediately, we have made some changes to our return
+              policy to better serve our customers and ensure that they have a
+              positive experience when purchasing your artwork.
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.navigate("NotificationPolicy")}
+          >
+            <Text style={styles.addButtonText}>CONTINUE READING</Text>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
-      {/* 
-      <View style={styles.navigationMenu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="white"
-            style={styles.menuIcon}
-          />
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View> */}
+      </View>
+      <View style={styles.cardContainer}>
+        <View style={styles.profileCard}>
+          <View style={styles.profileInfo}>
+            <Icon name="file" size={30} color="white" style={styles.menuIcon} />
+            <Text style={styles.profileName}>Ts & Cs Update</Text>
+          </View>
+          <View style={styles.profileText}>
+            <Text style={styles.profileInfoText}>
+              We are writing to inform you of an important update to our Terms
+              and Conditions. The updated Terms and Conditions will go into
+              effect on 28 Dec 202x, and we encourage you to review them
+              carefully.
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.navigate("NotificationPolicy")}
+          >
+            <Text style={styles.addButtonText}>CONTINUE READING</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
@@ -80,14 +86,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
-    //     //flexDirection: "row",
-    //     justifyContent: "space-between",
-    //     alignItems: "center",
     marginBottom: 20,
   },
   profileInfo: {
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   headerInfo: {
@@ -102,8 +105,9 @@ const styles = StyleSheet.create({
   },
   name: {
     color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 20,
+    marginLeft: 20,
+    // fontWeight: "bold",
   },
   welcomeHeader: {
     color: "white",
@@ -118,46 +122,9 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginBottom: 10,
   },
-  lineChart: {
-    marginVertical: 8,
-    borderRadius: 16,
-  },
-  navigationMenu: {
-    position: "absolute",
-    backgroundColor: "black",
-    bottom: 0,
-    width: 350,
-    marginTop: 10,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderColor: "#CEB89E",
-    paddingTop: 10,
-  },
-  menuItem: {
-    alignItems: "center",
-  },
-  menuIcon: {
-    marginBottom: 5,
-  },
-  menuText: {
-    color: "white",
-    fontSize: 12,
-  },
-  artworksMenu: {
-    flexDirection: "row",
-    justifyContent: "space-around",
 
-    paddingTop: 10,
-    marginBottom: 20,
-  },
-  menuItem: {
-    alignItems: "center",
-  },
-  menuText: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "bold",
+  cardContainer: {
+    marginBottom: 10,
   },
   profileCard: {
     backgroundColor: "transparent",
@@ -165,7 +132,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderColor: "#CEB89E",
     padding: 10,
-    width: 330,
+    width: "100%",
     alignSelf: "center",
   },
 
@@ -180,48 +147,29 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+    marginLeft: 15,
   },
   profileInfoText: {
     fontSize: 14,
     color: "white",
-    textAlign: "center",
+    textAlign: "left",
   },
+
   addButton: {
     marginTop: 10,
-    backgroundColor: "transparent",
+    backgroundColor: "gray",
     borderRadius: 10,
     borderColor: "#CEB89E",
     borderWidth: 1,
     paddingVertical: 10,
     alignItems: "center",
-    alignSelf: "center",
   },
   addButtonText: {
     color: "white",
     fontSize: 16,
   },
-  salesList: {
-    marginTop: 20,
-  },
-  saleItem: {
-    backgroundColor: "#f0f0f0",
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 10,
-  },
-  activeMenuItem: {
-    borderRadius: 15,
-    padding: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "#CEB89E",
-  },
-  activeMenuText: {
-    color: "black",
-  },
-  cardContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: "75%",
+  notificationArrow: {
+    flexDirection: "row",
   },
 });
 
