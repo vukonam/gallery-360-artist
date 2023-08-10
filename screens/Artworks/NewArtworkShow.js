@@ -113,14 +113,13 @@ This includes works that incorporate popular culture or consumer objects as subj
             ))}
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={() => navigation.navigate("SearchArtwork")}
+        >
+          <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
       </ScrollView>
-
-      <TouchableOpacity
-        style={styles.signInButton}
-        onPress={() => navigation.navigate("SearchArtwork")}
-      >
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -244,6 +243,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-around",
     margin: 5,
     padding: 10,
     backgroundColor: "transparent",
