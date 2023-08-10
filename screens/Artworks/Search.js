@@ -9,7 +9,18 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-const MyPage = () => {
+const MyPage = ({navigation}) => {
+  
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalIsVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsVisible(false);
+  };
+
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const artworks = [
     "Painting",

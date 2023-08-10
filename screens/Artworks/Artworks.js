@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesome" with the icon library of your choice.
 //import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
+import ReviewsComponent from "./ReviewsComponent";
 
 const ExhibitionScreen = ({ navigation }) => {
   const [name, setName] = useState("John Doe");
@@ -58,23 +59,11 @@ const ExhibitionScreen = ({ navigation }) => {
 
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.title}>Reviews</Text>
-        {/* The Reviews component of rating from 1 - 5 goes here */}
-        {/* Step 3: Display the rating component */}
-        <View style={styles.ratingContainer}>
-          <Text style={styles.ratingText}>Rate this artwork:</Text>
-          {[1, 2, 3, 4, 5].map((num) => (
-            <TouchableOpacity
-              key={num}
-              onPress={() => handleRatingSubmit(num)}
-              style={[
-                styles.ratingButton,
-                num === rating ? styles.selectedRating : null,
-              ]}
-            >
-              <Text style={styles.ratingButtonText}>{num}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        {/* Use the ReviewsComponent here */}
+        <ReviewsComponent
+          handleRatingSubmit={handleRatingSubmit}
+          rating={rating}
+        />
         <View style={styles.profileCard}>
           <View style={styles.profileInfo}>
             <Icon
