@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   // Sample data for the line chart
   const [name, setName] = useState("John Doe");
 
@@ -20,7 +20,9 @@ const DashboardScreen = () => {
       <View style={styles.header}>
         <View style={styles.headerInfo}>
           <Text style={styles.name}>Hi {name}</Text>
-          <Image source={profilePic} style={styles.profilePic} />
+          <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
+            <Image source={profilePic} style={styles.profilePic} />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -29,23 +31,28 @@ const DashboardScreen = () => {
       {/* Navigation Menu */}
 
       {/* Profile Card */}
-      <ScrollView style={{ marginBottom: 30 }}>
+      <TouchableOpacity
+        style={styles.cardContainer}
+        onPress={() => navigation.navigate("NotificationShow")}
+      >
         <View style={styles.profileCard}>
           <View style={styles.profileInfo}>
-            <Image source={profilePic} style={styles.profilePic} />
+            <Icon
+              name="comment"
+              size={30}
+              color="white"
+              style={styles.menuIcon}
+            />
             <View style={styles.profileText}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileInfoText}>
-                make your first sale by adding artwork collections
+                Your important announcements and updates will be listed here.
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>Add Artworks</Text>
-          </TouchableOpacity>
         </View>
-      </ScrollView>
-
+      </TouchableOpacity>
+      {/* 
       <View style={styles.navigationMenu}>
         <TouchableOpacity style={styles.menuItem}>
           <Icon name="home" size={20} color="white" style={styles.menuIcon} />
@@ -60,7 +67,7 @@ const DashboardScreen = () => {
           />
           <Text style={styles.menuText}>Settings</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -73,9 +80,9 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    //     //flexDirection: "row",
+    //     justifyContent: "space-between",
+    //     alignItems: "center",
     marginBottom: 20,
   },
   profileInfo: {
@@ -97,7 +104,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-    marginRight: 200,
   },
   welcomeHeader: {
     color: "white",
@@ -160,6 +166,7 @@ const styles = StyleSheet.create({
     borderColor: "#CEB89E",
     padding: 10,
     width: 330,
+    alignSelf: "center",
   },
 
   profileText: {
@@ -167,6 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: 320,
+    padding: 10,
   },
   profileName: {
     color: "white",
@@ -176,6 +184,7 @@ const styles = StyleSheet.create({
   profileInfoText: {
     fontSize: 14,
     color: "white",
+    textAlign: "center",
   },
   addButton: {
     marginTop: 10,
@@ -185,6 +194,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 10,
     alignItems: "center",
+    alignSelf: "center",
   },
   addButtonText: {
     color: "white",
@@ -207,6 +217,11 @@ const styles = StyleSheet.create({
   },
   activeMenuText: {
     color: "black",
+  },
+  cardContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "75%",
   },
 });
 

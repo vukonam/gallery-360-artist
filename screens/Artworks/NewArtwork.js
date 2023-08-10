@@ -160,6 +160,13 @@ const SetupProfileScreen = ({ navigation }) => {
             </View>
           ))}
         </View>
+        <TextInput
+          style={styles.input}
+          placeholder="ARTWORK TYPE"
+          placeholderTextColor="white"
+          value={address}
+          onChangeText={setAddress}
+        />
         {/* Bio Input */}
         <TextInput
           style={{

@@ -31,7 +31,10 @@ const DashboardScreen = ({ navigation }) => {
       {/* Navigation Menu */}
 
       {/* Profile Card */}
-      <View style={styles.cardContainer}>
+      <TouchableOpacity
+        style={styles.cardContainer}
+        onPress={() => navigation.navigate("NotificationShow")}
+      >
         <View style={styles.profileCard}>
           <View style={styles.profileInfo}>
             <Icon
@@ -48,7 +51,7 @@ const DashboardScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
       {/* 
       <View style={styles.navigationMenu}>
         <TouchableOpacity style={styles.menuItem}>

@@ -15,6 +15,7 @@ const ExhibitionScreen = ({ navigation }) => {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const coverImage = require("../../assets/images/red-house.png"); // Replace with the path to your cover image
   const artworks = ["I agree to Gallery360's Terms & Conditions"];
+  const availability = ["Stand alone", "Limited Edition"];
 
   const images = [
     require("../../assets/images/red-house.png"), // Replace with the paths to your carousel images
@@ -81,8 +82,50 @@ This includes works that incorporate popular culture or consumer objects as subj
         <View style={styles.detailsContainer}>
           <Text style={styles.input}>THE SIGNING GRACE</Text>
           <Text style={styles.input}>COLLECTION</Text>
+          <View
+            style={[styles.availability, styles.availabilityCheckboxContainer]}
+          >
+            {availability.map((artwork, index) => (
+              <View
+                style={{
+                  flexDirection: "row",
+
+                  marginBottom: 20,
+                }}
+              >
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    selectedArtworks.includes(artwork) &&
+                      styles.selectedCheckbox,
+                  ]}
+                  onPress={() => handleArtworkSelection(artwork)}
+                >
+                  <View style={styles.availabilityCheckbox}>
+                    {selectedArtworks.includes(artwork) && (
+                      <Icon name="check" size={18} color="white" />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                <Text
+                  //  key={index}
+                  style={[
+                    styles.availabilityCheckboxText,
+                    selectedArtworks.includes(artwork) && styles.selectedText,
+                  ]}
+                >
+                  {artwork}
+                </Text>
+              </View>
+            ))}
+          </View>
           <Text style={styles.input}>PAINTING</Text>
           <Text style={styles.description}>{description}</Text>
+          <View style={styles.returnPolicytextContainer}>
+            <Text style={styles.returnPolicytext}>Return Policy </Text>
+            <Text style={styles.returnPolicytext2}>GALLERY360</Text>
+          </View>
+
           <View style={[styles.artWorks, styles.checkboxContainer]}>
             {artworks.map((artwork, index) => (
               <>
@@ -186,7 +229,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
     paddingHorizontal: 20,
-    paddingBottom: 80,
+    paddingBottom: 50,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginBottom: 10,
   },
 
   input: {
@@ -281,6 +327,48 @@ const styles = StyleSheet.create({
   // buttonContainer: {
   //   position: "relative",
   // },
+  availabilityCheckboxContainer: {
+    flexDirection: "column",
+    //alignItems: "center",
+    justifyContent: "space-around",
+    margin: 5,
+    padding: 10,
+    backgroundColor: "transparent",
+    borderRadius: 15,
+    marginRight: 10,
+    marginBottom: 20,
+  },
+  availability: {
+    flexDirection: "column",
+    // justifyContent: "space-between",
+    //flexWrap: "wrap",
+  },
+  availabilityCheckboxText: {
+    color: "white",
+    marginLeft: 10,
+  },
+  availabilityCheckbox: {
+    width: 24,
+    height: 24,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  returnPolicytextContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  returnPolicytext: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  returnPolicytext2: {
+    color: "gray",
+    fontSize: 14,
+  },
 });
 
 export default ExhibitionScreen;
