@@ -11,6 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesom
 //import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 import ReviewsComponent from "./ReviewsComponent";
+// import ProfilePic from "../../components/ProfilePic";
 
 const ExhibitionScreen = ({ navigation }) => {
   const [name, setName] = useState("John Doe");
@@ -38,7 +39,9 @@ const ExhibitionScreen = ({ navigation }) => {
           </TouchableOpacity>
           <Text style={styles.exhibitionText}>Artwork</Text>
         </View>
-        <Image source={profilePic} style={styles.profilePic} />
+        <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
+          <Image source={profilePic} style={styles.profilePic} />
+        </TouchableOpacity>
       </View>
 
       {/* Profile Pic */}

@@ -152,13 +152,13 @@ const ArtworksScreen = ({ navigation }) => {
         </View>
         {/* Profile Card */}
         {renderContent()}
-      </ScrollView>
       <TouchableOpacity
         style={styles.signInButton}
         onPress={() => navigation.navigate("ExhibitionShow")}
       >
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };

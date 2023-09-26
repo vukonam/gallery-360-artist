@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,15 +10,74 @@ import {
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { signOut } from "firebase/auth";
+import auth from "../../firebase/firebase.config.js";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
+import loader2 from "../../assets/images/loader2.gif";
 
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
-  const [image, setImage] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
-  const [website, setWebsite] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
-  const [bio, setBio] = useState("");
+  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
+
+  const [userData, setUserData] = useState(null);
+  const [name, setName] = useState("John Doe");
+  const [image, setImage] = useState(profilePic);
+  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [bio, setBio] = useState("John Doe");
+
+  const Imageloader = () => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          flex: 1,
+        }}
+      >
+        <Image source={loader2}></Image>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    console.log(user.uid);
+    getDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {})
+      .then((docData) => {
+        // Success callback
+        console.log("data ", docData.data());
+        if (docData.exists()) {
+          let data = docData.data();
+          setUserData(data);
+          setName(data.fullname);
+          setImage({ uri: data.imageUrl });
+          setDateOfBirth(data.dateofbirth);
+          setBio(data.biography);
+        } else console.log("NO SUCH DATA");
+      })
+      .catch((error) => {
+        if (error.code === "unavailable") {
+          // Firestore is offline, add retry logic here
+          console.log("firestore error : ", error.message);
+          alert("Your database is offline at the moment!");
+        } else {
+          // Handle other errors
+          alert("Error getting data:");
+          console.error("Error getting document:", error);
+        }
+      });
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      navigation.replace("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSaveProfile = () => {
     // Here you can save the profile data to your backend or perform any necessary actions
@@ -32,7 +91,11 @@ const SetupProfileScreen = ({ navigation }) => {
     console.log("Bio:", bio);
   };
 
-  return (
+  return userData === null ? (
+    <View style={styles.container}>
+      <Imageloader />
+    </View>
+  ) : (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.headerContainer}>
@@ -50,7 +113,7 @@ const SetupProfileScreen = ({ navigation }) => {
                 alignSelf: "center",
                 borderRadius: 75,
               }}
-              source={require("../../assets/images/userImage.jpg")}
+              source={image}
             />
             <Text
               style={{
@@ -60,7 +123,7 @@ const SetupProfileScreen = ({ navigation }) => {
                 padding: 5,
               }}
             >
-              John Doe
+              {name}
             </Text>
             <Text
               style={{
@@ -70,7 +133,7 @@ const SetupProfileScreen = ({ navigation }) => {
                 padding: 5,
               }}
             >
-              27 jul, 199x
+              {dateOfBirth}
             </Text>
 
             <View style={styles.iconContainer}>
@@ -96,10 +159,7 @@ const SetupProfileScreen = ({ navigation }) => {
               marginBottom: 10,
             }}
           >
-            Sibusiso Joe is a respected curator and art historian with over 15
-            years of experience in the art world. He has curated exhibitions in
-            major museums and galleries and has published numerous articles and
-            books on contemporary art.
+            {bio}
           </Text>
         </View>
         <Image
@@ -119,17 +179,129 @@ const SetupProfileScreen = ({ navigation }) => {
             <Text style={styles.subHeaders}>Gallery360 Default</Text>
           </View>
         </View>
+        <View style={styles.modalContent}>
+          <TouchableOpacity
+            style={[styles.modalButton, styles.signOutButton]}
+            onPress={() => {
+              handleSignOut();
+            }}
+          >
+            <Text style={styles.modalButtonText}>Sign Out</Text>
+          </TouchableOpacity>
+        </View>
         {/* Save Profile Button */}
       </ScrollView>
     </View>
   );
 };
 
+// return userData === null ? (
+//   <View style={styles.container}>
+//     <Imageloader />
+//   </View>
+// ) : (
+//   <ScrollView>
+//     <View style={styles.headerContainer}>
+//       <Text style={styles.header}>Profile</Text>
+//       <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+//         <Icon name="edit" size={25} style={{ padding: 10 }} color="gray" />
+//       </TouchableOpacity>
+//     </View>
+//     <View>
+//       <View style={styles.imageContainer}>
+//         <Image
+//           style={{
+//             width: 150,
+//             height: 150,
+//             alignSelf: "center",
+//             borderRadius: 75,
+//           }}
+//           source={image}
+//         />
+//         <Text
+//           style={{
+//             color: "white",
+//             fontSize: 22,
+//             fontWeight: "bold",
+//             padding: 5,
+//           }}
+//         >
+//           {name}
+//         </Text>
+//         <Text
+//           style={{
+//             color: "white",
+//             fontSize: 14,
+//             fontWeight: "bold",
+//             padding: 5,
+//           }}
+//         >
+//           {dateOfBirth}
+//         </Text>
+
+//         <View style={styles.iconContainer}>
+//           <Icon
+//             name="facebook"
+//             size={25}
+//             style={{ padding: 10 }}
+//             color="gray"
+//           />
+
+//           <Icon
+//             name="instagram"
+//             size={25}
+//             style={{ padding: 10 }}
+//             color="gray"
+//           />
+//         </View>
+//       </View>
+//       <Text
+//         style={{
+//           color: "white",
+//           fontSize: 14,
+//           marginBottom: 10,
+//         }}
+//       >
+//         {bio}
+//       </Text>
+//     </View>
+//     <Image
+//       style={{ width: 300, height: 150, alignSelf: "center" }}
+//       source={require("../../assets/images/Jon_Kirsch's_Signature.png")}
+//     />
+//     <View>
+//       <Text style={styles.profileHeader}>Account</Text>
+//       <View style={styles.subHeadersContainer}>
+//         <Text style={styles.subHeaders}>Card Details</Text>
+//         <Text style={styles.subHeaders}>*** *** **66</Text>
+//       </View>
+//       <Text style={styles.profileHeader}>Help & Info</Text>
+//       <Text style={styles.subHeaders}>Terms & conditions</Text>
+//       <View style={styles.subHeadersContainer}>
+//         <Text style={styles.subHeaders}>Return Policy</Text>
+//         <Text style={styles.subHeaders}>Gallery360 Default</Text>
+//       </View>
+//     </View>
+//     <View style={styles.modalContent}>
+//       <TouchableOpacity
+//         style={[styles.modalButton, styles.signOutButton]}
+//         onPress={() => {
+//           handleSignOut();
+//         }}
+//       >
+//         <Text style={styles.modalButtonText}>Sign Out</Text>
+//       </TouchableOpacity>
+//     </View>
+//     {/* Save Profile Button */}
+//   </ScrollView>
+// );
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
     padding: 20,
+    paddingTop: 40,
   },
   input: {
     width: "100%",
@@ -223,6 +395,20 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  signOutButton: {
+    width: 80,
+    height: 40,
+    backgroundColor: "#CEB89E",
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
     alignItems: "center",
   },
 });

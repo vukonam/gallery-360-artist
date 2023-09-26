@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,40 +9,71 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
+import auth from "../../firebase/firebase.config.js";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
+import ProfilePic from "../../components/ProfilePic.js";
+import ProfileCard from "../../components/ProfileCard.js";
+import loader2 from "../../assets/images/loader2.gif";
 
 const ArtworksScreen = ({ navigation }) => {
-  const [name, setName] = useState("John Doe");
   const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 
+  const [name, setName] = useState("John Doe");
+  const [navStack, setNavStack] = useState("NewArtwork");
+  const [desc, setDesc] = useState(" make your first sale by adding artwork");
+  const [btnText, setBtnText] = useState("Add Artworks");
+  const [image, setImage] = useState(profilePic);
   const [selectedOption, setSelectedOption] = useState("All");
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    console.log(user.uid);
+    getDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {})
+      .then((docData) => {
+        // Success callback
+        console.log("data ", docData.data());
+        if (docData.exists()) {
+          let data = docData.data();
+          setUserData(data);
+          setName(data.fullname);
+          setImage({ uri: data.imageUrl });
+        } else console.log("NO SUCH DATA");
+      })
+      .catch((error) => {
+        // Error callback
+        alert(error);
+        console.log("error ", error);
+      });
+  }, []);
 
   function handleAddArtwork() {
     navigation.navigate("NewArtwork");
   }
+
+  const Imageloader = () => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          flex: 1,
+        }}
+      >
+        <Image source={loader2}></Image>
+      </View>
+    );
+  };
   // Function to render the content based on the selected option
   const renderContent = () => {
     if (selectedOption === "All") {
       // Render the profile card for "All" option
       return (
-        <View style={styles.cardContainer}>
-          <View style={styles.profileCard}>
-            <View style={styles.profileInfo}>
-              <Image source={profilePic} style={styles.profilePic} />
-              <View style={styles.profileText}>
-                <Text style={styles.profileName}>{name}</Text>
-                <Text style={styles.profileInfoText}>
-                  make your first sale by adding artwork
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => navigation.navigate("NewArtwork")}
-            >
-              <Text style={styles.addButtonText}>Add Artworks</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <ProfileCard
+          data={{ name, image, desc, btnText, navStack, navigation }}
+        />
       );
     } else if (selectedOption === "STAND ALONE") {
       const cardsData = [
@@ -187,16 +218,13 @@ const ArtworksScreen = ({ navigation }) => {
       );
     }
   };
-  return (
+  return userData === null ? (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerInfo}>
-          <Text style={styles.name}>Hi {name}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
-            <Image source={profilePic} style={styles.profilePic} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Imageloader />
+    </View>
+  ) : (
+    <View style={styles.container}>
+      <View>{<ProfilePic data={{ name, image, navigation }} />}</View>
       <View style={styles.newArtworkContainer}>
         <Text style={styles.welcomeHeader}>Artworks</Text>
         <TouchableOpacity
@@ -291,7 +319,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     padding: 10,
-    paddingTop: 20,
+    paddingTop: 40,
   },
   header: {
     marginBottom: 20,

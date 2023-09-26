@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     padding: 10,
-    paddingTop: 20,
+    paddingTop: 40,
   },
   header: {
     marginBottom: 20,

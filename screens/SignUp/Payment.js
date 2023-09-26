@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 import { StackActions } from "@react-navigation/native";
@@ -31,75 +32,71 @@ const PaymentScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={{
-            width: 300,
-            height: 220,
-            alignSelf: "center",
-            borderRadius: 50,
-          }}
-          source={require("../../assets/images/visa.png")}
+      <ScrollView>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{
+              width: 300,
+              height: 220,
+              alignSelf: "center",
+              borderRadius: 50,
+            }}
+            source={require("../../assets/images/visa.png")}
+          />
+        </View>
+        <Text style={styles.header}>Payment Cards</Text>
+        <Text style={styles.paragraph}>
+          Payment account that will be used to receive payments
+        </Text>
+        {/* Card Holder Input */}
+        <TextInput
+          style={styles.input}
+          placeholder="Card Holder"
+          placeholderTextColor="white"
+          value={cardHolder}
+          onChangeText={setCardHolder}
         />
-      </View>
-      <Text style={styles.header}>Payment Cards</Text>
-      <Text style={styles.paragraph}>
-        Payment account that will be used to receive payments
-      </Text>
-      {/* Card Holder Input */}
-
-      <TextInput
-        style={styles.input}
-        placeholder="Card Holder"
-        placeholderTextColor="white"
-        value={cardHolder}
-        onChangeText={setCardHolder}
-      />
-
-      {/* Card Number Input */}
-
-      <TextInput
-        style={styles.input}
-        placeholder="Card Number"
-        placeholderTextColor="white"
-        value={cardNumber}
-        onChangeText={setCardNumber}
-        keyboardType="numeric"
-      />
-
-      {/* Expiry Input */}
-
-      <TextInput
-        style={styles.input}
-        placeholder="Expiry (MM/YY)"
-        placeholderTextColor="white"
-        value={expiry}
-        onChangeText={setExpiry}
-        keyboardType="numeric"
-      />
-
-      {/* CVV Input */}
-
-      <TextInput
-        style={styles.input}
-        placeholder="CVV"
-        placeholderTextColor="white"
-        value={cvv}
-        onChangeText={setCvv}
-        keyboardType="numeric"
-      />
-
-      {/* Continue Button */}
-      <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log("might do, might not, might maybe")}
-      >
-        <Text style={styles.smallerButtonText}>I'll do it later</Text>
-      </TouchableOpacity>
+        {/* Card Number Input */}
+        <TextInput
+          style={styles.input}
+          placeholder="Card Number"
+          placeholderTextColor="white"
+          value={cardNumber}
+          onChangeText={setCardNumber}
+          keyboardType="numeric"
+        />
+        {/* Expiry Input */}
+        <TextInput
+          style={styles.input}
+          placeholder="Expiry (MM/YY)"
+          placeholderTextColor="white"
+          value={expiry}
+          onChangeText={setExpiry}
+          keyboardType="numeric"
+        />
+        {/* CVV Input */}
+        <TextInput
+          style={styles.input}
+          placeholder="CVV"
+          placeholderTextColor="white"
+          value={cvv}
+          onChangeText={setCvv}
+          keyboardType="numeric"
+        />
+        {/* Continue Button */}
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={handleContinue}
+        >
+          <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => console.log("might do, might not, might maybe")}
+        >
+          <Text style={styles.smallerButtonText}>I'll do it later</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
@@ -108,6 +105,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
+    paddingTop: 40,
     padding: 20,
   },
   inputContainer: {

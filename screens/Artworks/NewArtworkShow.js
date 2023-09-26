@@ -67,7 +67,7 @@ This includes works that incorporate popular culture or consumer objects as subj
           sliderWidth={300}
           itemWidth={160}
         />
-        <View style={styles.imageContainer}>
+        <TouchableOpacity style={styles.imageContainer}>
           <Icon
             name="camera"
             size={20}
@@ -78,7 +78,7 @@ This includes works that incorporate popular culture or consumer objects as subj
           <Text style={styles.textIcon2}>
             Gallery must be from the same artwork
           </Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.detailsContainer}>
           <Text style={styles.input}>THE SIGNING GRACE</Text>
           <Text style={styles.input}>COLLECTION</Text>

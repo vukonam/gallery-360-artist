@@ -11,7 +11,14 @@ import {
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AddSocialMedia from "./AddSocialMedia";
+import { setDoc, doc } from "firebase/firestore";
+import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
+import auth from "../../firebase/firebase.config.js";
+import * as ImagePicker from "expo-image-picker";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 
+//import { db, storage } from "../firebaseConfig";
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState("");
@@ -20,8 +27,11 @@ const SetupProfileScreen = ({ navigation }) => {
   const [website, setWebsite] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
-
+  const [imageUrl, setImageUrl] = useState(null);
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [instagram, setInstagram] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const handleOpenModal = () => {
     setModalIsVisible(true);
@@ -30,18 +40,157 @@ const SetupProfileScreen = ({ navigation }) => {
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
+  const user = auth.currentUser;
+  const writeUserData = () => {
+    setDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {
+      fullname: fullName,
+      contactnumber: contactNumber,
+      websiteurl: website,
+      dateofbirth: dateOfBirth,
+      biography: bio,
+      imageUrl: imageUrl,
+      facebook: facebook,
+      instagram: instagram,
+      userid: user.uid,
+    })
+      .then((result) => {
+        // Success callback
+        console.log("data ", result);
+        alert("data saved");
+      })
+      .catch((error) => {
+        // Error callback
+        alert(error);
+        console.log("error ", error);
+      });
+  };
 
+  // const openImagePicker = async () => {
+  //   const permissionResult =
+  //     await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+  //   if (permissionResult.granted === false) {
+  //     alert("Permission to access camera roll is required!");
+  //     return;
+  //   }
+
+  //   const result = await ImagePicker.launchImageLibraryAsync();
+
+  //   if (!result.canceled) {
+  //     console.log(result);
+  //     console.log(result.assets[0].uri);
+
+  //     let newfile = {
+  //       uri: result.assets[0].uri,
+  //       type: `test/${result.assets[0].uri.split(".")[1]}`,
+  //       name: `test.${result.assets[0].uri.split(".")[1]}`,
+  //     };
+  // const source = { uri: result.assets[0].uri };
+  // setImage(source);
+  //     handleUpload(newfile);
+  //   } else {
+  //     alert("you need to give up permission to work");
+  //   }
+  // };
+
+  // const handleUpload = async (image) => {
+  //   const data = new FormData();
+  //   data.append("file", image);
+  //   data.append("upload_preset", "ek6xqjmo");
+  //   data.append("api_key", "827175248696299");
+
+  //   await fetch("https://api.cloudinary.com/v1_1/drnqrrlfv/upload", {
+  //     method: "POST",
+  //     body: data,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("data : ", data);
+  //       // setPicture(data.url);
+  //       setImageUrl(data.secure_url);
+  //     })
+  //     .catch((err) => {
+  //       alert("error while uploading", err);
+  //     });
+  // };
+
+  async function pickImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [3, 4],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const source = { uri: result.assets[0].uri };
+      setImage(source);
+      // setImage(result.assets[0].uri);
+      // upload the image
+      await uploadImage(result.assets[0].uri, "image");
+    }
+  }
+
+  async function pickVideo() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      allowsEditing: true,
+      aspect: [3, 4],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      await uploadImage(result.assets[0].uri, "video");
+    }
+  }
+
+  async function uploadImage(uri, fileType) {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    const storageRef = ref(storage, "ProfileImages/" + new Date().getTime());
+    const uploadTask = uploadBytesResumable(storageRef, blob);
+
+    // listen for events
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        setProgress(progress.toFixed());
+      },
+      (error) => {
+        // handle error
+        console.log(error);
+        alert("Upload Error : ", error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log("File available at", downloadURL);
+          // save record
+          setImageUrl(downloadURL);
+          await saveRecord(fileType, downloadURL, new Date().toISOString());
+          //setVideo("");
+        });
+      }
+    );
+  }
   const handleSaveProfile = () => {
     // Here you can save the profile data to your backend or perform any necessary actions
     // For simplicity, we'll just log the data for now.
     console.log("Profile Data:");
     console.log("Image:", image);
+    console.log("ImageUrl:", imageUrl);
     console.log("Full Name:", fullName);
     console.log("Contact Number:", contactNumber);
     console.log("Website:", website);
     console.log("Date of Birth:", dateOfBirth);
     console.log("Bio:", bio);
-
+    console.log("facebook :", facebook);
+    console.log("instagram :", instagram);
+    writeUserData();
     navigation.navigate("Artwork");
   };
 
@@ -56,41 +205,60 @@ const SetupProfileScreen = ({ navigation }) => {
         </View>
         <View>
           <View style={styles.imageContainer}>
-            <Image
-              style={{
-                width: 150,
-                height: 150,
-                alignSelf: "center",
-                borderRadius: 75,
-              }}
-              source={require("../../assets/images/userImage.jpg")}
-            />
-            <Icon
-              name="camera"
-              size={20}
-              color="gray"
-              style={{
-                padding: 10,
-                backgroundColor: "white",
-                borderRadius: 20,
-                position: "absolute",
-                bottom: 120,
-              }}
-            />
-            <View style={styles.iconContainer}>
-              <Icon
-                name="facebook"
-                size={25}
-                style={{ padding: 15 }}
-                color="gray"
+            {image ? (
+              <Image
+                source={image}
+                style={{
+                  width: 150,
+                  height: 150,
+                  alignSelf: "center",
+                  borderRadius: 75,
+                }}
               />
+            ) : (
+              <Image
+                style={{
+                  width: 150,
+                  height: 150,
+                  alignSelf: "center",
+                  borderRadius: 75,
+                }}
+                source={require("../../assets/images/userImage.jpg")}
+              />
+            )}
+            <TouchableOpacity onPress={pickImage}>
+              <Icon
+                name="camera"
+                size={20}
+                color="gray"
+                style={{
+                  padding: 10,
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  position: "absolute",
+                  bottom: -10,
+                  alignSelf: "center",
+                }}
+              />
+            </TouchableOpacity>
 
-              <Icon
-                name="instagram"
-                size={25}
-                style={{ padding: 15 }}
-                color="gray"
-              />
+            <View style={styles.iconContainer}>
+              <TouchableOpacity onPress={handleOpenModal}>
+                <Icon
+                  name="facebook"
+                  size={25}
+                  style={{ padding: 15 }}
+                  color="gray"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleOpenModal}>
+                <Icon
+                  name="instagram"
+                  size={25}
+                  style={{ padding: 15 }}
+                  color="gray"
+                />
+              </TouchableOpacity>
             </View>
             <View>
               <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
@@ -107,6 +275,7 @@ const SetupProfileScreen = ({ navigation }) => {
               <AddSocialMedia
                 visible={modalIsVisible}
                 closeModal={handleCloseModal}
+                setLinks={{ setInstagram, setFacebook }}
               />
             }
           </View>
@@ -183,6 +352,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
+    paddingTop: 40,
     padding: 20,
   },
   input: {

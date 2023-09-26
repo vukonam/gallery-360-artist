@@ -76,13 +76,13 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
         </View>
 
         <Text style={styles.description}>{description}</Text>
-      </ScrollView>
       <TouchableOpacity
         style={styles.signInButton}
         onPress={() => navigation.navigate("Congradulations")}
       >
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };

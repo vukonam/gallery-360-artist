@@ -9,7 +9,6 @@ import {
   DashboardStack,
 } from "./StackNavigation";
 import { View, Image } from "react-native";
-//import DashboardScreen from "../screens/Tabs/Dashboard";
 
 const Tabs = createBottomTabNavigator();
 
@@ -26,8 +25,6 @@ const TabIcon = ({ focused, selected, icon, highlightedIcon }) => {
 export { TabIcon };
 
 const TabsNavigation = () => {
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-
   const tabsConfig = [
     {
       label: "DashboardTab",
@@ -61,18 +58,6 @@ const TabsNavigation = () => {
     },
   ];
 
-  const getTabBarVisibility = (route) => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName?.includes("Checkout") || routeName?.includes("Payment")) {
-      return "none";
-    }
-    return "flex";
-  };
-
-  const isTabSelected = (tabIndex) => {
-    return selectedTabIndex === tabIndex;
-  };
-
   return (
     <Tabs.Navigator
       activeColor="red"
@@ -94,17 +79,12 @@ const TabsNavigation = () => {
             tabBarIcon: ({ focused, color, size }) => (
               <TabIcon
                 focused={focused}
-                selected={isTabSelected(index)}
+                selected={route.state?.index === index} // Check if the current tab index matches the selected tab index
                 icon={tab.icon}
                 highlightedIcon={tab.highlightedIcon}
               />
             ),
           })}
-          listeners={{
-            tabPress: () => {
-              setSelectedTabIndex(index);
-            },
-          }}
         />
       ))}
     </Tabs.Navigator>

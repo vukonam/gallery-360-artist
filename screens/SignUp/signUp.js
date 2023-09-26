@@ -6,13 +6,17 @@ import {
   Text,
   Image,
   TextInput,
+  ScrollView,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import ForgetPassword from "../SignIn/ForgetPassword";
+import auth from "../../firebase/firebase.config.js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [selectedItems, setSelectedItems] = useState([]);
   const Items = ["I agree to Gallery360's Terms & Conditions"];
   function handleItemSelection(Item) {
@@ -22,86 +26,107 @@ export default function App({ navigation }) {
         : [...prevSelected, Item]
     );
   }
-  const handleSignIn = () => {
-    navigation.navigate("Profile");
+
+  const handleSignUp = async () => {
+    console.log("line executed!!!");
+    console.log(auth);
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = response.user;
+
+      console.log("Registered with:", user.email);
+      navigation.navigate("Profile");
+    } catch (error) {
+      console.log(error);
+      alert("Please Enter Your Email And Password");
+    }
   };
+
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={{ width: 200, height: 200, alignSelf: "center" }}
-          source={require("../../assets/images/gallery36.png")}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.header}>Sign Up</Text>
-        <View style={styles.accountLoginContainer}>
-          <Text style={styles.smallerText}> create your new account</Text>
-          <View style={styles.iconContainer}>
-            <Icon
-              name="google"
-              size={20}
-              style={{ paddingRight: 20 }}
-              color="red"
-            />
-            <Icon name="facebook" size={20} color="blue" />
+      <ScrollView>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ width: 200, height: 200, alignSelf: "center" }}
+            source={require("../../assets/images/gallery36.png")}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.header}>Sign Up</Text>
+          <View style={styles.accountLoginContainer}>
+            <Text style={styles.smallerText}> create your new account</Text>
+            <View style={styles.iconContainer}>
+              <Icon
+                name="google"
+                size={20}
+                style={{ paddingRight: 20 }}
+                color="gray"
+              />
+              <Icon name="facebook" size={20} color="gray" />
+            </View>
           </View>
-        </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="white"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="white"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="white"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="white"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
 
-        <View style={[styles.Items, styles.checkboxContainer]}>
-          {Items.map((Item, index) => (
-            <>
-              <TouchableOpacity
-                key={index}
-                style={[
-                  selectedItems.includes(Item) && styles.selectedCheckbox,
-                ]}
-                onPress={() => handleItemSelection(Item)}
-              >
-                <View style={styles.checkbox}>
-                  {selectedItems.includes(Item) && (
-                    <Icon name="check" size={18} color="white" />
-                  )}
-                </View>
-              </TouchableOpacity>
-              <Text
-                //  key={index}
-                style={[
-                  styles.checkboxText,
-                  selectedItems.includes(Item) && styles.selectedText,
-                ]}
-              >
-                {Item}
-              </Text>
-            </>
-          ))}
-        </View>
+          <View style={[styles.Items, styles.checkboxContainer]}>
+            {Items.map((Item, index) => (
+              <>
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    selectedItems.includes(Item) && styles.selectedCheckbox,
+                  ]}
+                  onPress={() => handleItemSelection(Item)}
+                >
+                  <View style={styles.checkbox}>
+                    {selectedItems.includes(Item) && (
+                      <Icon name="check" size={18} color="white" />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                <Text
+                  //  key={index}
+                  style={[
+                    styles.checkboxText,
+                    selectedItems.includes(Item) && styles.selectedText,
+                  ]}
+                >
+                  {Item}
+                </Text>
+              </>
+            ))}
+          </View>
 
-        <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.smallerButtonText}>I don't have an account</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.signInButton} onPress={handleSignUp}>
+            <Text style={styles.buttonText}>Sign Up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.smallerButtonText}>
+              Already have an account?
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 }

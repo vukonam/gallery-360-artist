@@ -1,13 +1,22 @@
 import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 
-export default function ProfilePic() {
-  const profilePic = require("./assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
-  const [name, setName] = useState("John Doe");
+export default function ProfilePic({ data }) {
+  const navigation = data.navigation;
   return (
     <View style={styles.header}>
       <View style={styles.headerInfo}>
-        <Text style={styles.name}>Hi {name}</Text>
-        <Image source={profilePic} style={styles.profilePic} />
+        <Text style={styles.name}>Hi {data.name}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
+          <Image source={data.image} style={styles.profilePic} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -20,11 +29,13 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 20,
   },
+
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 40,
   },
   profileInfo: {
     flexDirection: "column",
@@ -46,5 +57,36 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginRight: 200,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  headerInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  header: {
+    marginBottom: 20,
+  },
+  profileInfo: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  profilePic: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  name: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

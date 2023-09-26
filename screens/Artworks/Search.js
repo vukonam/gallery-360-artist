@@ -8,18 +8,20 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
-
+import NewTypeModal from "./NewTypeModal"
 const MyPage = ({navigation}) => {
   
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const handleOpenModal = () => {
+    console.log("openModal ", modalIsVisible)
     setModalIsVisible(true);
   };
 
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
+
 
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const artworks = [
@@ -64,13 +66,17 @@ const MyPage = ({navigation}) => {
       {/* Paragraph */}
       <View style={styles.newArtworkContainer}>
         <Text style={styles.header}>Artwork Type</Text>
-        <TouchableOpacity
-          style={styles.signInButton}
-          onPress={handleAddArtwork}
-        >
+        
+        <TouchableOpacity style={styles.signInButton} onPress={handleOpenModal}>
           <Text style={styles.buttonText}>NEW TYPE</Text>
         </TouchableOpacity>
       </View>
+      
+        <NewTypeModal
+          visible={modalIsVisible}
+          closeModal={handleCloseModal}
+        />
+      
 
       {/* Search Input */}
       <View style={styles.searchInputContainer}>
@@ -190,13 +196,13 @@ const styles = StyleSheet.create({
   signInButton: {
     width: "30%",
     height: 40,
-    backgroundColor: "gray", // Set this to your desired button background color
+    backgroundColor: "gray",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
   },
   buttonText: {
-    color: "#fff", // Set this to your desired button text color
+    color: "#fff", 
     fontSize: 15,
   },
   newArtworkContainer: {
@@ -217,22 +223,15 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   selectedCheckbox: {
-    backgroundColor: "green", // Customize the background color when the checkbox is selected
+    backgroundColor: "green",
   },
   selectedText: {
-    fontWeight: "bold", // Customize the style when the checkbox is selected
+    fontWeight: "bold", 
   },
   artWorks: {
     flexDirection: "column",
-    //flexWrap: "wrap",
   },
-  // checkboxContainer: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   margin: 5,
-  //   padding: 5,
-  //   borderRadius: 10,
-  // },
+
   checkbox: {
     width: 24,
     height: 24,
@@ -243,17 +242,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 10,
   },
-  // checkboxText: {
-  //   flex: 1,
-  //   color: "white",
-  //   textTransform: "uppercase",
-  // },
-  // selectedCheckbox: {
-  //   backgroundColor: "green", // Customize the background color when the checkbox is selected
-  // },
-  // selectedText: {
-  //   fontWeight: "bold", // Customize the style when the checkbox is selected
-  // },
+
 });
 
 export default MyPage;

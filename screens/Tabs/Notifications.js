@@ -52,22 +52,6 @@ const DashboardScreen = ({ navigation }) => {
           </View>
         </View>
       </TouchableOpacity>
-      {/* 
-      <View style={styles.navigationMenu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="white"
-            style={styles.menuIcon}
-          />
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 };
@@ -77,12 +61,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     padding: 10,
-    paddingTop: 20,
+    paddingTop: 40,
   },
   header: {
-    //     //flexDirection: "row",
-    //     justifyContent: "space-between",
-    //     alignItems: "center",
     marginBottom: 20,
   },
   profileInfo: {

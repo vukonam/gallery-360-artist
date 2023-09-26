@@ -116,6 +116,7 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 40,
     backgroundColor: "black", // Set this to your desired background color for the whole screen
   },
   header: {

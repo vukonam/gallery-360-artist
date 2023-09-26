@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -7,13 +7,19 @@ import {
   Image,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ForgetPassword from "./ForgetPassword";
 
+import auth from "../../firebase/firebase.config.js";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+
+
 export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const handleOpenModal = () => {
@@ -23,9 +29,55 @@ export default function App({ navigation }) {
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
-  const handleSignIn = () => {
-    navigation.navigate("Signup");
-  };
+
+  //const auth = getAuth(app);
+
+  async function handleSignIn() {
+    if (email === "" || password === "") {
+      setError("Email and password are mandatory.");
+      Alert(error)
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+    }
+  }
+
+    useEffect(() => {
+      console.log(auth);
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigation.replace("Tabs");
+        }
+      });
+      return unsubscribe;
+    }, []);
+
+    const handleLogin = async () => {
+      try {
+        const userCredentials = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredentials.user;
+        console.log("Logged in with:", user.email);
+        navigation.replace("Tabs");
+      } catch (error) {
+    if (error.code === 'auth/wrong-password') {
+      // Handle incorrect password error
+      console.log('Your password is incorrect. Please try again.');
+      alert("Your password is incorrect. Please try again.");
+    } else {
+      // Handle other authentication errors
+      console.error('Authentication error:', error);
+    }
+  }
+    };
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -38,7 +90,7 @@ export default function App({ navigation }) {
         <View style={styles.inputContainer}>
           <Text style={styles.header}>Welcome Back !</Text>
           <View style={styles.accountLoginContainer}>
-            <Text style={styles.smallerText}> login to your account</Text>
+            <Text style={styles.smallerText}> Login to your account</Text>
             <View style={styles.iconContainer}>
               <Icon
                 name="google"
@@ -77,8 +129,16 @@ export default function App({ navigation }) {
             />
           }
 
-          <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
+          <TouchableOpacity style={styles.signInButton} onPress={handleLogin}>
             <Text style={styles.buttonText}>Sign In</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Signup")}
+          >
+            <Text style={styles.smallerButtonText}>
+              I don't have an account
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

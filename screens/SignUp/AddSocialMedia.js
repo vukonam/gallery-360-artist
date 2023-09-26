@@ -7,14 +7,30 @@ import {
   TextInput,
   Modal,
 } from "react-native";
+import { SelectList } from "react-native-dropdown-select-list";
 
 export default function App(props) {
-  const [email, setEmail] = useState("");
-  const [facebook, setFacebook] = useState("facebook");
+  const [linkToProfile, setLinkToProfile] = useState("");
+  const [selected, setSelected] = useState("");
+
+  const data = [
+    { key: "1", value: "facebook" },
+    { key: "2", value: "instagram" },
+  ];
+
+  console.log(selected);
 
   const handleSignIn = () => {
     console.log("signed in!!!");
-    props.closeModal();
+    if (selected == 1) {
+      console.log("selected : ", "facebook");
+      props.setLinks.setFacebook(linkToProfile);
+      props.closeModal();
+    } else if (selected == 2) {
+      console.log("selected : ", "instagram");
+      props.setLinks.setInstagram(linkToProfile);
+      props.closeModal();
+    }
   };
   return (
     <Modal visible={props.visible} animationType="slide">
@@ -22,19 +38,31 @@ export default function App(props) {
         <View style={styles.inputContainer}>
           <Text style={styles.header}>Add Social Media</Text>
 
-          <TextInput
-            style={styles.input}
+          <SelectList
+            data={data}
+            setSelected={setSelected}
+            boxStyles={{
+              backgroundColor: "white",
+              width: "52%",
+              color: "white",
+            }}
+            dropdownStyles={{
+              backgroundColor: "black",
+              height: 100,
+            }}
+            search={false}
+            maxHeight={100}
             placeholder="facebook"
             placeholderTextColor="white"
-            value={facebook}
-            onChangeText={setFacebook}
+            dropdownTextStyles={{ color: "white" }}
           />
+
           <TextInput
             style={styles.input}
             placeholder="LINK TO PROFILE"
             placeholderTextColor="white"
-            value={email}
-            onChangeText={setEmail}
+            value={linkToProfile}
+            onChangeText={setLinkToProfile}
           />
 
           <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
