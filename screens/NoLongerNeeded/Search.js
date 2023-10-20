@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
-import NewTypeModal from "./NewTypeModal"
+import NewTypeModal from "../Artworks/NewTypeModal"
 const MyPage = ({navigation}) => {
   
   const [modalIsVisible, setModalIsVisible] = useState(false);

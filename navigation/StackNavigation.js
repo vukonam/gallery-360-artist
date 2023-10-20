@@ -13,26 +13,29 @@ import Payment from "../screens/SignUp/Payment";
 //Tabs Navigation
 import TabsNavigation from "./TabsNavigation";
 //Artworks
-import Artworks from "../screens/Tabs/Artworks";
+import Artworks from "../screens/Tabs/Artworks/Artworks";
 import Artworks2 from "../screens/Artworks/Artworks";
-import NewArtwork from "../screens/Artworks/NewArtwork";
-import AddArtwork from "../screens/Artworks/NewArtworkShow";
-import SearchArtwork from "../screens/Artworks/Search";
+import NewArtwork from "../screens/Artworks/newArtwork/index";
+
 //Exhibitions
-import Exhibitions from "../screens/Tabs/Exhibitions";
+import Exhibitions from "../screens/Tabs/Exhibitions/Exhibitions";
 import NewExhibition from "../screens/Exhibitions/NewExhibition";
 import ExhibitionCollection from "../screens/Exhibitions/ExhibitionCollection";
 import ExhibitionShow from "../screens/Exhibitions/ExhibitionCollectionShow";
 import Congradulations from "../screens/Exhibitions/Congratulations";
+
+//ExhibtionShowStack
+import ExhibitionShow2 from "../screens/Tabs/Exhibitions/ExhibitionShow";
+
 //Notifications
-import Notifications from "../screens/Tabs/Notifications";
-import NotificationShow from "../screens/Tabs/NotificationShow";
-import NotificationPolicy from "../screens/Tabs/NotificationsPolicy";
+import Notifications from "../screens/Tabs/Notifications/Notifications";
+import NotificationShow from "../screens/Tabs/Notifications/NotificationShow";
+import NotificationPolicy from "../screens/Tabs/Notifications/NotificationsPolicy";
 //Profile
-import Profiles from "../screens/Tabs/Profile";
-import EditProfile from "../screens/Tabs/ProfileShow";
+import Profiles from "../screens/Tabs/Profile/Profile";
+import EditProfile from "../screens/Tabs/Profile/ProfileShow";
 //Dashboard
-import DashboardScreen from "../screens/Tabs/Dashboard";
+import DashboardScreen from "../screens/Tabs/Dashboard/Dashboard";
 
 //import Artworks from "../screens/Artworks/Artworks";
 
@@ -61,8 +64,8 @@ const DashboardStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Dashboard" component={DashboardScreen} />
       <Stack.Screen name="NewArtwork" component={NewArtwork} />
-      <Stack.Screen name="AddArtwork" component={AddArtwork} />
-      <Stack.Screen name="SearchArtwork" component={SearchArtwork} />
+      {/* <Stack.Screen name="AddArtwork" component={AddArtwork} />
+      <Stack.Screen name="SearchArtwork" component={SearchArtwork} /> */}
     </Stack.Navigator>
   );
 };
@@ -73,12 +76,16 @@ const ArtworkStack = () => {
       <Stack.Screen name="Artworks" component={Artworks} />
       <Stack.Screen name="Artworks2" component={Artworks2} />
       <Stack.Screen name="NewArtwork" component={NewArtwork} />
-      <Stack.Screen name="AddArtwork" component={AddArtwork} />
-      <Stack.Screen name="SearchArtwork" component={SearchArtwork} />
     </Stack.Navigator>
   );
 };
-
+// const ArtworkShowStack = () => {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name="Artworks" component={Artworks} />
+//     </Stack.Navigator>
+//   );
+// };
 const NotificationStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -99,10 +106,20 @@ const ExhibitionStack = () => {
         component={ExhibitionCollection}
       />
       <Stack.Screen name="ExhibitionShow" component={ExhibitionShow} />
+      <Stack.Screen name="ExhibitionShow2" component={ExhibitionShow2} />
+
       <Stack.Screen name="Congradulations" component={Congradulations} />
     </Stack.Navigator>
   );
 };
+
+// const ExhibitionShowStack = () => {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name="Exhibitions" component={Exhibitions} />
+//     </Stack.Navigator>
+//   );
+// };
 const ProfileStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

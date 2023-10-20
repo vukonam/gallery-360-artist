@@ -152,12 +152,12 @@ const ArtworksScreen = ({ navigation }) => {
         </View>
         {/* Profile Card */}
         {renderContent()}
-      <TouchableOpacity
-        style={styles.signInButton}
-        onPress={() => navigation.navigate("ExhibitionShow")}
-      >
-        <Text style={styles.buttonText}>Done</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={() => navigation.back()}
+        >
+          <Text style={styles.buttonText}>Done</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     padding: 10,
-    paddingTop: 20,
+    paddingTop: 40,
   },
   newArtworkContainer: {
     flexDirection: "row",

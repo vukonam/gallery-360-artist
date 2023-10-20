@@ -3,9 +3,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: null,
-  name: "John Doe",
-  image: require("../assets/images/userImage.jpg"),
+  data: {
+    biography: "",
+    contactnumber: "",
+    dateofbirth: "",
+    facebook: "",
+    fullname: "",
+    imageUrl: "",
+    instagram: "",
+    userid: "",
+    websiteurl: "",
+    loading: "",
+  },
 };
 
 // export const fetchUserData = createAsyncThunk(
@@ -38,18 +47,22 @@ const loginDetailsSlice = createSlice({
   initialState,
   reducers: {
     setName: (state, action) => {
-      state.name = action.payload;
+      state.data.name = action.payload;
     },
     setData: (state, action) => {
       state.data = action.payload;
     },
 
     setImage: (state, action) => {
-      state.image = action.payload;
+      state.data.image = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.data.loading = action.payload;
     },
   },
 });
 
-export const { setName, setData, setImage } = loginDetailsSlice.actions;
+export const { setName, setData, setImage, setLoading } =
+  loginDetailsSlice.actions;
 
 export default loginDetailsSlice.reducer;

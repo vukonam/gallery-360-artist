@@ -1,28 +1,127 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+//import React from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
+import React, { useRef, useState } from "react";
+import { SignatureView } from "react-native-signature-capture-view";
 
-const MyPage = ({ navigation }) => {
+import { setDoc, doc } from "firebase/firestore";
+import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
+import auth from "../../firebase/firebase.config.js";
+import * as ImagePicker from "expo-image-picker";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+
+//import { db, storage } from "../firebaseConfig";
+// Replace "FontAwesome5" with the icon library of your choice.
+
+const MyPage = ({ route, navigation }) => {
+  const signatureRef = useRef(null);
+  const [text, setText] = useState("");
+
+  const user = auth.currentUser;
+  const { userData } = route.params;
+  console.log(userData);
+  const {
+    fullname: fullName,
+    contactnumber: contactNumber,
+    websiteurl: website,
+    dateofbirth: dateOfBirth,
+    biography: bio,
+    imageUrl: imageUrl,
+    facebook: facebook,
+    instagram: instagram,
+  } = userData;
+
+  const writeUserData = () => {
+    setDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {
+      fullname: fullName,
+      contactnumber: contactNumber,
+      websiteurl: website,
+      dateofbirth: dateOfBirth,
+      biography: bio,
+      imageUrl: imageUrl,
+      facebook: facebook,
+      instagram: instagram,
+      userid: user.uid,
+      signature: text,
+    })
+      .then((result) => {
+        // Success callback
+        console.log("data ", result);
+        Alert.alert("Your Data Is Saved Successfully");
+      })
+      .catch((error) => {
+        // Error callback
+        Alert.alert("There was an error capturing your data");
+        console.log("error ", error);
+      });
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Signature</Text>
-      <Text style={styles.paragraph}>
-        This signature will be used as proof of authenticity for your artwork.
-      </Text>
-
-      <View style={styles.imageContainer}>
-        <Image
-          style={{ width: 320, height: 450, alignSelf: "center" }}
-          source={require("../../assets/images/sign.png")}
+      <ScrollView>
+        <Text style={styles.header}>Signature</Text>
+        <Text style={styles.paragraph}>
+          This signature will be used as proof of authenticity for your artwork.
+        </Text>
+        <SignatureView
+          style={{
+            borderWidth: 2,
+            height: 500,
+          }}
+          ref={signatureRef}
+          // onSave is automatically called whenever signature-pad onEnd is called and saveSignature is called
+          onSave={(val) => {
+            //  a base64 encoded image
+            console.log("saved signature");
+            console.log(val);
+            setText(val);
+          }}
+          onClear={() => {
+            console.log("cleared signature");
+            setText("");
+          }}
         />
-      </View>
+        <View
+          style={{ flexDirection: "row", justifyContent: "center", height: 50 }}
+        >
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              color: "white",
+              flex: 1,
+            }}
+            onPress={() => {
+              signatureRef.current.clearSignature();
+            }}
+          >
+            <Text style={{ color: "white" }}>Clear</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log("upload the image")}
-      >
-        <Text style={styles.smallerButtonText}>UPLOAD SIGNATURE</Text>
-      </TouchableOpacity>
-
+              flex: 1,
+            }}
+            onPress={() => {
+              signatureRef.current.saveSignature();
+            }}
+          >
+            <Text style={{ color: "white" }}>Save</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={() => writeUserData()}>
+          <Text style={styles.smallerButtonText}>UPLOAD SIGNATURE</Text>
+        </TouchableOpacity>
+      </ScrollView>
       <TouchableOpacity
         style={styles.continueButton}
         onPress={() => navigation.navigate("Payment")}
@@ -38,30 +137,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     paddingTop: 40,
-    padding: 20,
+    //padding: 20,
   },
   paragraph: {
     fontSize: 16,
     color: "white",
     marginBottom: 20,
+    paddingHorizontal: 20,
   },
-  searchInputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#1E1E1E",
-    borderRadius: 10,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    height: 40,
-    fontSize: 16,
-    color: "#CEB89E",
-  },
+
   continueButton: {
     position: "absolute",
     backgroundColor: "#CEB89E",
@@ -69,9 +153,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
+    width: "90%",
     alignSelf: "center",
     bottom: 40,
+    marginHorizontal: 20,
   },
   buttonText: {
     color: "white",
@@ -92,18 +177,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
-  },
-  imageContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#CEB89E",
-    height: 450,
+    paddingHorizontal: 20,
   },
   header: {
     fontSize: 40,
     fontWeight: "bold",
     marginBottom: 10,
     color: "white",
+    paddingHorizontal: 20,
   },
 });
 

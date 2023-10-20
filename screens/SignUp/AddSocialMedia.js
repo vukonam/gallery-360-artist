@@ -52,7 +52,7 @@ export default function App(props) {
             }}
             search={false}
             maxHeight={100}
-            placeholder="facebook"
+            placeholder="Your Socials"
             placeholderTextColor="white"
             dropdownTextStyles={{ color: "white" }}
           />

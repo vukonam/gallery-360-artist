@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 
-const MyPage = ({ navigation }) => {
+const MyPage = ({ route, navigation }) => {
   const artworks = [
     "Painting",
     "Drawing",
@@ -35,7 +35,18 @@ const MyPage = ({ navigation }) => {
     "Woodcut",
     "Lithography",
   ];
+  // const {       fullName,
+  //        contactNumber,
+  //        website,
+  //        dateOfBirth,
+  //        bio,
+  //        imageUrl,
+  //        facebook,
+  //        instagram,
+  //       userid} = route.params.userData
+  const { userData } = route.params;
 
+  console.log(userData);
   return (
     <View style={styles.container}>
       {/* Paragraph */}
@@ -81,7 +92,7 @@ const MyPage = ({ navigation }) => {
       {/* Continue Button */}
       <TouchableOpacity
         style={styles.continueButton}
-        onPress={() => navigation.navigate("Signature")}
+        onPress={() => navigation.navigate("Signature", { userData })}
       >
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>

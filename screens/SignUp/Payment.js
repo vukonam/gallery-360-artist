@@ -10,6 +10,12 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 import { StackActions } from "@react-navigation/native";
+import { setDoc, doc } from "firebase/firestore";
+import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
+import auth from "../../firebase/firebase.config.js";
+import * as ImagePicker from "expo-image-picker";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 
 const PaymentScreen = ({ navigation }) => {
   const [cardHolder, setCardHolder] = useState("");
@@ -17,17 +23,39 @@ const PaymentScreen = ({ navigation }) => {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
 
+  const user = auth.currentUser;
+  const writeUserData = () => {
+    setDoc(doc(FIRESTORE_DB, "paymentDetails", user.uid), {
+      cardHolder,
+      cardNumber,
+      expiry,
+      cvv,
+      userid: user.uid,
+    })
+      .then((result) => {
+        // Success callback
+        console.log("data ", result);
+        alert("data saved");
+      })
+      .catch((error) => {
+        // Error callback
+        alert(error);
+        console.log("error ", error);
+      });
+  };
+
   const handleContinue = () => {
     // You can perform any action here, such as processing the payment details
     // For simplicity, we'll just log the data for now.
-
-    navigation.dispatch(StackActions.replace("Tabs"));
 
     console.log("Payment Details:");
     console.log("Card Holder:", cardHolder);
     console.log("Card Number:", cardNumber);
     console.log("Expiry:", expiry);
     console.log("CVV:", cvv);
+
+    writeUserData();
+    navigation.dispatch(StackActions.replace("Tabs"));
   };
 
   return (

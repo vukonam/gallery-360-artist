@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,23 +8,49 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
+import ProfilePic from "../../../components/ProfilePic";
+import auth from "../../../firebase/firebase.config.js";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { FIRESTORE_DB, storage } from "../../../firebase/firebase.config";
+//import ProfilePic from "../../components/ProfilePic.js";
+import ProfileCard from "../../../components/ProfileCard.js";
+import loader2 from "../../../assets/images/loader2.gif";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useProfileData } from "../../../hooks/useProfilePic.jsx";
+import { setData } from "../../../features/loginDetails.js";
+//import { useSelector } from "react-redux";
 
 const DashboardScreen = ({ navigation }) => {
-  // Sample data for the line chart
-  const [name, setName] = useState("John Doe");
+  const { image, name, userData } = useProfileData();
 
-  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
+  const [navStack, setNavStack] = useState("NewArtwork");
+  const [desc, setDesc] = useState(
+    " make your first sale by adding artwork collections"
+  );
+  const [btnText, setBtnText] = useState("Add Artworks");
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerInfo}>
-          <Text style={styles.name}>Hi {name}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
-            <Image source={profilePic} style={styles.profilePic} />
-          </TouchableOpacity>
-        </View>
+  const Imageloader = () => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          flex: 1,
+        }}
+      >
+        <Image source={loader2}></Image>
       </View>
+    );
+  };
+  return userData === null ? (
+    <View style={styles.container}>
+      <Imageloader />
+    </View>
+  ) : (
+    <View style={styles.container}>
+      <ProfilePic data={{ name, image, navigation }} />
 
       <Text style={styles.welcomeHeader}>Notifications</Text>
 
@@ -33,7 +59,7 @@ const DashboardScreen = ({ navigation }) => {
       {/* Profile Card */}
       <TouchableOpacity
         style={styles.cardContainer}
-        onPress={() => navigation.navigate("NotificationShow")}
+        onPress={() => navigation.navigate("NotificationShow", { image, name })}
       >
         <View style={styles.profileCard}>
           <View style={styles.profileInfo}>

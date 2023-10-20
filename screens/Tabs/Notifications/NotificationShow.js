@@ -8,23 +8,17 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
+import ProfilePic from "../../../components/ProfilePic";
 
-const DashboardScreen = ({ navigation }) => {
+const DashboardScreen = ({ navigation, route }) => {
   // Sample data for the line chart
-  const [name, setName] = useState("John Doe");
-
-  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
+  //const [name, setName] = useState("John Doe");
+  const { image, name } = route.params;
+  //const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerInfo}>
-          <Text style={styles.name}>Hi {name}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("ProfileTab")}>
-            <Image source={profilePic} style={styles.profilePic} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <ProfilePic data={{ name, image, navigation }} />
 
       <Text style={styles.welcomeHeader}>Notifications</Text>
 
@@ -46,7 +40,7 @@ const DashboardScreen = ({ navigation }) => {
           </View>
           <TouchableOpacity
             style={styles.addButton}
-            onPress={() => navigation.navigate("NotificationPolicy")}
+            onPress={() => navigation.navigate("NotificationPolicy", { image })}
           >
             <Text style={styles.addButtonText}>CONTINUE READING</Text>
           </TouchableOpacity>

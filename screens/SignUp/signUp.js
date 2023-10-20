@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import ForgetPassword from "../SignIn/ForgetPassword";
+//import ForgetPassword from "../SignIn/ForgetPassword";
 import auth from "../../firebase/firebase.config.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 

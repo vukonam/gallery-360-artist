@@ -15,7 +15,6 @@ import ForgetPassword from "./ForgetPassword";
 import auth from "../../firebase/firebase.config.js";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
-
 export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,52 +31,56 @@ export default function App({ navigation }) {
 
   //const auth = getAuth(app);
 
-  async function handleSignIn() {
-    if (email === "" || password === "") {
-      setError("Email and password are mandatory.");
-      Alert(error)
-      return;
-    }
+  // async function handleSignIn() {
+  //   if (email === "" || password === "") {
+  //     setError("Email and password are mandatory.");
+  //     Alert(error)
+  //     return;
+  //   }
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      console.log(err);
-      setError(err.message);
-    }
-  }
+  //   try {
+  //     await signInWithEmailAndPassword(auth, email, password);
+  //   } catch (err) {
+  //     console.log(err);
+  //     setError(err.message);
+  //   }
+  // }
 
-    useEffect(() => {
-      console.log(auth);
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          navigation.replace("Tabs");
-        }
-      });
-      return unsubscribe;
-    }, []);
-
-    const handleLogin = async () => {
-      try {
-        const userCredentials = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        const user = userCredentials.user;
-        console.log("Logged in with:", user.email);
+  useEffect(() => {
+    console.log(auth);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
         navigation.replace("Tabs");
-      } catch (error) {
-    if (error.code === 'auth/wrong-password') {
-      // Handle incorrect password error
-      console.log('Your password is incorrect. Please try again.');
-      alert("Your password is incorrect. Please try again.");
-    } else {
-      // Handle other authentication errors
-      console.error('Authentication error:', error);
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredentials.user;
+      console.log("Logged in with:", user.email);
+      navigation.replace("Tabs");
+    } catch (error) {
+      if (error.code === "auth/wrong-password") {
+        // Handle incorrect password error
+        console.log("Your password is incorrect. Please try again.");
+        Alert.alert("Your password is incorrect. Please try again.");
+      } else if (error.code === "auth/wrong-email") {
+        // Handle other authentication errors
+        Alert.alert("Enter a Valid Email");
+        console.error("Authentication error:", error);
+      } else {
+        console.error("Authentication error:", error);
+        Alert.alert("Failed to connect to the database");
+      }
     }
-  }
-    };
+  };
   return (
     <View style={styles.container}>
       <ScrollView>

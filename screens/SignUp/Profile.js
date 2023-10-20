@@ -40,7 +40,7 @@ const SetupProfileScreen = ({ navigation }) => {
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
-  const user = auth.currentUser;
+  // const user = auth.currentUser;
   const writeUserData = () => {
     setDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {
       fullname: fullName,
@@ -51,7 +51,7 @@ const SetupProfileScreen = ({ navigation }) => {
       imageUrl: imageUrl,
       facebook: facebook,
       instagram: instagram,
-      userid: user.uid,
+      // userid: user.uid,
     })
       .then((result) => {
         // Success callback
@@ -190,8 +190,20 @@ const SetupProfileScreen = ({ navigation }) => {
     console.log("Bio:", bio);
     console.log("facebook :", facebook);
     console.log("instagram :", instagram);
-    writeUserData();
-    navigation.navigate("Artwork");
+    //writeUserData();
+    //const user = auth.currentUser;
+    const userData = {
+      fullname: fullName,
+      contactnumber: contactNumber,
+      websiteurl: website,
+      dateofbirth: dateOfBirth,
+      biography: bio,
+      imageUrl: imageUrl,
+      facebook: facebook,
+      instagram: instagram,
+      //userid: user.uid,
+    };
+    navigation.navigate("Artwork", { userData });
   };
 
   return (
@@ -223,7 +235,7 @@ const SetupProfileScreen = ({ navigation }) => {
                   alignSelf: "center",
                   borderRadius: 75,
                 }}
-                source={require("../../assets/images/userImage.jpg")}
+                source={require("../../assets/images/profile_image.jpg")}
               />
             )}
             <TouchableOpacity onPress={pickImage}>

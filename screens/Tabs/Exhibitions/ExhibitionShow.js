@@ -12,17 +12,17 @@ import Carousel from "react-native-snap-carousel"; // Import the library for the
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 
 const ExhibitionScreen = () => {
-  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
-  const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
+  const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
+  const coverImage = require("../../../assets/images/art1.png"); // Replace with the path to your cover image
 
   const address = "123 Main Street, City";
   const fromDate = "19 July 2023";
   const toDate = "22 July 2023";
 
   const images = [
-    require("../../assets/images/art1.png"), // Replace with the paths to your carousel images
-    require("../../assets/images/art2.png"),
-    require("../../assets/images/art3.png"),
+    require("../../../assets/images/art1.png"), // Replace with the paths to your carousel images
+    require("../../../assets/images/art2.png"),
+    require("../../../assets/images/art3.png"),
     // Add more carousel images as needed
   ];
 
@@ -34,22 +34,22 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
   return (
     <View style={styles.container}>
       {/* Button and Exhibition Text */}
-      <View style={styles.topContainer}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.button}>
-            <Icon name="arrow-left" size={24} color="white" />
-          </TouchableOpacity>
-          <Text style={styles.exhibitionText}>Exhibition</Text>
-        </View>
-        <Image source={profilePic} style={styles.profilePic} />
-      </View>
-
-      {/* Profile Pic */}
-
-      {/* Address and Dates */}
-
-      {/* Cover Image */}
       <ScrollView>
+        <View style={styles.topContainer}>
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.button}>
+              <Icon name="arrow-left" size={24} color="white" />
+            </TouchableOpacity>
+            <Text style={styles.exhibitionText}>Exhibition</Text>
+          </View>
+          <Image source={profilePic} style={styles.profilePic} />
+        </View>
+
+        {/* Profile Pic */}
+
+        {/* Address and Dates */}
+
+        {/* Cover Image */}
         <Image source={coverImage} style={styles.coverImage} />
 
         {/* Title */}
@@ -94,21 +94,6 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
         </View>
         <Text style={styles.description}>{description}</Text>
       </ScrollView>
-      <View style={styles.navigationMenu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon name="home" size={20} color="white" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="white"
-            style={styles.menuIcon}
-          />
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -116,7 +101,7 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    //paddingTop: 20,
     backgroundColor: "black", // Set this to your desired background color for the whole screen
   },
   header: {
