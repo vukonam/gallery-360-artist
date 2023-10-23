@@ -22,11 +22,11 @@ export default function App(props) {
 
   const handleSignIn = () => {
     console.log("signed in!!!");
-    if (selected == 1) {
+    if (selected == "facebook") {
       console.log("selected : ", "facebook");
       props.setLinks.setFacebook(linkToProfile);
       props.closeModal();
-    } else if (selected == 2) {
+    } else if (selected == "instagram") {
       console.log("selected : ", "instagram");
       props.setLinks.setInstagram(linkToProfile);
       props.closeModal();
@@ -42,14 +42,16 @@ export default function App(props) {
             data={data}
             setSelected={setSelected}
             boxStyles={{
-              backgroundColor: "white",
-              width: "52%",
+              backgroundColor: "black",
+              width: "58%",
               color: "white",
             }}
             dropdownStyles={{
               backgroundColor: "black",
               height: 100,
             }}
+            save="value"
+            inputStyles={{ color: "white" }}
             search={false}
             maxHeight={100}
             placeholder="Your Socials"
@@ -59,7 +61,7 @@ export default function App(props) {
 
           <TextInput
             style={styles.input}
-            placeholder="LINK TO PROFILE"
+            placeholder="eg. facebook.com/username"
             placeholderTextColor="white"
             value={linkToProfile}
             onChangeText={setLinkToProfile}

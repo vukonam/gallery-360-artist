@@ -21,18 +21,13 @@ import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
 import styles from "./styles";
 
 const ExhibitionScreen = ({ route, navigation }) => {
-  const [name, setName] = useState("John Doe");
+  //const [name, setName] = useState("John Doe");
   const [rating, setRating] = useState(0);
   //const [image, setImage] = useState(null);
 
-  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
-  const coverImage = require("../../assets/images/art3.png"); // Replace with the path to your cover image
-
-  const description = `Sunset Over the Mountains" is a beautiful oil painting that captures the serene beauty of a mountain range at dusk. The painting is rendered in soft, warm hues, with the rich reds and oranges of the sunset blending seamlessly into the deep blues of the mountains in the distance.`;
-
   console.log("route data : ", route.params);
 
-  const { item, image } = route.params;
+  const { item, image, name } = route.params;
   // Step 2: Function to set the rating
   const handleRatingSubmit = (newRating) => {
     setRating(newRating);
@@ -66,9 +61,15 @@ const ExhibitionScreen = ({ route, navigation }) => {
         </View>
         {/* Title */}
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.titleMoney}>R{item.price}</Text>
+          <Text style={styles.title}>{item?.title}</Text>
+          <Text style={styles.titleMoney}>R{item?.price}</Text>
         </View>
+
+        <Text style={styles.description}>
+          {item?.medium} &nbsp;- &nbsp;{item?.dimensions.height}" x{" "}
+          {item?.dimensions.width}" x {item?.dimensions.breadth}"
+          &nbsp;&nbsp;-&nbsp; {item?.year}
+        </Text>
 
         <Text style={styles.description}>{item.statement}</Text>
         <Text style={styles.title}>Reviews</Text>
@@ -77,7 +78,7 @@ const ExhibitionScreen = ({ route, navigation }) => {
           handleRatingSubmit={handleRatingSubmit}
           rating={rating}
         />
-        <View style={styles.profileCard}>
+        {/* <View style={styles.profileCard}>
           <View style={styles.profileInfo}>
             <Icon
               name="comment"
@@ -98,7 +99,7 @@ const ExhibitionScreen = ({ route, navigation }) => {
           >
             <Text style={styles.addButtonText}>Add Comment</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

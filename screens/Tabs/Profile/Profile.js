@@ -6,27 +6,20 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Linking,
   ScrollView,
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { signOut } from "firebase/auth";
 import auth from "../../../firebase/firebase.config.js";
-import { setDoc, doc, getDoc } from "firebase/firestore";
-import { FIRESTORE_DB, storage } from "../../../firebase/firebase.config";
 import loader2 from "../../../assets/images/loader2.gif";
 import styles from "./styles.js";
+import { useFetchProfileData } from "../../../hooks/useFetchProfileData.jsx";
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
-  const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
-
-  const sign = require("../../../assets/images/Jon_Kirsch's_Signature.png");
-  const [userData, setUserData] = useState(null);
-  const [name, setName] = useState("John Doe");
-  const [image, setImage] = useState(profilePic);
-  const [dateOfBirth, setDateOfBirth] = useState(null);
-  const [bio, setBio] = useState("John Doe");
-  const [signature, setSignature] = useState(sign);
+  const { userData, name, image, dateOfBirth, bio, signature } =
+    useFetchProfileData();
 
   const Imageloader = () => {
     return (
@@ -43,36 +36,6 @@ const SetupProfileScreen = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    console.log(user.uid);
-    getDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {})
-      .then((docData) => {
-        // Success callback
-        console.log("data ", docData.data());
-        if (docData.exists()) {
-          let data = docData.data();
-          setUserData(data);
-          setName(data.fullname);
-          setImage({ uri: data.imageUrl });
-          setDateOfBirth(data.dateofbirth);
-          setBio(data.biography);
-          setSignature({ uri: data.signature });
-        } else console.log("NO SUCH DATA");
-      })
-      .catch((error) => {
-        if (error.code === "unavailable") {
-          // Firestore is offline, add retry logic here
-          console.log("firestore error : ", error.message);
-          alert("Your database is offline at the moment!");
-        } else {
-          // Handle other errors
-          alert("Error getting data:");
-          console.error("Error getting document:", error);
-        }
-      });
-  }, []);
-
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -80,18 +43,6 @@ const SetupProfileScreen = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleSaveProfile = () => {
-    // Here you can save the profile data to your backend or perform any necessary actions
-    // For simplicity, we'll just log the data for now.
-    console.log("Profile Data:");
-    console.log("Image:", image);
-    console.log("Full Name:", fullName);
-    console.log("Contact Number:", contactNumber);
-    console.log("Website:", website);
-    console.log("Date of Birth:", dateOfBirth);
-    console.log("Bio:", bio);
   };
 
   return userData === null ? (
@@ -103,7 +54,9 @@ const SetupProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={styles.headerContainer}>
           <Text style={styles.header}>Profile</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("EditProfile", { userData })}
+          >
             <Icon name="edit" size={25} style={{ padding: 10 }} color="gray" />
           </TouchableOpacity>
         </View>
@@ -140,19 +93,30 @@ const SetupProfileScreen = ({ navigation }) => {
             </Text>
 
             <View style={styles.iconContainer}>
-              <Icon
-                name="facebook"
-                size={25}
-                style={{ padding: 10 }}
-                color="gray"
-              />
-
-              <Icon
-                name="instagram"
-                size={25}
-                style={{ padding: 10 }}
-                color="gray"
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL("https://" + userData.facebook);
+                }}
+              >
+                <Icon
+                  name="facebook"
+                  size={25}
+                  style={{ padding: 10 }}
+                  color="gray"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL("https://" + userData.instagram);
+                }}
+              >
+                <Icon
+                  name="instagram"
+                  size={25}
+                  style={{ padding: 10 }}
+                  color="gray"
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <Text

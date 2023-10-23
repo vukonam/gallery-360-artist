@@ -7,27 +7,52 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-//import SpashScreen from "./screens/OnBording/SpashScreen.js";
+import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
+import auth from "../../firebase/firebase.config.js";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+
 export default function App(props) {
   const [name, setName] = useState("");
-  // const [password, setPassword] = useState("");
+  const [description, setDescription] = useState("");
+  //const handleAddCollection = () => {};
+  const user = auth.currentUser;
+  const colRef = collection(FIRESTORE_DB, "collection");
 
-  const handleSignIn = () => {
-    console.log("signed in!!!");
+  const handleAddCollection = () => {
+    writeCollectionData();
     props.closeModal();
   };
+
+  const writeCollectionData = () => {
+    addDoc(colRef, {
+      name: name,
+      description: description,
+      uid: user.uid,
+    })
+      .then((result) => {
+        // Success callback
+        console.log("data ", result);
+        alert("data saved");
+      })
+      .catch((error) => {
+        // Error callback
+        alert(error);
+        console.log("error ", error);
+      });
+  };
+
   return (
-    <Modal visible={props.visible} animationType="slide">
+    <Modal visible={props.Modalvisible} animationType="slide">
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <View style={styles.buttonContainer}>
-            <Text style={styles.header}>New Artwork Type</Text>
-            <TouchableOpacity
+            <Text style={styles.header}>New collection</Text>
+            {/* <TouchableOpacity
               style={styles.NewTypeButton}
               onPress={() => console.log(" a new collection modal")}
             >
               <Text style={styles.buttonText}>NEW TYPE</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <TextInput
             style={styles.input}
@@ -38,22 +63,26 @@ export default function App(props) {
           />
           <TextInput
             style={{
-              width: "100%",
+              width: "80%",
               height: 100,
               fontSize: 16,
+              paddingHorizontal: 12,
               borderBottomWidth: 1,
               borderBottomColor: "#ccc",
               marginBottom: 20,
               color: "#fff",
             }}
-            placeholder="Bio"
+            placeholder="DESCRIPTION"
             placeholderTextColor="white"
-            value={bio}
-            onChangeText={setBio}
+            value={description}
+            onChangeText={setDescription}
             multiline
           />
 
-          <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
+          <TouchableOpacity
+            style={styles.signInButton}
+            onPress={handleAddCollection}
+          >
             <Text style={styles.buttonText}>ADD</Text>
           </TouchableOpacity>
         </View>
@@ -72,11 +101,11 @@ const styles = StyleSheet.create({
     marginRight: 135,
   },
   header: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
     color: "white",
-    padding: 10,
+    //padding: 8,
   },
   inputContainer: {
     flex: 1,
@@ -127,6 +156,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
+    width: "80%",
     justifyContent: "space-between",
     // justifyContent: "space-between",
   },

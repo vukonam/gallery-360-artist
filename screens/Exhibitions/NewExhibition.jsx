@@ -4,89 +4,59 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Image,
   ScrollView,
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import styles from "./styles";
-import ProfilePic from "../../components/ProfilePic";
-import { useSelector } from "react-redux";
-import { setLoading } from "../../features/loginDetails.js";
-import { useDispatch } from "react-redux";
+// import ProfilePic from "../../components/ProfilePic";
+// import { useSelector } from "react-redux";
+// import { setLoading } from "../../features/loginDetails.js";
+// import { useDispatch } from "react-redux";
 import auth from "../../firebase/firebase.config.js";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+// import { setDoc, doc, getDoc } from "firebase/firestore";
 import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import Icon from "react-native-vector-icons/FontAwesome5";
-
-import * as ImagePicker from "expo-image-picker";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+import { useImageFunctions } from "../../hooks/useImageFunctions";
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
-  const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [address, setAddress] = useState("");
   const [desc, setDesc] = useState("");
-  const [images, setImages] = useState([]);
-  const [imagesUrls, setImagesUrls] = useState([]);
-  const [statement, setStatement] = useState("");
+  //const [statement, setStatement] = useState("");
   const [progress, setProgress] = useState("");
   // Ddefault active selector
+  //const { selectedArtworks, setSelectedArtworks } = route?.params;
 
-  const [collectedData, setCollectedData] = useState("");
-  const [newCollection, setNewCollection] = useState(null);
-  const [selectedTermsAndCondtions, setSelectedTermsAndCondtions] = useState(
-    []
-  );
   const user = auth.currentUser;
   const colRef = collection(FIRESTORE_DB, "newArtworks");
 
-  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const { pickImage, image, imagesUrls, images } = useImageFunctions();
 
-  const handleOpenModal = () => {
-    setModalIsVisible(true);
-  };
+  // const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const handleCloseModal = () => {
-    setModalIsVisible(false);
-  };
+  // const handleOpenModal = () => {
+  //   setModalIsVisible(true);
+  // };
+
+  // const handleCloseModal = () => {
+  //   setModalIsVisible(false);
+  // };
 
   const writeUserData = () => {
-    let niceCol = "";
-    const handleCollection = () => {
-      for (const item of firebaseCollection) {
-        if (item.name === collectedData) {
-          const updatedCollection = {
-            name: collectedData,
-            description: item.description,
-            uid: item.key,
-          };
-          setNewCollection(updatedCollection);
-          niceCol = updatedCollection;
-          // break; // If you want to stop searching after finding the first matching object.
-        }
-      }
-      console.log("new collection : ", newCollection);
-    };
     const handleAddDoc = (niceCol) => {
       addDoc(colRef, {
-        name: name,
-        address: address,
-        contactNumber: contactNumber,
-        isAvailable: isAvailable,
-        statement: statement,
-        imgUrls: imagesUrls,
-        medium: medium,
-        price: price,
-        artworkType: artworkType,
-        availability: selectedArtworks,
-        collection: niceCol,
+        name,
+        email,
+        contactNumber,
+        address,
+        desc,
+        collections: selectedArtworks,
         userid: user.uid,
       })
         .then((result) => {
@@ -101,12 +71,9 @@ const SetupProfileScreen = ({ navigation }) => {
         });
     };
 
-    handleCollection();
-
-    //console.log("description : ", descriptionValue, keyValue);
-    //console.log("collectionData : ", firebaseCollection);
-    console.log("ImagesUrls : ", imagesUrls);
-    handleAddDoc(niceCol);
+    // handleCollection();
+    // console.log("ImagesUrls : ", imagesUrls);
+    handleAddDoc();
   };
 
   const handleSaveProfile = () => {
@@ -116,95 +83,12 @@ const SetupProfileScreen = ({ navigation }) => {
     console.log("Image:", image);
     console.log("Full Name:", name);
     console.log("Contact Number:", contactNumber);
-    //console.log("Website:", website);
     console.log("Email:", email);
     console.log("Desc:", desc);
     navigation.navigate("ExhibitionShow");
+
+    writeUserData();
   };
-  async function pickImage() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const source = { uri: result.assets[0].uri };
-      if (!image) {
-        setImage(source);
-      } else {
-        const updatedImages = [...images, source];
-
-        setImages(updatedImages);
-      }
-
-      // setImage(result.assets[0].uri);
-      // upload the image
-      await uploadImage(result.assets[0].uri, "image");
-    }
-  }
-
-  async function pickVideo() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      await uploadImage(result.assets[0].uri, "video");
-    }
-  }
-
-  async function uploadImage(uri, fileType) {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    const storageRef = ref(storage, "Exhibition/" + new Date().getTime());
-    const uploadTask = uploadBytesResumable(storageRef, blob);
-
-    // listen for events
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        setProgress(progress.toFixed());
-      },
-      (error) => {
-        // handle error
-        console.log(error);
-        alert("Upload Error : ", error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          console.log("File available at", downloadURL);
-          // save record
-
-          if (imagesUrls.length === 0) {
-            const newImagesUrl = [
-              ...imagesUrls,
-              { imgUrl: downloadURL, default: true },
-            ];
-            setImagesUrls(newImagesUrl);
-            console.log("new imagesUrls 1", imagesUrls);
-          } else {
-            const newImagesUrl = [
-              ...imagesUrls,
-              { imgUrl: downloadURL, default: false },
-            ];
-            setImagesUrls(newImagesUrl);
-          }
-          console.log("new imagesUrls 2", imagesUrls);
-          await saveRecord(fileType, downloadURL, new Date().toISOString());
-        });
-      }
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -213,15 +97,6 @@ const SetupProfileScreen = ({ navigation }) => {
           <Text style={styles.header}>New Exhibition</Text>
         </View>
         <View>
-          {/* <TouchableOpacity style={styles.imageContainer}>
-            <Icon
-              name="camera"
-              size={20}
-              color="gray"
-              style={styles.cameraIcon}
-            />
-            <Text style={styles.textIcon}>Exhibition Thumbnail</Text>
-          </TouchableOpacity> */}
           {image ? (
             <>
               <View>
@@ -294,28 +169,16 @@ const SetupProfileScreen = ({ navigation }) => {
                 />
                 <Text style={styles.textIcon}>Exhibition Thumbnail</Text>
               </TouchableOpacity>
-
-              {/* <TouchableOpacity
-                style={styles.imageContainer}
-                onPress={pickImage}
-              >
-                <Icon
-                  name="camera"
-                  size={20}
-                  color="gray"
-                  style={styles.cameraIcon}
-                />
-                <Text style={{ color: "#fff", fontSize: 14 }}>
-                  Upload Artwork
-                </Text>
-              </TouchableOpacity> */}
             </View>
           )}
 
           <TouchableOpacity
             style={styles.imageContainer2}
             onPress={() => {
-              navigation.navigate("ExhibitionCollection");
+              navigation.navigate("ExhibitionCollection", {
+                setSelectedArtworks,
+                selectedArtworks,
+              });
             }}
           >
             <Icon
@@ -327,8 +190,7 @@ const SetupProfileScreen = ({ navigation }) => {
             <Text style={styles.textIcon}>Add Collection</Text>
           </TouchableOpacity>
         </View>
-        {/* Image Input */}
-        {/* Full Name Input */}
+
         <TextInput
           style={styles.input}
           placeholder="NAME"

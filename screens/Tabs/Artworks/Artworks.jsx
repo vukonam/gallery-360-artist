@@ -55,7 +55,9 @@ const ArtworksScreen = ({ navigation }) => {
       const renderItem = ({ item }) => (
         <View style={styles.card}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Artworks2", { item, image })}
+            onPress={() =>
+              navigation.navigate("Artworks2", { item, image, name })
+            }
           >
             <Image
               source={{ uri: item?.imgUrls[0].imgUrl }}
@@ -68,7 +70,7 @@ const ArtworksScreen = ({ navigation }) => {
         </View>
       );
 
-      return artworkData === null ? (
+      return firebaseArtworks === null || firebaseArtworks === [] ? (
         <ProfileCard
           data={{ name, image, desc, btnText, navStack, navigation }}
         />

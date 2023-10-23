@@ -202,4 +202,27 @@ export default styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 10,
   },
+  NewTypeButton: {
+    width: "35%",
+    height: 45,
+    backgroundColor: "gray",
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "white",
+    padding: 10,
+  },
+  buttonText: {
+    color: "#fff", // Set this to your desired button text color
+    fontSize: 16,
+  },
+  newButtonText: {
+    color: "#fff", // Set this to your desired button text color
+    fontSize: 12,
+  },
 });

@@ -11,18 +11,34 @@ import {
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AddSocialMedia from "../../SignUp/AddSocialMedia";
+import { useImageFunctions } from "../../../hooks/useImageFunctions";
+import { FIRESTORE_DB, storage } from "../../../firebase/firebase.config";
+import auth from "../../../firebase/firebase.config.js";
+import {
+  addDoc,
+  updateDoc,
+  doc,
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
 
 // Replace "FontAwesome5" with the icon library of your choice.
-const SetupProfileScreen = ({ navigation }) => {
-  const [image, setImage] = useState("");
+const SetupProfileScreen = ({ navigation, route }) => {
+  const { userData } = route.params;
+  const useImage = { uri: userData.imageUrl };
+  console.log("userdata: ", userData);
+  const [sourceImage, setImage] = useState(useImage);
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [website, setWebsite] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [instagram, setInstagram] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
 
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
+  const { pickImage, image, imageUrl } = useImageFunctions();
   const handleOpenModal = () => {
     setModalIsVisible(true);
   };
@@ -31,6 +47,30 @@ const SetupProfileScreen = ({ navigation }) => {
     setModalIsVisible(false);
   };
 
+  const user = auth.currentUser;
+  const docRef = doc(FIRESTORE_DB, "galleryUsers", user.uid);
+  const updateProfileData = () => {
+    updateDoc(docRef, {
+      fullname: fullName,
+      contactnumber: contactNumber,
+      websiteurl: website,
+      dateofbirth: dateOfBirth,
+      biography: bio,
+      imageUrl: imageUrl,
+      facebook: facebook,
+      instagram: instagram,
+    })
+      .then((result) => {
+        // Success callback
+        console.log("data ", result);
+        alert("data saved");
+      })
+      .catch((error) => {
+        // Error callback
+        alert(error);
+        console.log("error ", error);
+      });
+  };
   const handleSaveProfile = () => {
     // Here you can save the profile data to your backend or perform any necessary actions
     // For simplicity, we'll just log the data for now.
@@ -41,6 +81,9 @@ const SetupProfileScreen = ({ navigation }) => {
     console.log("Website:", website);
     console.log("Date of Birth:", dateOfBirth);
     console.log("Bio:", bio);
+
+    updateProfileData();
+    navigation.popToTop();
   };
 
   return (
@@ -57,41 +100,68 @@ const SetupProfileScreen = ({ navigation }) => {
         </View>
         <View>
           <View style={styles.imageContainer}>
-            <Image
+            {image ? (
+              <Image
+                source={image}
+                style={{
+                  width: 150,
+                  height: 150,
+                  alignSelf: "center",
+                  borderRadius: 75,
+                }}
+              />
+            ) : (
+              <Image
+                style={{
+                  width: 150,
+                  height: 150,
+                  alignSelf: "center",
+                  borderRadius: 75,
+                }}
+                source={sourceImage}
+              />
+            )}
+            {/* <Image
               style={{
                 width: 150,
                 height: 150,
                 alignSelf: "center",
                 borderRadius: 75,
               }}
-              source={require("../../../assets/images/userImage.jpg")}
-            />
-            <Icon
-              name="camera"
-              size={20}
-              color="gray"
-              style={{
-                padding: 10,
-                backgroundColor: "white",
-                borderRadius: 20,
-                position: "absolute",
-                bottom: 120,
-              }}
-            />
+              source={imageUrl}
+            /> */}
+            <TouchableOpacity onPress={pickImage}>
+              <Icon
+                name="camera"
+                size={20}
+                color="gray"
+                style={{
+                  padding: 10,
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  position: "absolute",
+                  right: -24,
+                  bottom: -20,
+                }}
+              />
+            </TouchableOpacity>
             <View style={styles.iconContainer}>
-              <Icon
-                name="facebook"
-                size={25}
-                style={{ padding: 15 }}
-                color="gray"
-              />
-
-              <Icon
-                name="instagram"
-                size={25}
-                style={{ padding: 15 }}
-                color="gray"
-              />
+              <TouchableOpacity onPress={handleOpenModal}>
+                <Icon
+                  name="facebook"
+                  size={25}
+                  style={{ padding: 15 }}
+                  color="gray"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleOpenModal}>
+                <Icon
+                  name="instagram"
+                  size={25}
+                  style={{ padding: 15 }}
+                  color="gray"
+                />
+              </TouchableOpacity>
             </View>
             <View>
               <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
@@ -105,9 +175,14 @@ const SetupProfileScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             {
+              // <AddSocialMedia
+              //   visible={modalIsVisible}
+              //   closeModal={handleCloseModal}
+              // />
               <AddSocialMedia
                 visible={modalIsVisible}
                 closeModal={handleCloseModal}
+                setLinks={{ setInstagram, setFacebook }}
               />
             }
           </View>

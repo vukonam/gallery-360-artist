@@ -65,55 +65,6 @@ const SetupProfileScreen = ({ navigation }) => {
       });
   };
 
-  // const openImagePicker = async () => {
-  //   const permissionResult =
-  //     await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-  //   if (permissionResult.granted === false) {
-  //     alert("Permission to access camera roll is required!");
-  //     return;
-  //   }
-
-  //   const result = await ImagePicker.launchImageLibraryAsync();
-
-  //   if (!result.canceled) {
-  //     console.log(result);
-  //     console.log(result.assets[0].uri);
-
-  //     let newfile = {
-  //       uri: result.assets[0].uri,
-  //       type: `test/${result.assets[0].uri.split(".")[1]}`,
-  //       name: `test.${result.assets[0].uri.split(".")[1]}`,
-  //     };
-  // const source = { uri: result.assets[0].uri };
-  // setImage(source);
-  //     handleUpload(newfile);
-  //   } else {
-  //     alert("you need to give up permission to work");
-  //   }
-  // };
-
-  // const handleUpload = async (image) => {
-  //   const data = new FormData();
-  //   data.append("file", image);
-  //   data.append("upload_preset", "ek6xqjmo");
-  //   data.append("api_key", "827175248696299");
-
-  //   await fetch("https://api.cloudinary.com/v1_1/drnqrrlfv/upload", {
-  //     method: "POST",
-  //     body: data,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log("data : ", data);
-  //       // setPicture(data.url);
-  //       setImageUrl(data.secure_url);
-  //     })
-  //     .catch((err) => {
-  //       alert("error while uploading", err);
-  //     });
-  // };
-
   async function pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,

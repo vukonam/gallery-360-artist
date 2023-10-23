@@ -5,21 +5,25 @@ import {
   getDoc,
   getDocs,
   addDoc,
+  query,
+  where,
   collection,
   onSnapshot,
 } from "firebase/firestore";
-import { FIRESTORE_DB, storage } from "../../../../firebase/firebase.config";
+import { FIRESTORE_DB, storage } from "../firebase/firebase.config";
+import auth from "../firebase/firebase.config.js";
 
 export const useCollection = () => {
   const [collectionData, setCollectionData] = useState([]);
   const [firebaseCollection, setFirebaseCollection] = useState(null);
 
   useEffect(() => {
+    const user = auth.currentUser;
     const colRef = collection(FIRESTORE_DB, "collection");
-    getDocs(colRef).then((snapshot) => {
+    const q = query(colRef, where("uid", "==", user.uid));
+    onSnapshot(q, (querySnapShot) => {
       let collection = [];
-
-      snapshot.docs.forEach((doc) => {
+      querySnapShot.docs.forEach((doc) => {
         collection.push({ ...doc.data(), key: doc.id });
       });
       collection.map((item) =>

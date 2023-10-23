@@ -22,7 +22,9 @@ import {
 } from "react-native-dropdown-select-list";
 import { artworkData, conditionData } from "./utils/data";
 import styles from "./styles.jsx";
-import { useCollection } from "./utils/useCollection";
+import { useCollection } from "../../../hooks/useCollection";
+import NewCollectionModal from "../../../components/Modals/NewCollection";
+import { useImageFunctions } from "../../../hooks/useImageFunctions";
 
 /**
  * NewArtworks - adds artist artwork on the app
@@ -34,10 +36,10 @@ import { useCollection } from "./utils/useCollection";
  * @param {*} param0
  * @returns
  */
+
 const NewArtwork = ({ navigation }) => {
   const { collectionData, firebaseCollection } = useCollection();
-  const [image, setImage] = useState("");
-  const [imageUrl, setImageUrl] = useState();
+
   const [title, setTitle] = useState("");
   const [isAvailable, setIsAvailable] = useState(false);
   const [artworkType, setArtworkType] = useState([]);
@@ -49,12 +51,12 @@ const NewArtwork = ({ navigation }) => {
   const [length, setLength] = useState(0);
   const [year, setYear] = useState("");
   const [condition, setCondition] = useState("");
-  const [images, setImages] = useState([]);
-  const [imagesUrls, setImagesUrls] = useState([]);
+
   const [statement, setStatement] = useState("");
   const [progress, setProgress] = useState("");
   // Ddefault active selector
 
+  const { pickImage, image, imagesUrls, images } = useImageFunctions();
   const [collectedData, setCollectedData] = useState("");
   const [newCollection, setNewCollection] = useState(null);
   const [selectedTermsAndCondtions, setSelectedTermsAndCondtions] = useState(
@@ -63,6 +65,12 @@ const NewArtwork = ({ navigation }) => {
   const user = auth.currentUser;
   const colRef = collection(FIRESTORE_DB, "newArtworks");
 
+  const [isModalVisible, setModalVisible] = useState(true);
+
+  const toggleCollection = () => {
+    setModalVisible(!isModalVisible);
+  };
+  // const toggleCollection = {};
   const writeUserData = () => {
     let niceCol = "";
     const handleCollection = () => {
@@ -141,90 +149,6 @@ const NewArtwork = ({ navigation }) => {
         : [...prevSelected, artwork]
     );
   }
-  async function pickImage() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const source = { uri: result.assets[0].uri };
-      if (!image) {
-        setImage(source);
-      } else {
-        const updatedImages = [...images, source];
-
-        setImages(updatedImages);
-      }
-
-      // setImage(result.assets[0].uri);
-      // upload the image
-      await uploadImage(result.assets[0].uri, "image");
-    }
-  }
-
-  async function pickVideo() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      await uploadImage(result.assets[0].uri, "video");
-    }
-  }
-
-  async function uploadImage(uri, fileType) {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    const storageRef = ref(storage, "Artworks/" + new Date().getTime());
-    const uploadTask = uploadBytesResumable(storageRef, blob);
-
-    // listen for events
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        setProgress(progress.toFixed());
-      },
-      (error) => {
-        // handle error
-        console.log(error);
-        alert("Upload Error : ", error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          console.log("File available at", downloadURL);
-          // save record
-
-          if (imagesUrls.length === 0) {
-            const newImagesUrl = [
-              ...imagesUrls,
-              { imgUrl: downloadURL, default: true },
-            ];
-            setImagesUrls(newImagesUrl);
-            console.log("new imagesUrls 1", imagesUrls);
-          } else {
-            const newImagesUrl = [
-              ...imagesUrls,
-              { imgUrl: downloadURL, default: false },
-            ];
-            setImagesUrls(newImagesUrl);
-          }
-          console.log("new imagesUrls 2", imagesUrls);
-          await saveRecord(fileType, downloadURL, new Date().toISOString());
-        });
-      }
-    );
-  }
 
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsAvailable((previousState) => !previousState);
@@ -235,13 +159,24 @@ const NewArtwork = ({ navigation }) => {
     // For simplicity, we'll just log the data for now.
     console.log("Profile Data:");
     console.log("IsAvailable :", isAvailable);
-    console.log("imageUrl:", imageUrl);
+    //console.log("imageUrl:", imageUrl);
     console.log("title:", title);
     console.log("Year:", year);
     console.log("Condition :", condition);
     console.log("statement:", statement);
     writeUserData();
     navigation.popToTop();
+  };
+
+  //const [name, setName] = useState("");
+  const [collectionModalVisible, setCollectionModalVisible] = useState(false);
+
+  const handleOpenCollectionModal = () => {
+    setCollectionModalVisible(true);
+  };
+
+  const handleCloseCollectionModal = () => {
+    setCollectionModalVisible(false);
   };
 
   return (
@@ -408,6 +343,7 @@ const NewArtwork = ({ navigation }) => {
             width: "100%",
             color: "white",
             marginTop: 20,
+            marginBottom: 20,
           }}
           inputStyles={{ color: "white" }}
           dropdownStyles={{
@@ -422,28 +358,54 @@ const NewArtwork = ({ navigation }) => {
           //style={{ color: "white" }}
           dropdownTextStyles={{ color: "white" }}
         />
+        {isModalVisible ? (
+          <View
+            style={{
+              height: 60,
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.header}>New Collection</Text>
+            <TouchableOpacity
+              style={styles.NewTypeButton}
+              onPress={() => handleOpenCollectionModal()}
+            >
+              <Text style={styles.newButtonText}>NEW COLLECTION</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+        {
+          <NewCollectionModal
+            Modalvisible={collectionModalVisible}
+            animationType="slide"
+            closeModal={handleCloseCollectionModal}
+          />
+        }
+        <TouchableOpacity onPress={toggleCollection}>
+          <SelectList
+            data={collectionData}
+            setSelected={setCollectedData}
+            boxStyles={{
+              backgroundColor: "black",
+              width: "100%",
+              color: "white",
+            }}
+            inputStyles={{ color: "white" }}
+            dropdownStyles={{
+              backgroundColor: "black",
+              height: 100,
+            }}
+            search={false}
+            maxHeight={100}
+            save="value"
+            placeholder="COLLECTION"
+            placeholderTextColor="white"
+            dropdownTextStyles={{ color: "white" }}
+          />
+        </TouchableOpacity>
 
-        <SelectList
-          data={collectionData}
-          setSelected={setCollectedData}
-          boxStyles={{
-            backgroundColor: "black",
-            width: "100%",
-            color: "white",
-            marginTop: 20,
-          }}
-          inputStyles={{ color: "white" }}
-          dropdownStyles={{
-            backgroundColor: "black",
-            height: 100,
-          }}
-          search={false}
-          maxHeight={100}
-          save="value"
-          placeholder="COLLECTION"
-          placeholderTextColor="white"
-          dropdownTextStyles={{ color: "white" }}
-        />
         <View style={{ flexDirection: "row" }}>
           <TextInput
             style={{
@@ -511,6 +473,11 @@ const NewArtwork = ({ navigation }) => {
             width: "100%",
             color: "white",
           }}
+          // inputStyles={{
+          //   backgroundColor: "black",
+          //   width: "100%",
+          //   color: "white",
+          // }}
           save="value"
           dropdownStyles={{
             backgroundColor: "black",
@@ -518,6 +485,9 @@ const NewArtwork = ({ navigation }) => {
           }}
           inputStyles={{ color: "white" }}
           search={true}
+          searchicon={true}
+          arrowicon={true}
+          closeicon={true}
           //maxHeight={300}
           placeholder="ARTWORK TYPE"
           searchPlaceholder="search"

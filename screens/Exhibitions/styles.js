@@ -112,4 +112,11 @@ export default styles = StyleSheet.create({
     position: "absolute",
     bottom: "35%",
   },
+  carouselImage: {
+    width: 150,
+    height: 150, // Adjust this value to control the image height
+    borderRadius: 15,
+    alignSelf: "center",
+    marginVertical: 10,
+  },
 });

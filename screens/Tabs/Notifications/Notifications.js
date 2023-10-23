@@ -6,7 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  TouchableWithoutFeedback,
+  Modal,
 } from "react-native";
+//import { View, Text, , , StyleSheet } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 import ProfilePic from "../../../components/ProfilePic";
 import auth from "../../../firebase/firebase.config.js";
@@ -29,7 +32,11 @@ const DashboardScreen = ({ navigation }) => {
     " make your first sale by adding artwork collections"
   );
   const [btnText, setBtnText] = useState("Add Artworks");
+  // const [isModalVisible, setModalVisible] = useState(false);
 
+  // const toggleModal = () => {
+  //   setModalVisible(!isModalVisible);
+  // };
   const Imageloader = () => {
     return (
       <View
@@ -50,6 +57,24 @@ const DashboardScreen = ({ navigation }) => {
     </View>
   ) : (
     <View style={styles.container}>
+      {/* <Text style={styles.openButton} onPress={toggleModal}>
+        Open Modal
+      </Text>
+      <Modal
+        visible={isModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={toggleModal}
+      >
+        <TouchableWithoutFeedback onPress={toggleModal}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text>This is a modal</Text>
+              <Text>Click outside to close</Text>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal> */}
       <ProfilePic data={{ name, image, navigation }} />
 
       <Text style={styles.welcomeHeader}>Notifications</Text>
@@ -81,6 +106,8 @@ const DashboardScreen = ({ navigation }) => {
     </View>
   );
 };
+
+//import React, { useState } from "react";
 
 const styles = StyleSheet.create({
   container: {
@@ -230,6 +257,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "75%",
   },
+  // container: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // openButton: {
+  //   backgroundColor: "blue",
+  //   color: "white",
+  //   padding: 10,
+  //   borderRadius: 5,
+  // },
+  // modalOverlay: {
+  //   flex: 1,
+  //   backgroundColor: "rgba(0, 0, 0, 0.5)",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // modalContent: {
+  //   backgroundColor: "white",
+  //   padding: 20,
+  //   borderRadius: 10,
+  //   width: 300,
+  //   alignItems: "center",
+  // },
 });
 
 export default DashboardScreen;
