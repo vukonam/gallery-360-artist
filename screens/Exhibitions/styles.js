@@ -119,4 +119,14 @@ export default styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 10,
   },
+  dimensionsInput: {
+    width: "40%",
+    height: 50,
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginBottom: 20,
+    alignSelf: "center",
+    color: "#fff",
+  },
 });

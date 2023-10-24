@@ -12,18 +12,34 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 import { useFetchArtworks } from "../../hooks/useFetchArtworks";
 import { useCollection } from "../../hooks/useCollection";
+import { useSelector } from "react-redux";
+import { setSelectedArtworks } from "../../features/collectionSlice";
+import { useDispatch } from "react-redux";
+//import { useFetchExhibition } from "../../hooks/useFetchExhibition";
+//import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const ArtworksScreen = ({ navigation }) => {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const { artworkData, firebaseArtworks } = useFetchArtworks();
+  // const dispatch = useDispatch();
+  // const selectedArtworks = useSelector(
+  //   (state) => state.collection.selectedArtworks
+  // );
+  //const artworks = ["The Great Collection"];
 
-  const artworks = ["The Great Collection"];
   function handleArtworkSelection(artwork) {
-    setSelectedArtworks((prevSelected) =>
-      prevSelected.includes(artwork)
-        ? prevSelected.filter((item) => item !== artwork)
-        : [...prevSelected, artwork]
-    );
-    console.log("selectedArtworks : ", selectedArtworks);
+    const updatedArtworks = selectedArtworks.includes(artwork)
+      ? selectedArtworks.filter((item) => item !== artwork)
+      : [...selectedArtworks, artwork];
+    // setSelectedArtworks((prevSelected) =>
+    //   prevSelected.includes(artwork)
+    //     ? prevSelected.filter((item) => item !== artwork)
+    //     : [...prevSelected, artwork]
+    // )
+    //console.log("selectedArtworks : ", selectedArtworks);
+    setSelectedArtworks(updatedArtworks);
+    AsyncStorage.setItem("selectedArtworks", JSON.stringify(updatedArtworks));
   }
   const { collectionData, firebaseCollection } = useCollection();
   console.log("firebaseCollection : ", firebaseCollection);
@@ -87,53 +103,7 @@ const ArtworksScreen = ({ navigation }) => {
       ))
     );
   };
-  // Function to render the content based on the selected option
-  // const renderContent = () => {
-  //   const cardsData = [
-  //     {
-  //       id: "1",
-  //       image: require("../../assets/images/art1.png"), // Replace with the path to your image
-  //       title: "Card 1",
-  //     },
-  //     {
-  //       id: "2",
-  //       image: require("../../assets/images/art2.png"), // Replace with the path to your image
-  //       title: "Card 2",
-  //     },
-  //     {
-  //       id: "3",
-  //       image: require("../../assets/images/art3.png"), // Replace with the path to your image
-  //       title: "Card 3",
-  //     },
-  //     {
-  //       id: "4",
-  //       image: require("../../assets/images/art4.png"), // Replace with the path to your image
-  //       title: "Card 4",
-  //     },
-  //     // Add more cards data as needed
-  //   ];
 
-  //   const renderItem = ({ item }) => (
-  //     <View style={styles.card}>
-  //       <Image source={item.image} style={styles.cardImage} />
-  //       <View style={styles.cardContent}>
-  //         <Text style={styles.cardTitle}>{item.title}</Text>
-  //       </View>
-  //     </View>
-  //   );
-
-  //   return (
-  //     <View style={styles.container}>
-  //       <FlatList
-  //         data={cardsData}
-  //         renderItem={renderItem}
-  //         keyExtractor={(item) => item.id}
-  //         numColumns={2}
-  //         columnWrapperStyle={styles.columnWrapper}
-  //       />
-  //     </View>
-  //   );
-  // };
   return (
     <View style={styles.container}>
       <ScrollView style={{ flex: 1, height: "60vh" }}>
@@ -158,7 +128,7 @@ const ArtworksScreen = ({ navigation }) => {
       </ScrollView>
       <TouchableOpacity
         style={styles.signInButton}
-        onPress={() => navigation.navigate("NewExhibtion", {})}
+        onPress={() => navigation.pop()}
       >
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>

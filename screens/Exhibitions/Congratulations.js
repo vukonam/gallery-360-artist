@@ -9,15 +9,15 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesome" with the icon library of your choice.
 
-const ExhibitionScreen = ({ navigation }) => {
-  const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
-
+const ExhibitionScreen = ({ navigation, route }) => {
+  // const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
+  const { image } = route.params;
   const description = `You have successfully created a new exhibition for your collection.`;
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={coverImage}
+          source={image}
           style={styles.coverImage}
           resizeMode="cover"
           opacity={0.5}

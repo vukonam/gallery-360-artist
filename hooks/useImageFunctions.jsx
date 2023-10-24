@@ -51,7 +51,7 @@ export const useImageFunctions = () => {
           console.log("File available at", downloadURL);
           // save record
 
-          if (imagesUrls.length < 1) {
+          if (imagesUrls.length < 0) {
             const newImagesUrl = [
               ...imagesUrls,
               { imgUrl: downloadURL, default: true },

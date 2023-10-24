@@ -17,37 +17,22 @@ import { useSelector } from "react-redux";
 import { setLoading } from "../../../features/loginDetails.js";
 import { useDispatch } from "react-redux";
 import ProfilePic from "../../../components/ProfilePic.js";
-
+import { useFetchExhibition } from "../../../hooks/useFetchExhibition.jsx";
 import styles from "./styles.js";
+import { useProfileData } from "../../../hooks/useProfilePic.jsx";
+//import uuid from "react-native-uuid";
 
 export default function ExhibitionScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState("All");
-  const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
-  const [userData, setUserData] = useState(null);
-  const [name, setName] = useState("John Doe");
+  // const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
+  //const [userData, setUserData] = useState(null);
+  // const [name, setName] = useState("John Doe");
 
-  const [image, setImage] = useState(profilePic);
-  useEffect(() => {
-    const user = auth.currentUser;
-    console.log(user.uid);
-    getDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {})
-      .then((docData) => {
-        // Success callback
-        console.log("data ", docData.data());
-        if (docData.exists()) {
-          let data = docData.data();
-          setUserData(data);
-          setName(data.fullname);
-          setImage({ uri: data.imageUrl });
-        } else console.log("NO SUCH DATA");
-      })
-      .catch((error) => {
-        // Error callback
-        alert(error);
-        console.log("error ", error);
-      });
-  }, []);
-  // const selectData = useSelector((state) => state.loginDetails.data);
+  const { exhibionData, firebaseExhibition } = useFetchExhibition();
+
+  //const uuid = uuid.v5();
+
+  const { image, name, userData } = useProfileData();
   const handleAddArtwork = () => {
     navigation.navigate("NewExhibition");
   };
@@ -66,9 +51,22 @@ export default function ExhibitionScreen({ navigation }) {
       </View>
     );
   };
-  const renderContent = () => {
-    if (selectedOption === "All") {
-      // Render the profile card for "All" option
+
+  const exhibitionItem = (renderItem) => {
+    if (firebaseExhibition) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.flatlistContainer}>
+            <FlatList
+              data={firebaseExhibition}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              numColumns={1}
+            />
+          </View>
+        </View>
+      );
+    } else {
       return (
         <View style={styles.cardContainer}>
           <View style={styles.profileCard}>
@@ -87,6 +85,62 @@ export default function ExhibitionScreen({ navigation }) {
           </View>
         </View>
       );
+    }
+  };
+  const renderContent = () => {
+    if (selectedOption === "All") {
+      // Render the profile card for "All" option
+      const renderItem = ({ item }) => (
+        <View style={styles.card} /*key={uuid} */>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ExhibitionShow2")}
+          >
+            <Image
+              source={{ uri: item?.imgUrls[0].imgUrl }}
+              style={styles.cardImage}
+            />
+            <View style={styles.cardInfoContainer}>
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{item.name}</Text>
+                <Text style={styles.cardDate}>{item.date}</Text>
+              </View>
+              <Text style={styles.cardAddress}>{item.address}</Text>
+              <Text style={styles.cardDescription}>{item.desc}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+
+      return exhibitionItem(renderItem);
+      // return firebaseExhibition ? (
+      //   <View style={styles.cardContainer}>
+      //     <View style={styles.profileCard}>
+      //       <View style={styles.profileInfo}>
+      //         <Image source={image} style={styles.profilePic} />
+      //         <View style={styles.profileText}>
+      //           <Text style={styles.profileName}>{name}</Text>
+      //           <Text style={styles.profileInfoText}>
+      //             Your Exhibitions will be listed here.{" "}
+      //           </Text>
+      //         </View>
+      //       </View>
+      //       <TouchableOpacity style={styles.addButton}>
+      //         <Text style={styles.addButtonText}>LIST EXHIBITION</Text>
+      //       </TouchableOpacity>
+      //     </View>
+      //   </View>
+      // ) : (
+      //   <View style={styles.container}>
+      //     <View style={styles.flatlistContainer}>
+      //       <FlatList
+      //         data={firebaseExhibition}
+      //         renderItem={renderItem}
+      //         keyExtractor={(item) => item.id}
+      //         numColumns={1}
+      //       />
+      //     </View>
+      //   </View>
+      // );
     } else if (selectedOption === "UPCOMING") {
       const cardsData = [
         {

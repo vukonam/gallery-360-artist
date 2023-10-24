@@ -11,20 +11,22 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesom
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 
-const ExhibitionScreen = ({ navigation }) => {
-  const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
-  const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
+const ExhibitionScreen = ({ navigation, route }) => {
+  //const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
+  //const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
 
-  const address = "123 Main Street, City";
-  const fromDate = "19 July 2023";
-  const toDate = "22 July 2023";
+  // const address = "123 Main Street, City";
+  // const fromDate = "19 July 2023";
+  // const toDate = "22 July 2023";
 
-  const images = [
-    require("../../assets/images/art1.png"), // Replace with the paths to your carousel images
-    require("../../assets/images/art2.png"),
-    require("../../assets/images/art3.png"),
-    // Add more carousel images as needed
-  ];
+  const { image, images, name, email, contactNumber, address, desc } =
+    route.params;
+  // const images = [
+  //   require("../../assets/images/art1.png"), // Replace with the paths to your carousel images
+  //   require("../../assets/images/art2.png"),
+  //   require("../../assets/images/art3.png"),
+  //   // Add more carousel images as needed
+  // ];
 
   const description = `"Reflections on Nature" is a solo exhibition of new works by [Artist Name] that explores the intersection of nature and art. The exhibition features a diverse range of paintings, drawings, and mixed media works that showcase the artist's unique vision and creative talent.
 The works on display capture the beauty and complexity of the natural world, with lush landscapes, delicate flowers, and intricate patterns that evoke a sense of wonder and awe. The artist's use of color, light, and texture is masterful, creating works that are both visually stunning and emotionally resonant.
@@ -41,7 +43,7 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
 
       <ScrollView>
         <View>
-          <Image source={coverImage} style={styles.coverImage} />
+          <Image source={image} style={styles.coverImage} />
           <Icon
             name="camera"
             size={20}
@@ -67,21 +69,19 @@ Whether you are a seasoned collector or a first-time visitor to the gallery, "Re
           itemWidth={160}
         />
         <View style={styles.detailsContainer}>
-          <Text style={styles.input}>Open Plan Warehouse</Text>
-          <Text style={styles.input}>
-            183 San Salvador St, Klipspruit West, Soweto, 1811
-          </Text>
-          <Text style={styles.input}>01234456464</Text>
-          <Text style={styles.input}>JANE@MAIL.COM</Text>
+          <Text style={styles.input}>{name}</Text>
+          <Text style={styles.input}>{address}</Text>
+          <Text style={styles.input}>{contactNumber}</Text>
+          <Text style={styles.input}>{email}</Text>
         </View>
 
-        <Text style={styles.description}>{description}</Text>
-      <TouchableOpacity
-        style={styles.signInButton}
-        onPress={() => navigation.navigate("Congradulations")}
-      >
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
+        <Text style={styles.description}>{desc}</Text>
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={() => navigation.navigate("Congradulations", { image })}
+        >
+          <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

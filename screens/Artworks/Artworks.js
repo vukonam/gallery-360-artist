@@ -21,10 +21,7 @@ import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
 import styles from "./styles";
 
 const ExhibitionScreen = ({ route, navigation }) => {
-  //const [name, setName] = useState("John Doe");
   const [rating, setRating] = useState(0);
-  //const [image, setImage] = useState(null);
-
   console.log("route data : ", route.params);
 
   const { item, image, name } = route.params;

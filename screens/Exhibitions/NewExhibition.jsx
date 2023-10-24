@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 import styles from "./styles";
 // import ProfilePic from "../../components/ProfilePic";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { setLoading } from "../../features/loginDetails.js";
 // import { useDispatch } from "react-redux";
 import auth from "../../firebase/firebase.config.js";
@@ -21,41 +21,99 @@ import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import Icon from "react-native-vector-icons/FontAwesome5";
 import { useImageFunctions } from "../../hooks/useImageFunctions";
+//import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+//import { StatusBar } from "expo-status-bar";
+//import { StyleSheet, Button, View, Text } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+//import { useState } from "react";
+
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState("date");
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [address, setAddress] = useState("");
   const [desc, setDesc] = useState("");
-  //const [statement, setStatement] = useState("");
-  const [progress, setProgress] = useState("");
-  // Ddefault active selector
-  //const { selectedArtworks, setSelectedArtworks } = route?.params;
 
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [fromTime, setFromTime] = useState("");
+  const [toTime, setToTime] = useState("");
+
+  const [selectedArtworks, setSelectedArtworks] = useState([]);
+  useEffect(() => {
+    AsyncStorage.getItem("selectedArtworks").then((data) => {
+      if (data) {
+        setSelectedArtworks(JSON.parse(data));
+
+        AsyncStorage.removeItem("selectedArtworks")
+          .then(() => {
+            console.log("Data removed from AsyncStorage");
+          })
+          .catch((error) => {
+            console.error("Error removing data from AsyncStorage: ", error);
+          });
+      } else {
+        // Handle the case when there's no data in AsyncStorage.
+        // For example, set a default value.
+        console.log("The asyncStorage is empty");
+        setSelectedArtworks([]); // Set an empty array as the default value
+      }
+    });
+  }, []);
+
+  const onChange = (e, selectedDate, targetState) => {
+    if (targetState === "fromDate") {
+      setFromDate(selectedDate);
+      setShow(false);
+    } else if (targetState === "toDate") {
+      setToDate(selectedDate);
+      setShow(false);
+    } else if (targetState === "fromTime") {
+      setFromTime(selectedDate);
+      setShow(false);
+    } else if (targetState === "toTime") {
+      setToTime(selectedDate);
+      setShow(false);
+    }
+  };
+  // const onChange = (e, selectedDate) => {
+  //   setDate(selectedDate);
+  //   setShow(false);
+  // };
+
+  // const showMode = (modeToShow) => {
+  //   setShow(true);
+  //   setMode(modeToShow);
+  // };
+  const showMode = (modeToShow, targetState) => {
+    setMode(modeToShow);
+    setShow(true); // Open the picker
+    //setDate(date);
+    // Pass the target state to onChange
+    //onChange(null, date, targetState);
+  };
   const user = auth.currentUser;
-  const colRef = collection(FIRESTORE_DB, "newArtworks");
+  const colRef = collection(FIRESTORE_DB, "exhibition");
 
   const { pickImage, image, imagesUrls, images } = useImageFunctions();
 
-  // const [modalIsVisible, setModalIsVisible] = useState(false);
-
-  // const handleOpenModal = () => {
-  //   setModalIsVisible(true);
-  // };
-
-  // const handleCloseModal = () => {
-  //   setModalIsVisible(false);
-  // };
-
   const writeUserData = () => {
-    const handleAddDoc = (niceCol) => {
+    const handleAddDoc = () => {
       addDoc(colRef, {
         name,
         email,
         contactNumber,
         address,
+        date: { fromDate: fromDate, toDate: toDate },
+        time: { fromTime: fromTime, toTime: toTime },
         desc,
+        imgUrls: imagesUrls,
         collections: selectedArtworks,
         userid: user.uid,
       })
@@ -70,9 +128,6 @@ const SetupProfileScreen = ({ navigation }) => {
           console.log("error ", error);
         });
     };
-
-    // handleCollection();
-    // console.log("ImagesUrls : ", imagesUrls);
     handleAddDoc();
   };
 
@@ -85,7 +140,15 @@ const SetupProfileScreen = ({ navigation }) => {
     console.log("Contact Number:", contactNumber);
     console.log("Email:", email);
     console.log("Desc:", desc);
-    navigation.navigate("ExhibitionShow");
+    navigation.navigate("ExhibitionShow", {
+      image,
+      images,
+      name,
+      email,
+      contactNumber,
+      address,
+      desc,
+    });
 
     writeUserData();
   };
@@ -175,10 +238,7 @@ const SetupProfileScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.imageContainer2}
             onPress={() => {
-              navigation.navigate("ExhibitionCollection", {
-                setSelectedArtworks,
-                selectedArtworks,
-              });
+              navigation.navigate("ExhibitionCollection");
             }}
           >
             <Icon
@@ -198,6 +258,89 @@ const SetupProfileScreen = ({ navigation }) => {
           value={name}
           onChangeText={setName}
         />
+
+        {show ? (
+          <>
+            <DateTimePicker
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              onChange={(event, selectedDate) => {
+                if (event.type === "set") {
+                  // Ensure a valid date/time is selected
+                  onChange(event, selectedDate, targetState);
+                }
+              }}
+            />
+          </>
+        ) : null}
+
+        <Text
+          style={{
+            // height: 50,
+            fontSize: 16,
+            color: "#fff",
+          }}
+        >
+          DATE
+        </Text>
+
+        {/*Content of Single Collapsible*/}
+
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          <TextInput
+            style={styles.dimensionsInput}
+            placeholder="FROM"
+            placeholderTextColor="white"
+            value={fromDate.toLocaleString()}
+            onPressIn={() => showMode("date", "fromDate")}
+          />
+
+          <TextInput
+            style={styles.dimensionsInput}
+            placeholder="TO"
+            placeholderTextColor="white"
+            value={toDate.toLocaleString()}
+            onPressIn={() => showMode("date", "toDate")}
+          />
+        </View>
+        <Text
+          style={{
+            // height: 50,
+            fontSize: 16,
+            color: "#fff",
+          }}
+        >
+          TIME
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          <TextInput
+            style={styles.dimensionsInput}
+            placeholder="FROM"
+            placeholderTextColor="white"
+            value={fromTime.toLocaleString()}
+            onPressIn={() => showMode("time", "fromTime")}
+          />
+          <TextInput
+            style={styles.dimensionsInput}
+            placeholder="TO"
+            placeholderTextColor="white"
+            value={toTime.toLocaleString()}
+            onPressIn={() => showMode("time", "toTime")}
+          />
+        </View>
 
         <TextInput
           style={styles.input}
@@ -242,6 +385,7 @@ const SetupProfileScreen = ({ navigation }) => {
           onChangeText={setDesc}
           multiline
         />
+
         {/* Save Profile Button */}
         <TouchableOpacity
           style={styles.signInButton}
