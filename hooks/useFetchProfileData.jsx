@@ -23,22 +23,34 @@ export const useFetchProfileData = () => {
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [bio, setBio] = useState("John Doe");
   const [signature, setSignature] = useState(sign);
+
   useEffect(() => {
-    const user = auth.currentUser;
-    const colRef = collection(FIRESTORE_DB, "galleryUsers");
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      const colRef = collection(FIRESTORE_DB, "galleryUsers");
+      const q = query(colRef, where("userid", "==", user.uid));
 
-    const q = query(colRef, where("userid", "==", user.uid));
+      try {
+        const querySnapshot = await onSnapshot(q);
+        const data = querySnapshot.docs[0]?.data();
 
-    onSnapshot(q, (querySnapshot) => {
-      let data = querySnapshot?.docs[0].data();
-      setUserData(data);
-      setName(data.fullname);
-      setImage({ uri: data.imageUrl });
-      setDateOfBirth(data.dateofbirth);
-      setBio(data.biography);
-      setSignature({ uri: data.signature });
-    });
+        if (data) {
+          setUserData(data);
+          setName(data.fullname);
+          setImage({ uri: data.imageUrl });
+          setDateOfBirth(data.dateofbirth);
+          setBio(data.biography);
+          setSignature({ uri: data.signature });
+        } else {
+          console.log("No data found for the user");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle the error gracefully, e.g., display an error message to the user.
+      }
+    };
+
+    fetchData();
   }, []);
-
   return { userData, name, image, dateOfBirth, bio, signature };
 };

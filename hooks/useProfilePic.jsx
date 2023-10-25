@@ -1,6 +1,16 @@
 import auth from "../firebase/firebase.config";
 import { useState, useEffect } from "react";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
 import { FIRESTORE_DB, storage } from "../firebase/firebase.config";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -12,31 +22,48 @@ export const useProfileData = () => {
   const [userData, setUserData] = useState(null);
   const [name, setName] = useState("John Doe");
   const [image, setImage] = useState(profilePic);
-  const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   const user = auth.currentUser;
+  //   const colRef = collection(FIRESTORE_DB, "galleryUsers");
+
+  //   const q = query(colRef, where("userid", "==", user.uid));
+
+  //   onSnapshot(q, (querySnapshot) => {
+  //     let data = querySnapshot?.docs[0].data();
+  //     setUserData(data);
+  //     setName(data.fullname);
+  //     setImage({ uri: data.imageUrl });
+  //   });
+  // }, []);
+  // }, []);
   useEffect(() => {
-    const user = auth.currentUser;
-    console.log(user.uid);
-    getDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {})
-      .then((docData) => {
-        // Success callback
-        console.log("data ", docData.data());
-        if (docData.exists()) {
-          let data = docData.data();
-          dispatch(setData(data));
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      const colRef = collection(FIRESTORE_DB, "galleryUsers");
+      const q = query(colRef, where("userid", "==", user.uid));
+
+      try {
+        const querySnapshot = await onSnapshot(q);
+        const data = querySnapshot.docs[0]?.data();
+
+        if (data) {
           setUserData(data);
-          setName(data.fullname);
-          setImage({ uri: data.imageUrl });
-        } else console.log("NO SUCH DATA");
-      })
-      .catch((error) => {
-        // Error callback
-        console.log("firestore error : ", error.message);
-        alert("Your database is offline at the moment!");
-        // alert(`Something went wrong while fetching the document:\n${error}`);
-        console.log("error ", error);
-      });
+          setName(data?.fullname);
+          setImage({ uri: data?.imageUrl });
+        } else {
+          console.log("No data found for the user");
+        }
+      } catch (error) {
+        console.log("Error fetching data:", error);
+        // Handle the error gracefully, e.g., display an error message to the user.
+      }
+    };
+
+    fetchData();
   }, []);
+
+  // Your component rendering and JSX code here...
 
   return { name, userData, image };
 };

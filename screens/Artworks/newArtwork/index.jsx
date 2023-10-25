@@ -13,8 +13,8 @@ import Carousel from "react-native-snap-carousel"; // Import the library for the
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { FIRESTORE_DB, storage } from "../../../firebase/firebase.config";
 import auth from "../../../firebase/firebase.config.js";
-import * as ImagePicker from "expo-image-picker";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+// import * as ImagePicker from "expo-image-picker";
+// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import {
   SelectList,
@@ -53,7 +53,7 @@ const NewArtwork = ({ navigation }) => {
   const [condition, setCondition] = useState("");
 
   const [statement, setStatement] = useState("");
-  const [progress, setProgress] = useState("");
+  //const [progress, setProgress] = useState("");
   // Ddefault active selector
 
   const { pickImage, image, imagesUrls, images } = useImageFunctions();
@@ -127,10 +127,7 @@ const NewArtwork = ({ navigation }) => {
   };
 
   const [selectedArtworks, setSelectedArtworks] = useState([]);
-
   const [selected, setSelected] = useState("");
-
-  save = "value";
 
   console.log(selected);
   const availability = ["Stand alone", "Limited Edition"];
@@ -150,25 +147,15 @@ const NewArtwork = ({ navigation }) => {
     );
   }
 
-  const [isEnabled, setIsEnabled] = useState(false);
+  //const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsAvailable((previousState) => !previousState);
 
   // Function to handle saving the profile
   const handleSaveProfile = () => {
-    // Here you can save the profile data to your backend or perform any necessary actions
-    // For simplicity, we'll just log the data for now.
-    console.log("Profile Data:");
-    console.log("IsAvailable :", isAvailable);
-    //console.log("imageUrl:", imageUrl);
-    console.log("title:", title);
-    console.log("Year:", year);
-    console.log("Condition :", condition);
-    console.log("statement:", statement);
     writeUserData();
     navigation.popToTop();
   };
 
-  //const [name, setName] = useState("");
   const [collectionModalVisible, setCollectionModalVisible] = useState(false);
 
   const handleOpenCollectionModal = () => {
@@ -269,6 +256,7 @@ const NewArtwork = ({ navigation }) => {
               // height: 50,
               fontSize: 16,
               color: "#fff",
+              paddingHorizontal: 12,
             }}
           >
             DIMENSIONS
@@ -342,8 +330,12 @@ const NewArtwork = ({ navigation }) => {
             backgroundColor: "black",
             width: "100%",
             color: "white",
-            marginTop: 20,
-            marginBottom: 20,
+            paddingVertical: 12,
+            paddingHorizontal: 12,
+            borderColor: "black",
+            borderBottomWidth: 5,
+            //marginTop: 8,
+            //marginBottom: 20,
           }}
           inputStyles={{ color: "white" }}
           dropdownStyles={{
@@ -358,6 +350,9 @@ const NewArtwork = ({ navigation }) => {
           //style={{ color: "white" }}
           dropdownTextStyles={{ color: "white" }}
         />
+        <View
+          style={{ borderTopWidth: 1, borderColor: "#ccc", marginBottom: 20 }}
+        ></View>
         {isModalVisible ? (
           <View
             style={{
@@ -367,7 +362,7 @@ const NewArtwork = ({ navigation }) => {
               justifyContent: "space-between",
             }}
           >
-            <Text style={styles.header}>New Collection</Text>
+            <Text style={styles.header2}>New Collection</Text>
             <TouchableOpacity
               style={styles.NewTypeButton}
               onPress={() => handleOpenCollectionModal()}
@@ -391,6 +386,10 @@ const NewArtwork = ({ navigation }) => {
               backgroundColor: "black",
               width: "100%",
               color: "white",
+              paddingVertical: 12,
+              paddingHorizontal: 12,
+              borderColor: "black",
+              borderBottomWidth: 5,
             }}
             inputStyles={{ color: "white" }}
             dropdownStyles={{
@@ -405,7 +404,9 @@ const NewArtwork = ({ navigation }) => {
             dropdownTextStyles={{ color: "white" }}
           />
         </TouchableOpacity>
-
+        <View
+          style={{ borderTopWidth: 1, borderColor: "#ccc", marginBottom: 20 }}
+        ></View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
             style={{
@@ -413,12 +414,14 @@ const NewArtwork = ({ navigation }) => {
               height: 50,
               fontSize: 16,
               borderBottomWidth: 1,
+              paddingHorizontal: 12,
               borderBottomColor: "#ccc",
               marginBottom: 20,
               color: "#fff",
             }}
             placeholder="AVAILABILITY"
             placeholderTextColor="white"
+            editable={false}
             //value={isAvailable}
             //onChangeText={setIsAvailable}
           />
@@ -472,6 +475,11 @@ const NewArtwork = ({ navigation }) => {
             backgroundColor: "black",
             width: "100%",
             color: "white",
+
+            paddingVertical: 12,
+            paddingHorizontal: 12,
+            borderColor: "black",
+            borderBottomWidth: 5,
           }}
           // inputStyles={{
           //   backgroundColor: "black",
@@ -495,6 +503,9 @@ const NewArtwork = ({ navigation }) => {
           style={{ color: "white" }}
           dropdownTextStyles={{ color: "white" }}
         />
+        <View
+          style={{ borderTopWidth: 1, borderColor: "#ccc", marginBottom: 20 }}
+        ></View>
         {/* Bio Input */}
         <TextInput
           style={{
@@ -502,6 +513,7 @@ const NewArtwork = ({ navigation }) => {
             height: 100,
             fontSize: 16,
             borderBottomWidth: 1,
+            paddingHorizontal: 12,
             borderBottomColor: "#ccc",
             marginBottom: 20,
             color: "#fff",

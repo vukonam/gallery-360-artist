@@ -28,10 +28,10 @@ const ExhibitionScreen = ({ navigation, route }) => {
   //   // Add more carousel images as needed
   // ];
 
-  const description = `"Reflections on Nature" is a solo exhibition of new works by [Artist Name] that explores the intersection of nature and art. The exhibition features a diverse range of paintings, drawings, and mixed media works that showcase the artist's unique vision and creative talent.
-The works on display capture the beauty and complexity of the natural world, with lush landscapes, delicate flowers, and intricate patterns that evoke a sense of wonder and awe. The artist's use of color, light, and texture is masterful, creating works that are both visually stunning and emotionally resonant.
-The exhibition will be held at [Gallery Name], a premier contemporary art space located in [Gallery Address]. The show will run from [Exhibition Dates], with an opening reception on [Date and Time]. This will be an exciting opportunity for art lovers to discover the work of a talented artist and experience the beauty and power of nature through the medium of art.
-Whether you are a seasoned collector or a first-time visitor to the gallery, "Reflections on Nature" is a must-see exhibition that will leave a lasting impression and inspire a deeper appreciation for the natural world.`;
+  //   const description = `"Reflections on Nature" is a solo exhibition of new works by [Artist Name] that explores the intersection of nature and art. The exhibition features a diverse range of paintings, drawings, and mixed media works that showcase the artist's unique vision and creative talent.
+  // The works on display capture the beauty and complexity of the natural world, with lush landscapes, delicate flowers, and intricate patterns that evoke a sense of wonder and awe. The artist's use of color, light, and texture is masterful, creating works that are both visually stunning and emotionally resonant.
+  // The exhibition will be held at [Gallery Name], a premier contemporary art space located in [Gallery Address]. The show will run from [Exhibition Dates], with an opening reception on [Date and Time]. This will be an exciting opportunity for art lovers to discover the work of a talented artist and experience the beauty and power of nature through the medium of art.
+  // Whether you are a seasoned collector or a first-time visitor to the gallery, "Reflections on Nature" is a must-see exhibition that will leave a lasting impression and inspire a deeper appreciation for the natural world.`;
 
   return (
     <View style={styles.container}>

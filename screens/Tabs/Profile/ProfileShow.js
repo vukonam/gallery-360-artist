@@ -36,6 +36,14 @@ const SetupProfileScreen = ({ navigation, route }) => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
 
+  const PrevName = userData.fullname;
+  const prevContactNumber = userData.contactnumber;
+  const PrevWebsite = userData.websiteurl;
+  const Prevfacebook = userData.facebook;
+  const Previnstagram = userData.instagram;
+  const PrevdateOfBirth = userData.dateofbirth;
+  const Prevbio = userData.biography;
+
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const { pickImage, image, imageUrl } = useImageFunctions();
@@ -51,14 +59,14 @@ const SetupProfileScreen = ({ navigation, route }) => {
   const docRef = doc(FIRESTORE_DB, "galleryUsers", user.uid);
   const updateProfileData = () => {
     updateDoc(docRef, {
-      fullname: fullName,
-      contactnumber: contactNumber,
-      websiteurl: website,
-      dateofbirth: dateOfBirth,
-      biography: bio,
-      imageUrl: imageUrl,
-      facebook: facebook,
-      instagram: instagram,
+      fullname: fullName === "" ? PrevName : fullName,
+      contactnumber: contactNumber === "" ? prevContactNumber : contactNumber,
+      websiteurl: website === "" ? PrevWebsite : website,
+      dateofbirth: dateOfBirth === "" ? PrevdateOfBirth : dateOfBirth,
+      biography: bio === "" ? Prevbio : bio,
+      imageUrl: imageUrl === null || undefined ? userData.imageUrl : imageUrl,
+      facebook: facebook === "" ? Prevfacebook : facebook,
+      instagram: instagram === "" ? Previnstagram : instagram,
     })
       .then((result) => {
         // Success callback

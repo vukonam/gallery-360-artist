@@ -24,10 +24,6 @@ import { useProfileData } from "../../../hooks/useProfilePic.jsx";
 
 export default function ExhibitionScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState("All");
-  // const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
-  //const [userData, setUserData] = useState(null);
-  // const [name, setName] = useState("John Doe");
-
   const { exhibionData, firebaseExhibition } = useFetchExhibition();
 
   //const uuid = uuid.v5();
@@ -79,7 +75,10 @@ export default function ExhibitionScreen({ navigation }) {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => handleAddArtwork()}
+            >
               <Text style={styles.addButtonText}>LIST EXHIBITION</Text>
             </TouchableOpacity>
           </View>
@@ -93,7 +92,9 @@ export default function ExhibitionScreen({ navigation }) {
       const renderItem = ({ item }) => (
         <View style={styles.card} /*key={uuid} */>
           <TouchableOpacity
-            onPress={() => navigation.navigate("ExhibitionShow2")}
+            onPress={() =>
+              navigation.navigate("ExhibitionShow2", { item, image, name })
+            }
           >
             <Image
               source={{ uri: item?.imgUrls[0].imgUrl }}
@@ -102,45 +103,19 @@ export default function ExhibitionScreen({ navigation }) {
             <View style={styles.cardInfoContainer}>
               <View style={styles.cardContent}>
                 <Text style={styles.cardTitle}>{item.name}</Text>
-                <Text style={styles.cardDate}>{item.date}</Text>
+                <Text style={styles.cardDate}>{item?.date?.fromDate}</Text>
               </View>
               <Text style={styles.cardAddress}>{item.address}</Text>
-              <Text style={styles.cardDescription}>{item.desc}</Text>
+              <Text style={styles.cardDescription}>
+                {item.desc.slice(0, 160)}
+                {item.desc.length < 160 ? "" : "..."}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
       );
 
       return exhibitionItem(renderItem);
-      // return firebaseExhibition ? (
-      //   <View style={styles.cardContainer}>
-      //     <View style={styles.profileCard}>
-      //       <View style={styles.profileInfo}>
-      //         <Image source={image} style={styles.profilePic} />
-      //         <View style={styles.profileText}>
-      //           <Text style={styles.profileName}>{name}</Text>
-      //           <Text style={styles.profileInfoText}>
-      //             Your Exhibitions will be listed here.{" "}
-      //           </Text>
-      //         </View>
-      //       </View>
-      //       <TouchableOpacity style={styles.addButton}>
-      //         <Text style={styles.addButtonText}>LIST EXHIBITION</Text>
-      //       </TouchableOpacity>
-      //     </View>
-      //   </View>
-      // ) : (
-      //   <View style={styles.container}>
-      //     <View style={styles.flatlistContainer}>
-      //       <FlatList
-      //         data={firebaseExhibition}
-      //         renderItem={renderItem}
-      //         keyExtractor={(item) => item.id}
-      //         numColumns={1}
-      //       />
-      //     </View>
-      //   </View>
-      // );
     } else if (selectedOption === "UPCOMING") {
       const cardsData = [
         {

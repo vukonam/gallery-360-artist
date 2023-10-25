@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Button,
 } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -27,12 +28,59 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 //import { StyleSheet, Button, View, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 //import { useState } from "react";
-
+import CustomDateTimePicker from "../../components/DateTimePicker";
 // Replace "FontAwesome5" with the icon library of your choice.
+import useInput from "../../hooks/useDateTimePicker";
+// import React, { useState } from 'react'
+// import { View, Text, StyleSheet, Button, TextInput, Picker } from 'react-native'
+// import DateTimePicker from '@react-native-community/datetimepicker'
+
+// function useInput() {
+//   const [date, setDate] = useState(new Date());
+//   const [mode, setMode] = useState("date");
+//   const [show, setShow] = useState(false);
+//   const [toggleInput, setToggleInput] = useState(false);
+
+//   const showMode = (currentMode) => {
+//     setShow(true);
+//     setMode(currentMode);
+//     setToggleInput(true);
+//   };
+//   const showDatepicker = () => {
+//     showMode("date");
+//   };
+
+//   const showDatepicker2 = () => {
+//     showMode("time");
+//   };
+//   const onChange = (event, selectedDate) => {
+//     const currentDate = selectedDate || date;
+//     setShow(Platform.OS === "ios");
+//     setDate(currentDate);
+//   };
+//   return {
+//     date,
+//     showDatepicker,
+//     showDatepicker2,
+//     show,
+//     mode,
+//     onChange,
+//     toggleInput,
+//   };
+// }
+
 const SetupProfileScreen = ({ navigation }) => {
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
-  const [mode, setMode] = useState("date");
+  const input = useInput();
+  const input2 = useInput();
+  const input3 = useInput();
+  const input4 = useInput();
+  // const [date, setDate] = useState(new Date());
+  // const [show, setShow] = useState(false);
+  // const [mode, setMode] = useState("date");
+  // const [fromDate, setFromDate] = useState(new Date());
+  // const [toDate, setToDate] = useState(new Date());
+  // const [showDatePicker, setShowDatePicker] = useState(false);
+  // const [showTimePicker, setShowTimePicker] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -40,10 +88,20 @@ const SetupProfileScreen = ({ navigation }) => {
   const [address, setAddress] = useState("");
   const [desc, setDesc] = useState("");
 
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [fromTime, setFromTime] = useState("");
-  const [toTime, setToTime] = useState("");
+  const options = { month: "long" };
+  const fullMonthName = input.date.toLocaleString("en-US", options);
+  const fullMonthName2 = input2.date.toLocaleString("en-US", options);
+
+  const fromDate = `${input.date.getDate()} ${fullMonthName.slice(
+    0,
+    3
+  )} ,${input.date.getFullYear()}`;
+  const toDate = `${input2.date.getDate()} ${fullMonthName2.slice(
+    0,
+    3
+  )} ,${input2.date.getFullYear()}`;
+  const fromTime = input3.date.toLocaleTimeString().toString();
+  const toTime = input4.date.toLocaleTimeString().toString();
 
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   useEffect(() => {
@@ -67,37 +125,6 @@ const SetupProfileScreen = ({ navigation }) => {
     });
   }, []);
 
-  const onChange = (e, selectedDate, targetState) => {
-    if (targetState === "fromDate") {
-      setFromDate(selectedDate);
-      setShow(false);
-    } else if (targetState === "toDate") {
-      setToDate(selectedDate);
-      setShow(false);
-    } else if (targetState === "fromTime") {
-      setFromTime(selectedDate);
-      setShow(false);
-    } else if (targetState === "toTime") {
-      setToTime(selectedDate);
-      setShow(false);
-    }
-  };
-  // const onChange = (e, selectedDate) => {
-  //   setDate(selectedDate);
-  //   setShow(false);
-  // };
-
-  // const showMode = (modeToShow) => {
-  //   setShow(true);
-  //   setMode(modeToShow);
-  // };
-  const showMode = (modeToShow, targetState) => {
-    setMode(modeToShow);
-    setShow(true); // Open the picker
-    //setDate(date);
-    // Pass the target state to onChange
-    //onChange(null, date, targetState);
-  };
   const user = auth.currentUser;
   const colRef = collection(FIRESTORE_DB, "exhibition");
 
@@ -250,7 +277,6 @@ const SetupProfileScreen = ({ navigation }) => {
             <Text style={styles.textIcon}>Add Collection</Text>
           </TouchableOpacity>
         </View>
-
         <TextInput
           style={styles.input}
           placeholder="NAME"
@@ -259,33 +285,16 @@ const SetupProfileScreen = ({ navigation }) => {
           onChangeText={setName}
         />
 
-        {show ? (
-          <>
-            <DateTimePicker
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              onChange={(event, selectedDate) => {
-                if (event.type === "set") {
-                  // Ensure a valid date/time is selected
-                  onChange(event, selectedDate, targetState);
-                }
-              }}
-            />
-          </>
-        ) : null}
-
         <Text
           style={{
             // height: 50,
             fontSize: 16,
             color: "#fff",
+            paddingHorizontal: 12,
           }}
         >
           DATE
         </Text>
-
-        {/*Content of Single Collapsible*/}
 
         <View
           style={{
@@ -294,27 +303,74 @@ const SetupProfileScreen = ({ navigation }) => {
             justifyContent: "space-between",
           }}
         >
-          <TextInput
-            style={styles.dimensionsInput}
-            placeholder="FROM"
-            placeholderTextColor="white"
-            value={fromDate.toLocaleString()}
-            onPressIn={() => showMode("date", "fromDate")}
-          />
+          {input.toggleInput ? (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="FROM"
+              placeholderTextColor="white"
+              value={input?.date.toLocaleDateString()}
+              onPressIn={input.showDatepicker}
+            />
+          ) : (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="FROM"
+              placeholderTextColor="white"
+              value={
+                input.date !== null ? "" : input?.date.toLocaleDateString()
+              }
+              onPressIn={input.showDatepicker}
+            />
+          )}
 
-          <TextInput
-            style={styles.dimensionsInput}
-            placeholder="TO"
-            placeholderTextColor="white"
-            value={toDate.toLocaleString()}
-            onPressIn={() => showMode("date", "toDate")}
-          />
+          {input.show && (
+            <DateTimePicker
+              testID="dateTimePicker1"
+              value={input.date}
+              mode={input.mode}
+              is24Hour={true}
+              display="default"
+              onChange={input.onChange}
+            />
+          )}
+
+          {input2.toggleInput ? (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="TO"
+              placeholderTextColor="white"
+              value={input2?.date.toLocaleDateString()}
+              onPressIn={input2.showDatepicker}
+            />
+          ) : (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="TO"
+              placeholderTextColor="white"
+              value={
+                input2.date !== null ? "" : input2?.date.toLocaleDateString()
+              }
+              onPressIn={input2.showDatepicker}
+            />
+          )}
+          {input2.show && (
+            <DateTimePicker
+              testID="dateTimePicker2"
+              value={input2.date}
+              mode={input2.mode}
+              is24Hour={true}
+              display="default"
+              onChange={input2.onChange}
+            />
+          )}
         </View>
+        {/*Content of Single Collapsible*/}
         <Text
           style={{
             // height: 50,
             fontSize: 16,
             color: "#fff",
+            paddingHorizontal: 12,
           }}
         >
           TIME
@@ -326,22 +382,65 @@ const SetupProfileScreen = ({ navigation }) => {
             justifyContent: "space-between",
           }}
         >
-          <TextInput
-            style={styles.dimensionsInput}
-            placeholder="FROM"
-            placeholderTextColor="white"
-            value={fromTime.toLocaleString()}
-            onPressIn={() => showMode("time", "fromTime")}
-          />
-          <TextInput
-            style={styles.dimensionsInput}
-            placeholder="TO"
-            placeholderTextColor="white"
-            value={toTime.toLocaleString()}
-            onPressIn={() => showMode("time", "toTime")}
-          />
+          {input3.toggleInput ? (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="FROM"
+              placeholderTextColor="white"
+              value={input3?.date.toLocaleTimeString()}
+              onPressIn={input3.showDatepicker2}
+            />
+          ) : (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="FROM"
+              placeholderTextColor="white"
+              value={
+                input3.date !== null ? "" : input3?.date.toLocaleDateString()
+              }
+              onPressIn={input3.showDatepicker2}
+            />
+          )}
+          {input3.show && (
+            <DateTimePicker
+              testID="dateTimePicker2"
+              value={input3.date}
+              mode={input3.mode}
+              is24Hour={true}
+              display="default"
+              onChange={input3.onChange}
+            />
+          )}
+          {input4.toggleInput ? (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="TO"
+              placeholderTextColor="white"
+              value={input4?.date.toLocaleTimeString()}
+              onPressIn={input4.showDatepicker2}
+            />
+          ) : (
+            <TextInput
+              style={styles.dimensionsInput}
+              placeholder="TO"
+              placeholderTextColor="white"
+              value={
+                input4.date !== null ? "" : input4?.date.toLocaleDateString()
+              }
+              onPressIn={input4.showDatepicker2}
+            />
+          )}
+          {input4.show && (
+            <DateTimePicker
+              testID="dateTimePicker2"
+              value={input4.date}
+              mode={input4.mode}
+              is24Hour={true}
+              display="default"
+              onChange={input4.onChange}
+            />
+          )}
         </View>
-
         <TextInput
           style={styles.input}
           placeholder="ADDRESS"
@@ -349,7 +448,6 @@ const SetupProfileScreen = ({ navigation }) => {
           value={address}
           onChangeText={setAddress}
         />
-
         {/* Contact Number Input */}
         <TextInput
           style={styles.input}
@@ -359,7 +457,6 @@ const SetupProfileScreen = ({ navigation }) => {
           onChangeText={setContactNumber}
           keyboardType="numeric"
         />
-
         <TextInput
           style={styles.input}
           placeholder="EMAIL"
@@ -367,7 +464,6 @@ const SetupProfileScreen = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
         />
-
         {/* Desc Input */}
         <TextInput
           style={{
@@ -375,6 +471,7 @@ const SetupProfileScreen = ({ navigation }) => {
             height: 100,
             fontSize: 16,
             borderBottomWidth: 1,
+            paddingHorizontal: 12,
             borderBottomColor: "#ccc",
             marginBottom: 20,
             color: "#fff",
@@ -385,7 +482,6 @@ const SetupProfileScreen = ({ navigation }) => {
           onChangeText={setDesc}
           multiline
         />
-
         {/* Save Profile Button */}
         <TouchableOpacity
           style={styles.signInButton}

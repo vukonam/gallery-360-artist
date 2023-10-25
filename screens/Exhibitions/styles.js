@@ -14,6 +14,7 @@ export default styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginBottom: 20,
+    paddingHorizontal: 12,
     color: "#fff",
   },
   signInButton: {
@@ -126,6 +127,7 @@ export default styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginBottom: 20,
+    paddingHorizontal: 12,
     alignSelf: "center",
     color: "#fff",
   },

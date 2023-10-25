@@ -16,12 +16,15 @@ import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
 import auth from "../../firebase/firebase.config.js";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+//import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { useImageFunctions } from "../../hooks/useImageFunctions";
+import useInput from "../../hooks/useDateTimePicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 //import { db, storage } from "../firebaseConfig";
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
-  const [image, setImage] = useState("");
+  //const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [website, setWebsite] = useState("");
@@ -33,6 +36,8 @@ const SetupProfileScreen = ({ navigation }) => {
   const [facebook, setFacebook] = useState("");
   const [progress, setProgress] = useState(0);
 
+  const input = useInput();
+
   const handleOpenModal = () => {
     setModalIsVisible(true);
   };
@@ -40,114 +45,116 @@ const SetupProfileScreen = ({ navigation }) => {
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
+  const { pickImage, image } = useImageFunctions();
+
   // const user = auth.currentUser;
-  const writeUserData = () => {
-    setDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {
-      fullname: fullName,
-      contactnumber: contactNumber,
-      websiteurl: website,
-      dateofbirth: dateOfBirth,
-      biography: bio,
-      imageUrl: imageUrl,
-      facebook: facebook,
-      instagram: instagram,
-      // userid: user.uid,
-    })
-      .then((result) => {
-        // Success callback
-        console.log("data ", result);
-        alert("data saved");
-      })
-      .catch((error) => {
-        // Error callback
-        alert(error);
-        console.log("error ", error);
-      });
-  };
+  // const writeUserData = () => {
+  //   setDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {
+  //     fullname: fullName,
+  //     contactnumber: contactNumber,
+  //     websiteurl: website,
+  //     dateofbirth: dateOfBirth,
+  //     biography: bio,
+  //     imageUrl: imageUrl,
+  //     facebook: facebook,
+  //     instagram: instagram,
+  //     // userid: user.uid,
+  //   })
+  //     .then((result) => {
+  //       // Success callback
+  //       console.log("data ", result);
+  //       alert("data saved");
+  //     })
+  //     .catch((error) => {
+  //       // Error callback
+  //       alert(error);
+  //       console.log("error ", error);
+  //     });
+  // };
 
-  async function pickImage() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
-    });
+  // async function pickImage() {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [3, 4],
+  //     quality: 1,
+  //   });
 
-    if (!result.canceled) {
-      const source = { uri: result.assets[0].uri };
-      setImage(source);
-      // setImage(result.assets[0].uri);
-      // upload the image
-      await uploadImage(result.assets[0].uri, "image");
-    }
-  }
+  //   if (!result.canceled) {
+  //     const source = { uri: result.assets[0].uri };
+  //     setImage(source);
+  //     // setImage(result.assets[0].uri);
+  //     // upload the image
+  //     await uploadImage(result.assets[0].uri, "image");
+  //   }
+  // }
 
-  async function pickVideo() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
-    });
+  // async function pickVideo() {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+  //     allowsEditing: true,
+  //     aspect: [3, 4],
+  //     quality: 1,
+  //   });
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      await uploadImage(result.assets[0].uri, "video");
-    }
-  }
+  //   if (!result.canceled) {
+  //     setImage(result.assets[0].uri);
+  //     await uploadImage(result.assets[0].uri, "video");
+  //   }
+  // }
 
-  async function uploadImage(uri, fileType) {
-    const response = await fetch(uri);
-    const blob = await response.blob();
+  // async function uploadImage(uri, fileType) {
+  //   const response = await fetch(uri);
+  //   const blob = await response.blob();
 
-    const storageRef = ref(storage, "ProfileImages/" + new Date().getTime());
-    const uploadTask = uploadBytesResumable(storageRef, blob);
+  //   const storageRef = ref(storage, "ProfileImages/" + new Date().getTime());
+  //   const uploadTask = uploadBytesResumable(storageRef, blob);
 
-    // listen for events
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        setProgress(progress.toFixed());
-      },
-      (error) => {
-        // handle error
-        console.log(error);
-        alert("Upload Error : ", error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          console.log("File available at", downloadURL);
-          // save record
-          setImageUrl(downloadURL);
-          await saveRecord(fileType, downloadURL, new Date().toISOString());
-          //setVideo("");
-        });
-      }
-    );
-  }
+  //   // listen for events
+  //   uploadTask.on(
+  //     "state_changed",
+  //     (snapshot) => {
+  //       const progress =
+  //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //       console.log("Upload is " + progress + "% done");
+  //       setProgress(progress.toFixed());
+  //     },
+  //     (error) => {
+  //       // handle error
+  //       console.log(error);
+  //       alert("Upload Error : ", error);
+  //     },
+  //     () => {
+  //       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+  //         console.log("File available at", downloadURL);
+  //         // save record
+  //         setImageUrl(downloadURL);
+  //         await saveRecord(fileType, downloadURL, new Date().toISOString());
+  //         //setVideo("");
+  //       });
+  //     }
+  //   );
+  // }
   const handleSaveProfile = () => {
     // Here you can save the profile data to your backend or perform any necessary actions
     // For simplicity, we'll just log the data for now.
-    console.log("Profile Data:");
-    console.log("Image:", image);
-    console.log("ImageUrl:", imageUrl);
-    console.log("Full Name:", fullName);
-    console.log("Contact Number:", contactNumber);
-    console.log("Website:", website);
-    console.log("Date of Birth:", dateOfBirth);
-    console.log("Bio:", bio);
-    console.log("facebook :", facebook);
-    console.log("instagram :", instagram);
+    // console.log("Profile Data:");
+    // console.log("Image:", image);
+    // console.log("ImageUrl:", imageUrl);
+    // console.log("Full Name:", fullName);
+    // console.log("Contact Number:", contactNumber);
+    // console.log("Website:", website);
+    // console.log("Date of Birth:", dateOfBirth);
+    // console.log("Bio:", bio);
+    // console.log("facebook :", facebook);
+    // console.log("instagram :", instagram);
     //writeUserData();
     //const user = auth.currentUser;
     const userData = {
       fullname: fullName,
       contactnumber: contactNumber,
       websiteurl: website,
-      dateofbirth: dateOfBirth,
+      dateofbirth: input.date.toLocaleDateString(),
       biography: bio,
       imageUrl: imageUrl,
       facebook: facebook,
@@ -247,7 +254,7 @@ const SetupProfileScreen = ({ navigation }) => {
         {/* Full Name Input */}
         <TextInput
           style={styles.input}
-          placeholder="Full Name"
+          placeholder="FULL NAME"
           placeholderTextColor="white"
           value={fullName}
           onChangeText={setFullName}
@@ -256,7 +263,7 @@ const SetupProfileScreen = ({ navigation }) => {
         {/* Contact Number Input */}
         <TextInput
           style={styles.input}
-          placeholder="Contact Number"
+          placeholder="CONTACT NUMBER"
           placeholderTextColor="white"
           value={contactNumber}
           onChangeText={setContactNumber}
@@ -266,21 +273,48 @@ const SetupProfileScreen = ({ navigation }) => {
         {/* Website Input */}
         <TextInput
           style={styles.input}
-          placeholder="Website"
+          placeholder="WEBSITE"
           placeholderTextColor="white"
           value={website}
           onChangeText={setWebsite}
         />
 
         {/* Date of Birth Input */}
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder="Date of Birth"
           placeholderTextColor="white"
           value={dateOfBirth}
           onChangeText={setDateOfBirth}
           keyboardType="numeric"
-        />
+        /> */}
+        {input.toggleInput ? (
+          <TextInput
+            style={styles.input}
+            placeholder="DATE OF BIRTH"
+            placeholderTextColor="white"
+            value={input?.date.toLocaleDateString()}
+            onPressIn={input.showDatepicker}
+          />
+        ) : (
+          <TextInput
+            style={styles.input}
+            placeholder="DATE OF BIRTH"
+            placeholderTextColor="white"
+            value={input.date !== null ? "" : input?.date.toLocaleDateString()}
+            onPressIn={input.showDatepicker}
+          />
+        )}
+        {input.show && (
+          <DateTimePicker
+            testID="dateTimePicker2"
+            value={input.date}
+            mode={input.mode}
+            is24Hour={true}
+            display="default"
+            onChange={input.onChange}
+          />
+        )}
 
         {/* Bio Input */}
         <TextInput
@@ -289,11 +323,12 @@ const SetupProfileScreen = ({ navigation }) => {
             height: 100,
             fontSize: 16,
             borderBottomWidth: 1,
+            paddingHorizontal: 12,
             borderBottomColor: "#ccc",
             marginBottom: 20,
             color: "#fff",
           }}
-          placeholder="Bio"
+          placeholder="BIO"
           placeholderTextColor="white"
           value={bio}
           onChangeText={setBio}
@@ -324,6 +359,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    paddingHorizontal: 12,
     marginBottom: 20,
     color: "#fff",
   },
@@ -377,6 +413,17 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: "row",
   },
+  // dimensionsInput: {
+  //   width: "40%",
+  //   height: 50,
+  //   fontSize: 16,
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: "#ccc",
+  //   marginBottom: 20,
+  //   paddingHorizontal: 12,
+  //   alignSelf: "center",
+  //   color: "#fff",
+  // },
 });
 
 export default SetupProfileScreen;
