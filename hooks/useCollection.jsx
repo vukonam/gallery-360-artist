@@ -17,6 +17,8 @@ export const useCollection = () => {
   const [collectionData, setCollectionData] = useState([]);
   const [firebaseCollection, setFirebaseCollection] = useState(null);
   const [collectionDataCopy, setCollectionDataCopy] = useState([]);
+  const [collectionDataCopy2, setCollectionDataCopy2] = useState([]);
+  const [artworksCollection, setArtworksCollection] = useState([]);
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -25,21 +27,28 @@ export const useCollection = () => {
     onSnapshot(q, (querySnapShot) => {
       let collection = [];
       setCollectionDataCopy([...collectionData]); // make a copy of collectionData
+      setCollectionDataCopy2([...artworksCollection]);
 
       querySnapShot.docs.forEach((doc) => {
         collection.push({ ...doc.data(), key: doc.id });
       });
+
       collection.forEach((item) => {
         // Check for duplicates in collectionData
         if (!collectionDataCopy.some((data) => data.value === item.name)) {
           collectionDataCopy.push({ value: item.name, key: item.key });
         }
+        if (!collectionDataCopy2.some((value) => value === item.name)) {
+          collectionDataCopy2.push(item.name);
+        }
       });
+
       console.log("collectionData : ", collectionDataCopy);
       setFirebaseCollection(collection);
       setCollectionData(collectionDataCopy);
+      setArtworksCollection(collectionDataCopy2);
     });
   }, []);
 
-  return { collectionData, firebaseCollection };
+  return { collectionData, artworksCollection, firebaseCollection };
 };

@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  TouchableWithoutFeedback,
   Image,
   ScrollView,
   Switch,
@@ -63,7 +64,7 @@ const NewArtwork = ({ navigation }) => {
     []
   );
   const user = auth.currentUser;
-  const colRef = collection(FIRESTORE_DB, "newArtworks");
+  const colRef = collection(FIRESTORE_DB, "Market");
 
   const [isModalVisible, setModalVisible] = useState(true);
 
@@ -372,11 +373,13 @@ const NewArtwork = ({ navigation }) => {
           </View>
         ) : null}
         {
-          <NewCollectionModal
-            Modalvisible={collectionModalVisible}
-            animationType="slide"
-            closeModal={handleCloseCollectionModal}
-          />
+          <TouchableWithoutFeedback onPress={handleCloseCollectionModal}>
+            <NewCollectionModal
+              Modalvisible={collectionModalVisible}
+              animationType="slide"
+              closeModal={handleCloseCollectionModal}
+            />
+          </TouchableWithoutFeedback>
         }
         <TouchableOpacity onPress={toggleCollection}>
           <SelectList

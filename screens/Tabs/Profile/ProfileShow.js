@@ -56,7 +56,7 @@ const SetupProfileScreen = ({ navigation, route }) => {
   };
 
   const user = auth.currentUser;
-  const docRef = doc(FIRESTORE_DB, "galleryUsers", user.uid);
+  const docRef = doc(FIRESTORE_DB, "users", user.uid);
   const updateProfileData = () => {
     updateDoc(docRef, {
       fullname: fullName === "" ? PrevName : fullName,

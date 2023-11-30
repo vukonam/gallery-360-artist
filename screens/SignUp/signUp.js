@@ -31,6 +31,7 @@ export default function App({ navigation }) {
   const handleSignUp = async () => {
     console.log("line executed!!!");
     console.log(auth);
+
     try {
       setIsLoading(true);
       const response = await createUserWithEmailAndPassword(

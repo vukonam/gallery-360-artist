@@ -25,24 +25,18 @@ import styles from "./styles.js";
 const DashboardScreen = ({ navigation }) => {
   const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 
-  // const [name, setName] = useState("John Doe");
-  // const [userData, setUserData] = useState(null);
   const [navStack, setNavStack] = useState("NewArtwork");
   const [desc, setDesc] = useState(
     " make your first sale by adding artwork collections"
   );
   const [btnText, setBtnText] = useState("Add Artworks");
-  // const [image, setImage] = useState(profilePic);
-  // const selectData = useSelector((state) => state.loginDetails.data);
-  // console.log("redux data : ", selectData);
-
   const { image, name, userData } = useProfileData();
 
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
-        data: [20, 45, 28, 80, 99, 43],
+        data: [0, 0, 0, 0, 0, 0],
         color: (opacity = 1) => `rgba(206, 184, 158, ${opacity})`, // Set the color of the line chart
       },
     ],
@@ -89,13 +83,13 @@ const DashboardScreen = ({ navigation }) => {
           name: "Painting 1",
           status: "SOLD",
           date: "2023-07-19",
-          price: "$100",
+          price: "R100",
         },
         {
           name: "Painting 2",
           status: "SOLD",
           date: "2023-07-18",
-          price: "$150",
+          price: "R150",
         },
         // Add more sales data as needed
       ];
@@ -125,13 +119,13 @@ const DashboardScreen = ({ navigation }) => {
           name: "Printmaking 1",
           status: "SOLD",
           date: "2023-07-19",
-          price: "$100",
+          price: "R100",
         },
         {
           name: "Printmaking 2",
           status: "SOLD",
           date: "2023-07-18",
-          price: "$150",
+          price: "R150",
         },
         // Add more sales data as needed
       ];
@@ -161,13 +155,13 @@ const DashboardScreen = ({ navigation }) => {
           name: "Textile Art 1",
           status: "SOLD",
           date: "2023-07-19",
-          price: "$100",
+          price: "R100",
         },
         {
           name: "Textile Art 2",
           status: "SOLD",
           date: "2023-07-18",
-          price: "$150",
+          price: "R150",
         },
       ];
       return (
@@ -199,7 +193,7 @@ const DashboardScreen = ({ navigation }) => {
     </View>
   ) : (
     <View style={styles.container}>
-      <View>{<ProfilePic data={{ name, image, navigation }} />}</View>
+      <ProfilePic data={{ name, image, navigation }} />
 
       <Text style={styles.welcomeHeader}>Welcome to your Dashboard</Text>
 

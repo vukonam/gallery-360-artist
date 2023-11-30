@@ -15,29 +15,18 @@ import { useCollection } from "../../hooks/useCollection";
 import { useSelector } from "react-redux";
 import { setSelectedArtworks } from "../../features/collectionSlice";
 import { useDispatch } from "react-redux";
-//import { useFetchExhibition } from "../../hooks/useFetchExhibition";
-//import { AsyncStorage } from "@react-native-async-storage/async-storage";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ArtworksScreen = ({ navigation }) => {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const { artworkData, firebaseArtworks } = useFetchArtworks();
-  // const dispatch = useDispatch();
-  // const selectedArtworks = useSelector(
-  //   (state) => state.collection.selectedArtworks
-  // );
-  //const artworks = ["The Great Collection"];
 
   function handleArtworkSelection(artwork) {
     const updatedArtworks = selectedArtworks.includes(artwork)
       ? selectedArtworks.filter((item) => item !== artwork)
       : [...selectedArtworks, artwork];
-    // setSelectedArtworks((prevSelected) =>
-    //   prevSelected.includes(artwork)
-    //     ? prevSelected.filter((item) => item !== artwork)
-    //     : [...prevSelected, artwork]
-    // )
-    //console.log("selectedArtworks : ", selectedArtworks);
+
     setSelectedArtworks(updatedArtworks);
     AsyncStorage.setItem("selectedArtworks", JSON.stringify(updatedArtworks));
   }

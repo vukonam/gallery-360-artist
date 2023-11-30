@@ -45,11 +45,11 @@ const SetupProfileScreen = ({ navigation }) => {
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
-  const { pickImage, image } = useImageFunctions();
+  const { pickImage, image, video, videoUrl, pickVideo } = useImageFunctions();
 
   // const user = auth.currentUser;
   // const writeUserData = () => {
-  //   setDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {
+  //   setDoc(doc(FIRESTORE_DB, "users", user.uid), {
   //     fullname: fullName,
   //     contactnumber: contactNumber,
   //     websiteurl: website,
@@ -159,6 +159,7 @@ const SetupProfileScreen = ({ navigation }) => {
       imageUrl: imageUrl,
       facebook: facebook,
       instagram: instagram,
+      videoUrl: videoUrl,
       //userid: user.uid,
     };
     navigation.navigate("Artwork", { userData });
@@ -167,10 +168,10 @@ const SetupProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View>
+        <View style={{ marginBottom: 90 }}>
           <Text style={styles.header}>Setup Profile</Text>
           <Text style={styles.smallerText}>
-            once your profile is complete, you can start uploading your artwork.
+            Once your profile is complete, you can start uploading your artwork.
           </Text>
         </View>
         <View>
@@ -211,7 +212,36 @@ const SetupProfileScreen = ({ navigation }) => {
                 }}
               />
             </TouchableOpacity>
-
+            <View
+              style={{
+                height: 130,
+                marginTop: 30,
+                //backgroundColor: "red",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.smallerText}>
+                Please record a (5mb) video introducing yourself
+              </Text>
+              <Text
+                style={{
+                  color: "gray", // Set this to your desired button text color
+                  fontSize: 14,
+                }}
+              >
+                {video === null ? null : video.split("Picker/")[1]}
+              </Text>
+              <TouchableOpacity style={styles.button} onPress={pickVideo}>
+                <Icon
+                  name="play"
+                  style={{ marginHorizontal: 12 }}
+                  size={20}
+                  color="white"
+                />
+                <Text style={styles.smallerButtonText}>UPLOAD VIDEO</Text>
+              </TouchableOpacity>
+            </View>
             <View style={styles.iconContainer}>
               <TouchableOpacity onPress={handleOpenModal}>
                 <Icon
@@ -252,88 +282,85 @@ const SetupProfileScreen = ({ navigation }) => {
         </View>
         {/* Image Input */}
         {/* Full Name Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="FULL NAME"
-          placeholderTextColor="white"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-
-        {/* Contact Number Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="CONTACT NUMBER"
-          placeholderTextColor="white"
-          value={contactNumber}
-          onChangeText={setContactNumber}
-          keyboardType="numeric"
-        />
-
-        {/* Website Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="WEBSITE"
-          placeholderTextColor="white"
-          value={website}
-          onChangeText={setWebsite}
-        />
-
-        {/* Date of Birth Input */}
-        {/* <TextInput
-          style={styles.input}
-          placeholder="Date of Birth"
-          placeholderTextColor="white"
-          value={dateOfBirth}
-          onChangeText={setDateOfBirth}
-          keyboardType="numeric"
-        /> */}
-        {input.toggleInput ? (
+        <View style={{ marginTop: 120 }}>
           <TextInput
             style={styles.input}
-            placeholder="DATE OF BIRTH"
+            placeholder="FULL NAME"
             placeholderTextColor="white"
-            value={input?.date.toLocaleDateString()}
-            onPressIn={input.showDatepicker}
+            value={fullName}
+            onChangeText={setFullName}
           />
-        ) : (
+
+          {/* Contact Number Input */}
           <TextInput
             style={styles.input}
-            placeholder="DATE OF BIRTH"
+            placeholder="CONTACT NUMBER"
             placeholderTextColor="white"
-            value={input.date !== null ? "" : input?.date.toLocaleDateString()}
-            onPressIn={input.showDatepicker}
+            value={contactNumber}
+            onChangeText={setContactNumber}
+            keyboardType="numeric"
           />
-        )}
-        {input.show && (
-          <DateTimePicker
-            testID="dateTimePicker2"
-            value={input.date}
-            mode={input.mode}
-            is24Hour={true}
-            display="default"
-            onChange={input.onChange}
-          />
-        )}
 
-        {/* Bio Input */}
-        <TextInput
-          style={{
-            width: "100%",
-            height: 100,
-            fontSize: 16,
-            borderBottomWidth: 1,
-            paddingHorizontal: 12,
-            borderBottomColor: "#ccc",
-            marginBottom: 20,
-            color: "#fff",
-          }}
-          placeholder="BIO"
-          placeholderTextColor="white"
-          value={bio}
-          onChangeText={setBio}
-          multiline
-        />
+          {/* Website Input */}
+          <TextInput
+            style={styles.input}
+            placeholder="WEBSITE"
+            placeholderTextColor="white"
+            value={website}
+            onChangeText={setWebsite}
+          />
+
+          {/* Date of Birth Input */}
+
+          {input.toggleInput ? (
+            <TextInput
+              style={styles.input}
+              placeholder="DATE OF BIRTH"
+              placeholderTextColor="white"
+              value={input?.date.toLocaleDateString()}
+              onPressIn={input.showDatepicker}
+            />
+          ) : (
+            <TextInput
+              style={styles.input}
+              placeholder="DATE OF BIRTH"
+              placeholderTextColor="white"
+              value={
+                input.date !== null ? "" : input?.date.toLocaleDateString()
+              }
+              onPressIn={input.showDatepicker}
+            />
+          )}
+          {input.show && (
+            <DateTimePicker
+              testID="dateTimePicker2"
+              value={input.date}
+              mode={input.mode}
+              is24Hour={true}
+              display="default"
+              onChange={input.onChange}
+            />
+          )}
+
+          {/* Bio Input */}
+          <TextInput
+            style={{
+              width: "100%",
+              height: 100,
+              fontSize: 16,
+              borderBottomWidth: 1,
+              paddingHorizontal: 12,
+              borderBottomColor: "#ccc",
+              marginBottom: 20,
+              color: "#fff",
+            }}
+            placeholder="BIO"
+            placeholderTextColor="white"
+            value={bio}
+            onChangeText={setBio}
+            multiline
+          />
+        </View>
         {/* Save Profile Button */}
         <TouchableOpacity
           style={styles.signInButton}

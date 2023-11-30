@@ -10,12 +10,17 @@ import {
 import React, { useRef, useState } from "react";
 import { SignatureView } from "react-native-signature-capture-view";
 
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
 import auth from "../../firebase/firebase.config.js";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshotm,
+  serverTimestamp,
+} from "firebase/firestore";
 
 //import { db, storage } from "../firebaseConfig";
 // Replace "FontAwesome5" with the icon library of your choice.
@@ -36,20 +41,24 @@ const MyPage = ({ route, navigation }) => {
     imageUrl: imageUrl,
     facebook: facebook,
     instagram: instagram,
+    videoUrl: videoUrl,
   } = userData;
 
   const writeUserData = () => {
-    setDoc(doc(FIRESTORE_DB, "galleryUsers", user.uid), {
-      fullname: fullName,
+    setDoc(doc(FIRESTORE_DB, "artists", user.uid), {
+      artistName: fullName,
       contactnumber: contactNumber,
       websiteurl: website,
       dateofbirth: dateOfBirth,
       biography: bio,
-      imageUrl: imageUrl,
+      photoUrl: imageUrl,
       facebook: facebook,
       instagram: instagram,
-      userid: user.uid,
+      artistUid: user.uid,
+      videoUrl: videoUrl,
       signature: text,
+      isEnabled: false,
+      timeStamp: serverTimestamp(),
     })
       .then((result) => {
         // Success callback

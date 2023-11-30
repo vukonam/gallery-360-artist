@@ -115,7 +115,7 @@ const ExhibitionScreen = ({ route, navigation }) => {
 
   const user = auth.currentUser;
   const writeUserData = () => {
-    setDoc(doc(FIRESTORE_DB, "newArtworks", user.uid), {
+    setDoc(doc(FIRESTORE_DB, "Market", user.uid), {
       title: title,
       dimensions: { width: width, height: height },
       year: year,

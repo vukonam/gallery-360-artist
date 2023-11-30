@@ -23,6 +23,8 @@ export const useImageFunctions = () => {
   const [imageUrl, setImageUrl] = useState();
   const [images, setImages] = useState([]);
   const [imagesUrls, setImagesUrls] = useState([]);
+  const [video, setVideo] = useState(null);
+  const [videoUrl, setVideoUrl] = useState("");
   const [progress, setProgress] = useState("");
 
   async function uploadImage(uri, fileType) {
@@ -78,6 +80,36 @@ export const useImageFunctions = () => {
     );
   }
 
+  async function uploadImage2(uri, fileType) {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    const storageRef = ref(storage, "Profile/" + new Date().getTime());
+    const uploadTask = uploadBytesResumable(storageRef, blob);
+
+    // listen for events
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        setProgress(progress.toFixed());
+      },
+      (error) => {
+        // handle error
+        console.log(error);
+        alert("Upload Error : ", error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log("File available at", downloadURL);
+          // save record
+          setVideoUrl(downloadURL);
+        });
+      }
+    );
+  }
   async function pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -109,12 +141,22 @@ export const useImageFunctions = () => {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      await uploadImage(result.assets[0].uri, "video");
+      setVideo(result.assets[0].uri);
+      await uploadImage2(result.assets[0].uri, "video");
     }
   }
 
-  return { pickImage, uploadImage, image, imagesUrls, images, imageUrl };
+  return {
+    pickImage,
+    uploadImage,
+    pickVideo,
+    video,
+    videoUrl,
+    image,
+    imagesUrls,
+    images,
+    imageUrl,
+  };
 };
 
 // Ddefault active selector

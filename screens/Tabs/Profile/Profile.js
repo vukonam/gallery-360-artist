@@ -45,7 +45,7 @@ const SetupProfileScreen = ({ navigation }) => {
     }
   };
 
-  return userData === [] ? (
+  return userData === null ? (
     <View style={styles.container}>
       <Imageloader />
     </View>

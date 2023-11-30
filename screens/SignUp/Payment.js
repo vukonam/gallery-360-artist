@@ -30,7 +30,7 @@ const PaymentScreen = ({ navigation }) => {
       cardNumber,
       expiry,
       cvv,
-      userid: user.uid,
+      artistUid: user.uid,
     })
       .then((result) => {
         // Success callback

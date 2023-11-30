@@ -68,7 +68,7 @@ const ExhibitionScreen = ({ route, navigation }) => {
           &nbsp;&nbsp;-&nbsp; {item?.year}
         </Text>
 
-        <Text style={styles.description}>{item.statement}</Text>
+        <Text style={styles.description}>{item?.statement}</Text>
         <Text style={styles.title}>Reviews</Text>
         {/* Use the ReviewsComponent here */}
         <ReviewsComponent

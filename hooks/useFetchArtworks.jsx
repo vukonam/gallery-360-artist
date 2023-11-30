@@ -19,7 +19,7 @@ export const useFetchArtworks = () => {
 
   useEffect(() => {
     const user = auth.currentUser;
-    const colRef = collection(FIRESTORE_DB, "newArtworks");
+    const colRef = collection(FIRESTORE_DB, "Market");
 
     const q = query(colRef, where("userid", "==", user.uid));
 

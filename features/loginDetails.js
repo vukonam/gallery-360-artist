@@ -24,7 +24,7 @@ const initialState = {
 //       const user = auth.currentUser;
 //       console.log(user.uid);
 //       const docData = await getDoc(
-//         doc(FIRESTORE_DB, "galleryUsers", user.uid),
+//         doc(FIRESTORE_DB, "users", user.uid),
 //         {}
 //       );
 

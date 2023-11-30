@@ -18,7 +18,13 @@ import { useSelector } from "react-redux";
 import auth from "../../firebase/firebase.config.js";
 // import { setDoc, doc, getDoc } from "firebase/firestore";
 import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
 //import Icon from "react-native-vector-icons/FontAwesome5";
 import { useImageFunctions } from "../../hooks/useImageFunctions";
@@ -92,16 +98,24 @@ const SetupProfileScreen = ({ navigation }) => {
   const fullMonthName = input.date.toLocaleString("en-US", options);
   const fullMonthName2 = input2.date.toLocaleString("en-US", options);
 
-  const fromDate = `${input.date.getDate()} ${fullMonthName.slice(
-    0,
-    3
-  )} ,${input.date.getFullYear()}`;
-  const toDate = `${input2.date.getDate()} ${fullMonthName2.slice(
-    0,
-    3
-  )} ,${input2.date.getFullYear()}`;
-  const fromTime = input3.date.toLocaleTimeString().toString();
-  const toTime = input4.date.toLocaleTimeString().toString();
+  // const fromDate = input.date;
+  // Create a JavaScript Date object
+  const myDate = new Date("2023-11-30");
+
+  // Convert the Date object to a Firestore Timestamp
+  const timestamp = Timestamp.fromDate(myDate);
+
+  console.log("fromDate : ", timestamp);
+  // const fromDate = `${input.date.getDate()} ${fullMonthName.slice(
+  //   0,
+  //   3
+  // )} ,${input.date.getFullYear()}`;
+  // const toDate = `${input2.date.getDate()} ${fullMonthName2.slice(
+  //   0,
+  //   3
+  // )} ,${input2.date.getFullYear()}`;
+  const fromTime = input3.date.toLocaleTimeString().slice(0, 5).toString();
+  const toTime = input4.date.toLocaleTimeString().slice(0, 5).toString();
 
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   useEffect(() => {
@@ -348,7 +362,9 @@ const SetupProfileScreen = ({ navigation }) => {
               placeholder="TO"
               placeholderTextColor="white"
               value={
-                input2.date !== null ? "" : input2?.date.toLocaleDateString()
+                input2.date !== null
+                  ? ""
+                  : input2?.date.toLocaleDateString().slice(0, 5)
               }
               onPressIn={input2.showDatepicker}
             />
@@ -387,7 +403,7 @@ const SetupProfileScreen = ({ navigation }) => {
               style={styles.dimensionsInput}
               placeholder="FROM"
               placeholderTextColor="white"
-              value={input3?.date.toLocaleTimeString()}
+              value={input3?.date.toLocaleTimeString().slice(0, 5)}
               onPressIn={input3.showDatepicker2}
             />
           ) : (
@@ -416,7 +432,7 @@ const SetupProfileScreen = ({ navigation }) => {
               style={styles.dimensionsInput}
               placeholder="TO"
               placeholderTextColor="white"
-              value={input4?.date.toLocaleTimeString()}
+              value={input4?.date.toLocaleTimeString().slice(0, 5)}
               onPressIn={input4.showDatepicker2}
             />
           ) : (

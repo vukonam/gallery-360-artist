@@ -42,17 +42,17 @@ export default function App(props) {
   };
 
   return (
-    <Modal visible={props.Modalvisible} animationType="slide">
+    <Modal
+      visible={props.Modalvisible}
+      transparent={true}
+      animationType="slide"
+      //  animationType="slide"
+      onRequestClose={props.closeModal}
+    >
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <View style={styles.buttonContainer}>
             <Text style={styles.header}>New collection</Text>
-            {/* <TouchableOpacity
-              style={styles.NewTypeButton}
-              onPress={() => console.log(" a new collection modal")}
-            >
-              <Text style={styles.buttonText}>NEW TYPE</Text>
-            </TouchableOpacity> */}
           </View>
           <TextInput
             style={styles.input}

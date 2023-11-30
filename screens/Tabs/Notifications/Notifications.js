@@ -23,7 +23,8 @@ import { useSelector } from "react-redux";
 import { useProfileData } from "../../../hooks/useProfilePic.jsx";
 import { setData } from "../../../features/loginDetails.js";
 //import { useSelector } from "react-redux";
-
+import { useFetchExhibition } from "../../../hooks/useFetchExhibition";
+import UseFetchUpcoming from "../../../hooks/UseFetchUpcoming";
 const DashboardScreen = ({ navigation }) => {
   const { image, name, userData } = useProfileData();
 
@@ -37,6 +38,13 @@ const DashboardScreen = ({ navigation }) => {
   // const toggleModal = () => {
   //   setModalVisible(!isModalVisible);
   // };
+  const { exhibionData, firebaseExhibition, past, upComing } =
+    useFetchExhibition();
+
+  console.log("firebaseExhibition : ", firebaseExhibition);
+  console.log("upcoming : ", upComing);
+  // console.log("past : ", past);
+
   const Imageloader = () => {
     return (
       <View
@@ -82,6 +90,7 @@ const DashboardScreen = ({ navigation }) => {
       {/* Navigation Menu */}
 
       {/* Profile Card */}
+      <UseFetchUpcoming />
       <TouchableOpacity
         style={styles.cardContainer}
         onPress={() => navigation.navigate("NotificationShow", { image, name })}
