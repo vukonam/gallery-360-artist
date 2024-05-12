@@ -22,6 +22,40 @@ const PaymentScreen = ({ navigation }) => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    console.log("validateForm is hit");
+    let errors = {};
+    // Ensures at least first and last name
+    if (cardHolder.trim() === "") {
+      errors.cardHolder = "Card holder is required";
+    } else if (!/^[a-zA-Z]+ [a-zA-Z]+$/.test(cardHolder)) {
+      errors.cardHolder = "Please enter a valid full name (e.g., John Doe)";
+    }
+
+    // Matches only digits
+    if (!cardNumber) {
+      errors.cardNumber = "Card number is required";
+    } else if (cardNumber.length < 14) {
+      errors.cardNumber = "Enter a valid card number";
+    } else if (!/^\d+$/.test(cardNumber)) {
+      errors.cardNumber = "Please enter a valid card number (digits only)";
+    }
+
+    if (!expiry) {
+      errors.expiry = "Expiry date is required";
+    }
+
+    // if (!cvv) {
+    //   errors.cvv = "Profile image is required";
+    // } else if (!/^\d+$/.test(cvv)) {
+    //   errors.cvv = "Please enter a valid card number (digits only)";
+    // }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const user = auth.currentUser;
   const writeUserData = () => {
@@ -47,15 +81,10 @@ const PaymentScreen = ({ navigation }) => {
   const handleContinue = () => {
     // You can perform any action here, such as processing the payment details
     // For simplicity, we'll just log the data for now.
-
-    console.log("Payment Details:");
-    console.log("Card Holder:", cardHolder);
-    console.log("Card Number:", cardNumber);
-    console.log("Expiry:", expiry);
-    console.log("CVV:", cvv);
-
-    writeUserData();
-    navigation.dispatch(StackActions.replace("Tabs"));
+    if (validateForm()) {
+      writeUserData();
+      navigation.dispatch(StackActions.replace("Tabs"));
+    }
   };
 
   return (
@@ -84,6 +113,9 @@ const PaymentScreen = ({ navigation }) => {
           value={cardHolder}
           onChangeText={setCardHolder}
         />
+        {errors.website ? (
+          <Text style={styles.errorMessage}>{errors.website}</Text>
+        ) : null}
         {/* Card Number Input */}
         <TextInput
           style={styles.input}
@@ -93,6 +125,9 @@ const PaymentScreen = ({ navigation }) => {
           onChangeText={setCardNumber}
           keyboardType="numeric"
         />
+        {errors.cardNumber ? (
+          <Text style={styles.errorMessage}>{errors.cardNumber}</Text>
+        ) : null}
         {/* Expiry Input */}
         <TextInput
           style={styles.input}
@@ -102,10 +137,13 @@ const PaymentScreen = ({ navigation }) => {
           onChangeText={setExpiry}
           keyboardType="numeric"
         />
+        {errors.expiry ? (
+          <Text style={styles.errorMessage}>{errors.expiry}</Text>
+        ) : null}
         {/* CVV Input */}
         <TextInput
           style={styles.input}
-          placeholder="CVV"
+          placeholder="CVV (Optional)"
           placeholderTextColor="white"
           value={cvv}
           onChangeText={setCvv}
@@ -196,6 +234,12 @@ const styles = StyleSheet.create({
   smallerButtonText: {
     color: "white",
     fontSize: 16,
+  },
+  errorMessage: {
+    width: "80%",
+    color: "red",
+    marginBottom: 10,
+    textAlign: "left",
   },
 });
 

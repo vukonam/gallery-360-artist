@@ -15,12 +15,12 @@ import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
 import auth from "../../firebase/firebase.config.js";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import {
-  addDoc,
-  collection,
-  onSnapshotm,
-  serverTimestamp,
-} from "firebase/firestore";
+// import {
+//   addDoc,
+//   collection,
+//   onSnapshotm,
+//   serverTimestamp,
+// } from "firebase/firestore";
 
 //import { db, storage } from "../firebaseConfig";
 // Replace "FontAwesome5" with the icon library of your choice.

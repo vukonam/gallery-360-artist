@@ -17,8 +17,9 @@ export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   const [selectedItems, setSelectedItems] = useState([]);
+  const [errors, setErrors] = useState({});
+
   const Items = ["I agree to Gallery360's Terms & Conditions"];
   function handleItemSelection(Item) {
     setSelectedItems((prevSelected) =>
@@ -28,25 +29,49 @@ export default function App({ navigation }) {
     );
   }
 
+  const validateForm = () => {
+    console.log("validateForm is hit");
+    let errors = {};
+    if (email.trim() === "") {
+      errors.email = "Please enter a valid email";
+    } else if (!/\S+@\S.\S{2,}/.test(email.replace(/ /g, ""))) {
+      errors.email = "Please enter a valid work or school email.";
+    }
+    if (
+      password.length < 8 ||
+      password.search(/[a-z]/) < 0 ||
+      password.search(/[A-Z]/) < 0 ||
+      password.search(/[\d]/) < 0
+    ) {
+      errors.password =
+        "Must be at least 8 characters including one uppercase letter and one lowercase letter.";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSignUp = async () => {
-    console.log("line executed!!!");
-    console.log(auth);
-
-    try {
-      setIsLoading(true);
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = response.user;
-
-      console.log("Registered with:", user.email);
-      setIsLoading(false);
-      navigation.navigate("Profile");
-    } catch (error) {
-      console.log(error);
-      alert("Please Enter Your Email And Password");
+    // Validate the form before submiting it
+    if (validateForm()) {
+      try {
+        setIsLoading(true);
+        const response = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = response.user;
+        // console.log("Registered with:", user.email);
+        setIsLoading(false);
+        navigation.navigate("Profile");
+        setEmail("");
+        setPassword("");
+        setErrors({});
+      } catch (error) {
+        console.log(error);
+        alert("Please Enter Your Email And Password");
+      }
     }
   };
 
@@ -85,16 +110,28 @@ export default function App({ navigation }) {
               placeholder="Email"
               placeholderTextColor="white"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(text) => {
+                setErrors({});
+                setEmail(text);
+              }}
             />
+            {errors.email ? (
+              <Text style={styles.errorMessage}>{errors.email}</Text>
+            ) : null}
             <TextInput
               style={styles.input}
               placeholder="Password"
               placeholderTextColor="white"
               secureTextEntry={true}
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(text) => {
+                setErrors({});
+                setPassword(text);
+              }}
             />
+            {errors.password ? (
+              <Text style={styles.errorMessage}>{errors.password}</Text>
+            ) : null}
 
             <View style={[styles.Items, styles.checkboxContainer]}>
               {Items.map((Item, index) => (
@@ -266,5 +303,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     //flexWrap: "wrap",
+  },
+  errorMessage: {
+    width: "80%",
+    color: "red",
+    marginBottom: 10,
+    textAlign: "left",
   },
 });

@@ -106,11 +106,7 @@ const MyPage = ({ route, navigation }) => {
                 key={index}
                 style={{
                   color: "white",
-                  // margin: 5,
                   textTransform: "uppercase",
-                  //   padding: 5,
-                  //   backgroundColor: "gray",
-                  //borderRadius: 10,
                 }}
               >
                 {art}
@@ -121,12 +117,19 @@ const MyPage = ({ route, navigation }) => {
       </View>
 
       {/* Continue Button */}
-      <TouchableOpacity
-        style={styles.continueButton}
-        onPress={() => navigation.navigate("Signature", { userData })}
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-end",
+        }}
       >
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={() => navigation.navigate("Signature", { userData })}
+        >
+          <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -161,17 +164,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#CEB89E",
   },
-  continueButton: {
-    position: "absolute",
-    backgroundColor: "#CEB89E",
-    height: 50,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    alignSelf: "center",
-    bottom: 40,
-  },
   buttonText: {
     color: "white",
     fontSize: 18,
@@ -180,11 +172,6 @@ const styles = StyleSheet.create({
   artWorks: {
     flexDirection: "row",
     flexWrap: "wrap",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-    padding: 20,
   },
   paragraph: {
     marginTop: 40,
@@ -210,7 +197,7 @@ const styles = StyleSheet.create({
     color: "#CEB89E",
   },
   continueButton: {
-    position: "absolute",
+    // position: "absolute",
     backgroundColor: "#CEB89E",
     height: 50,
     borderRadius: 15,
@@ -218,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     alignSelf: "center",
-    bottom: 40,
+    // bottom: 40,
   },
   buttonText: {
     color: "white",

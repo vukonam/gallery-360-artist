@@ -8,23 +8,13 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-//import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AddSocialMedia from "./AddSocialMedia";
-import { setDoc, doc } from "firebase/firestore";
-import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
-import auth from "../../firebase/firebase.config.js";
-import * as ImagePicker from "expo-image-picker";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-//import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { useImageFunctions } from "../../hooks/useImageFunctions";
 import useInput from "../../hooks/useDateTimePicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-//import { db, storage } from "../firebaseConfig";
-// Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
-  //const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [website, setWebsite] = useState("");
@@ -34,8 +24,46 @@ const SetupProfileScreen = ({ navigation }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [instagram, setInstagram] = useState("");
   const [facebook, setFacebook] = useState("");
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
+  const [errors, setErrors] = useState({});
 
+  const validateForm = () => {
+    console.log("validateForm is hit");
+    let errors = {};
+    // Ensures at least first and last name
+    if (fullName.trim() === "") {
+      errors.fullName = "Fullname is required";
+    } else if (!/^[a-zA-Z]+ [a-zA-Z]+$/.test(fullName)) {
+      errors.fullName = "Please enter a valid full name (e.g., John Doe)";
+    }
+
+    // Matches only digits
+    if (!contactNumber) {
+      errors.contactNumber = "Contact numbers are required";
+    } else if (contactNumber.length < 10) {
+    } else if (!/^\d+$/.test(contactNumber)) {
+      errors.contactNumber =
+        "Please enter a valid contact number (digits only)";
+    }
+    // Checking for website format
+    if (!website) {
+      errors.website = null;
+    } else if (!/^(http|https):\/\/[^\s]+/.test(website)) {
+      errors.website =
+        "Please enter a valid website URL (starting with http or https)";
+    }
+
+    if (!image) {
+      errors.image = "Profile image is required";
+    }
+
+    if (!input.date) {
+      errors.dateOfBirth = "Please select your date of birth";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   const input = useInput();
 
   const handleOpenModal = () => {
@@ -45,124 +73,25 @@ const SetupProfileScreen = ({ navigation }) => {
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
-  const { pickImage, image, video, videoUrl, pickVideo } = useImageFunctions();
+  // Function to take a photo or select
+  const { pickOneImage, image, video, videoUrl, progress, pickVideo } =
+    useImageFunctions();
 
-  // const user = auth.currentUser;
-  // const writeUserData = () => {
-  //   setDoc(doc(FIRESTORE_DB, "users", user.uid), {
-  //     fullname: fullName,
-  //     contactnumber: contactNumber,
-  //     websiteurl: website,
-  //     dateofbirth: dateOfBirth,
-  //     biography: bio,
-  //     imageUrl: imageUrl,
-  //     facebook: facebook,
-  //     instagram: instagram,
-  //     // userid: user.uid,
-  //   })
-  //     .then((result) => {
-  //       // Success callback
-  //       console.log("data ", result);
-  //       alert("data saved");
-  //     })
-  //     .catch((error) => {
-  //       // Error callback
-  //       alert(error);
-  //       console.log("error ", error);
-  //     });
-  // };
-
-  // async function pickImage() {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     aspect: [3, 4],
-  //     quality: 1,
-  //   });
-
-  //   if (!result.canceled) {
-  //     const source = { uri: result.assets[0].uri };
-  //     setImage(source);
-  //     // setImage(result.assets[0].uri);
-  //     // upload the image
-  //     await uploadImage(result.assets[0].uri, "image");
-  //   }
-  // }
-
-  // async function pickVideo() {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-  //     allowsEditing: true,
-  //     aspect: [3, 4],
-  //     quality: 1,
-  //   });
-
-  //   if (!result.canceled) {
-  //     setImage(result.assets[0].uri);
-  //     await uploadImage(result.assets[0].uri, "video");
-  //   }
-  // }
-
-  // async function uploadImage(uri, fileType) {
-  //   const response = await fetch(uri);
-  //   const blob = await response.blob();
-
-  //   const storageRef = ref(storage, "ProfileImages/" + new Date().getTime());
-  //   const uploadTask = uploadBytesResumable(storageRef, blob);
-
-  //   // listen for events
-  //   uploadTask.on(
-  //     "state_changed",
-  //     (snapshot) => {
-  //       const progress =
-  //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //       console.log("Upload is " + progress + "% done");
-  //       setProgress(progress.toFixed());
-  //     },
-  //     (error) => {
-  //       // handle error
-  //       console.log(error);
-  //       alert("Upload Error : ", error);
-  //     },
-  //     () => {
-  //       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-  //         console.log("File available at", downloadURL);
-  //         // save record
-  //         setImageUrl(downloadURL);
-  //         await saveRecord(fileType, downloadURL, new Date().toISOString());
-  //         //setVideo("");
-  //       });
-  //     }
-  //   );
-  // }
   const handleSaveProfile = () => {
-    // Here you can save the profile data to your backend or perform any necessary actions
-    // For simplicity, we'll just log the data for now.
-    // console.log("Profile Data:");
-    // console.log("Image:", image);
-    // console.log("ImageUrl:", imageUrl);
-    // console.log("Full Name:", fullName);
-    // console.log("Contact Number:", contactNumber);
-    // console.log("Website:", website);
-    // console.log("Date of Birth:", dateOfBirth);
-    // console.log("Bio:", bio);
-    // console.log("facebook :", facebook);
-    // console.log("instagram :", instagram);
-    //writeUserData();
-    //const user = auth.currentUser;
-    const userData = {
-      fullname: fullName,
-      contactnumber: contactNumber,
-      websiteurl: website,
-      dateofbirth: input.date.toLocaleDateString(),
-      biography: bio,
-      imageUrl: imageUrl,
-      facebook: facebook,
-      instagram: instagram,
-      videoUrl: videoUrl,
-      //userid: user.uid,
-    };
-    navigation.navigate("Artwork", { userData });
+    if (validateForm()) {
+      const userData = {
+        fullname: fullName,
+        contactnumber: contactNumber,
+        websiteurl: website,
+        dateofbirth: input.date.toLocaleDateString(),
+        biography: bio,
+        imageUrl: imageUrl,
+        facebook: facebook,
+        instagram: instagram,
+        videoUrl: videoUrl,
+      };
+      navigation.navigate("Artwork", { userData });
+    }
   };
 
   return (
@@ -197,7 +126,7 @@ const SetupProfileScreen = ({ navigation }) => {
                 source={require("../../assets/images/profile_image.jpg")}
               />
             )}
-            <TouchableOpacity onPress={pickImage}>
+            <TouchableOpacity onPress={pickOneImage}>
               <Icon
                 name="camera"
                 size={20}
@@ -221,6 +150,18 @@ const SetupProfileScreen = ({ navigation }) => {
                 alignItems: "center",
               }}
             >
+              {progress ? (
+                progress != 100 ? (
+                  <Text style={styles.smallerText}>
+                    Uploading...{progress}%
+                  </Text>
+                ) : (
+                  <Text style={styles.successSmallerText}>Image Uploaded</Text>
+                )
+              ) : null}
+              {errors.image && !progress ? (
+                <Text style={styles.errorMessage}>{errors.image}</Text>
+              ) : null}
               <Text style={styles.smallerText}>
                 Please record a (5mb) video introducing yourself
               </Text>
@@ -288,28 +229,44 @@ const SetupProfileScreen = ({ navigation }) => {
             placeholder="FULL NAME"
             placeholderTextColor="white"
             value={fullName}
-            onChangeText={setFullName}
+            onChangeText={(text) => {
+              setErrors({});
+              setFullName(text);
+            }}
           />
-
+          {errors.fullName ? (
+            <Text style={styles.errorMessage}>{errors.fullName}</Text>
+          ) : null}
           {/* Contact Number Input */}
           <TextInput
             style={styles.input}
             placeholder="CONTACT NUMBER"
             placeholderTextColor="white"
             value={contactNumber}
-            onChangeText={setContactNumber}
+            onChangeText={(text) => {
+              setErrors({});
+              setContactNumber(text);
+            }}
+            maxLength={10}
             keyboardType="numeric"
           />
-
+          {errors.contactNumber ? (
+            <Text style={styles.errorMessage}>{errors.contactNumber}</Text>
+          ) : null}
           {/* Website Input */}
           <TextInput
             style={styles.input}
             placeholder="WEBSITE"
             placeholderTextColor="white"
             value={website}
-            onChangeText={setWebsite}
+            onChangeText={(text) => {
+              setErrors({});
+              setWebsite(text);
+            }}
           />
-
+          {errors.website ? (
+            <Text style={styles.errorMessage}>{errors.website}</Text>
+          ) : null}
           {/* Date of Birth Input */}
 
           {input.toggleInput ? (
@@ -341,7 +298,9 @@ const SetupProfileScreen = ({ navigation }) => {
               onChange={input.onChange}
             />
           )}
-
+          {errors.dateOfBirth ? (
+            <Text style={styles.errorMessage}>{errors.dateOfBirth}</Text>
+          ) : null}
           {/* Bio Input */}
           <TextInput
             style={{
@@ -357,7 +316,10 @@ const SetupProfileScreen = ({ navigation }) => {
             placeholder="BIO"
             placeholderTextColor="white"
             value={bio}
-            onChangeText={setBio}
+            onChangeText={(text) => {
+              setErrors({});
+              setBio(text);
+            }}
             multiline
           />
         </View>
@@ -414,6 +376,10 @@ const styles = StyleSheet.create({
     color: "#fff", // Set this to your desired button text color
     fontSize: 14,
   },
+  successSmallerText: {
+    color: "#5cb85c", // Set this to your desired button text color
+    fontSize: 14,
+  },
   imageContainer: {
     marginTop: 40,
     padding: 20,
@@ -440,17 +406,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: "row",
   },
-  // dimensionsInput: {
-  //   width: "40%",
-  //   height: 50,
-  //   fontSize: 16,
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: "#ccc",
-  //   marginBottom: 20,
-  //   paddingHorizontal: 12,
-  //   alignSelf: "center",
-  //   color: "#fff",
-  // },
+  errorMessage: {
+    width: "80%",
+    color: "red",
+    marginBottom: 10,
+    textAlign: "left",
+  },
 });
 
 export default SetupProfileScreen;

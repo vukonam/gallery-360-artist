@@ -25,7 +25,7 @@ export const useImageFunctions = () => {
   const [imagesUrls, setImagesUrls] = useState([]);
   const [video, setVideo] = useState(null);
   const [videoUrl, setVideoUrl] = useState("");
-  const [progress, setProgress] = useState("");
+  const [progress, setProgress] = useState(0);
 
   async function uploadImage(uri, fileType) {
     const response = await fetch(uri);
@@ -110,11 +110,11 @@ export const useImageFunctions = () => {
       }
     );
   }
-  async function pickImage() {
+  async function pickMultipleImages() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [3, 4],
+      // aspect: [3, 4],
       quality: 1,
     });
 
@@ -132,11 +132,26 @@ export const useImageFunctions = () => {
     }
   }
 
+  async function pickOneImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      // aspect: [3, 4],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const source = { uri: result.assets[0].uri };
+      setImage(source);
+      await uploadImage(result.assets[0].uri, "image");
+    }
+  }
+
   async function pickVideo() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: true,
-      aspect: [3, 4],
+      // aspect: [3, 4],
       quality: 1,
     });
 
@@ -147,7 +162,8 @@ export const useImageFunctions = () => {
   }
 
   return {
-    pickImage,
+    pickOneImage,
+    pickMultipleImages,
     uploadImage,
     pickVideo,
     video,
@@ -156,6 +172,7 @@ export const useImageFunctions = () => {
     imagesUrls,
     images,
     imageUrl,
+    progress,
   };
 };
 

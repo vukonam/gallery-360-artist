@@ -127,7 +127,7 @@ const ExhibitionScreen = ({ route, navigation }) => {
       price: price,
       artworkType: artworkType,
       availability: selectedArtworks,
-      userid: user.uid,
+      ArtistUid: user.uid,
     })
       .then((result) => {
         // Success callback
