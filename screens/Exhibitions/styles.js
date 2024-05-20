@@ -131,4 +131,10 @@ export default styles = StyleSheet.create({
     alignSelf: "center",
     color: "#fff",
   },
+  errorMessage: {
+    width: "80%",
+    color: "red",
+    marginBottom: 10,
+    textAlign: "left",
+  },
 });

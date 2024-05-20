@@ -23,41 +23,11 @@ import { useProfileData } from "../../../hooks/useProfilePic.jsx";
 //import uuid from "react-native-uuid";
 import DateCheck from "../../../components/DateCheck.jsx";
 
-// const ListExhibition = (image, name) => {
-//   return (
-//     <View style={styles.cardContainer}>
-//       <View style={styles.profileCard}>
-//         <View style={styles.profileInfo}>
-//           <Image source={image} style={styles.profilePic} />
-//           <View style={styles.profileText}>
-//             <Text style={styles.profileName}>{name}</Text>
-//             <Text style={styles.profileInfoText}>
-//               Your Exhibitions will be listed here.{" "}
-//             </Text>
-//           </View>
-//         </View>
-//         <TouchableOpacity
-//           style={styles.addButton}
-//           onPress={() => handleAddArtwork()}
-//         >
-//           <Text style={styles.addButtonText}>LIST EXHIBITION</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
 export default function ExhibitionScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState("All");
-  // const { exhibionData, firebaseExhibition, past, upComing } =
-  //   useFetchExhibition();
+
   const { exhibionData, firebaseExhibition } = useFetchExhibition();
-  // useEffect(() => {
-  //   const { exhibionData, firebaseExhibition, past, upComing } =
-  //     useFetchExhibition();
-  // }, []);
-  // const newDate = firebaseExhibition
-  //   ? firebaseExhibition[0]?.date?.toDate
-  //   : null;
+  
   const firebaseExhibitionLength = firebaseExhibition?.length;
   console.log("Exhibition Screen : ", firebaseExhibition);
 

@@ -8,13 +8,8 @@ import {
   ScrollView,
   Button,
 } from "react-native";
-//import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import styles from "./styles";
-// import ProfilePic from "../../components/ProfilePic";
-import { useSelector } from "react-redux";
-// import { setLoading } from "../../features/loginDetails.js";
-// import { useDispatch } from "react-redux";
 import auth from "../../firebase/firebase.config.js";
 // import { setDoc, doc, getDoc } from "firebase/firestore";
 import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
@@ -26,67 +21,23 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import Carousel from "react-native-snap-carousel"; // Import the library for the carousel.
-//import Icon from "react-native-vector-icons/FontAwesome5";
+
 import { useImageFunctions } from "../../hooks/useImageFunctions";
-//import { AsyncStorage } from "@react-native-async-storage/async-storage";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import { StatusBar } from "expo-status-bar";
-//import { StyleSheet, Button, View, Text } from "react-native";
+
 import DateTimePicker from "@react-native-community/datetimepicker";
-//import { useState } from "react";
+
 import CustomDateTimePicker from "../../components/DateTimePicker";
-// Replace "FontAwesome5" with the icon library of your choice.
+
 import useInput from "../../hooks/useDateTimePicker";
-// import React, { useState } from 'react'
-// import { View, Text, StyleSheet, Button, TextInput, Picker } from 'react-native'
-// import DateTimePicker from '@react-native-community/datetimepicker'
 
-// function useInput() {
-//   const [date, setDate] = useState(new Date());
-//   const [mode, setMode] = useState("date");
-//   const [show, setShow] = useState(false);
-//   const [toggleInput, setToggleInput] = useState(false);
-
-//   const showMode = (currentMode) => {
-//     setShow(true);
-//     setMode(currentMode);
-//     setToggleInput(true);
-//   };
-//   const showDatepicker = () => {
-//     showMode("date");
-//   };
-
-//   const showDatepicker2 = () => {
-//     showMode("time");
-//   };
-//   const onChange = (event, selectedDate) => {
-//     const currentDate = selectedDate || date;
-//     setShow(Platform.OS === "ios");
-//     setDate(currentDate);
-//   };
-//   return {
-//     date,
-//     showDatepicker,
-//     showDatepicker2,
-//     show,
-//     mode,
-//     onChange,
-//     toggleInput,
-//   };
-// }
 
 const SetupProfileScreen = ({ navigation }) => {
   const input = useInput();
   const input2 = useInput();
   const input3 = useInput();
   const input4 = useInput();
-  // const [date, setDate] = useState(new Date());
-  // const [show, setShow] = useState(false);
-  // const [mode, setMode] = useState("date");
-  // const [fromDate, setFromDate] = useState(new Date());
-  // const [toDate, setToDate] = useState(new Date());
-  // const [showDatePicker, setShowDatePicker] = useState(false);
-  // const [showTimePicker, setShowTimePicker] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -97,7 +48,7 @@ const SetupProfileScreen = ({ navigation }) => {
   const options = { month: "long" };
   const fullMonthName = input.date.toLocaleString("en-US", options);
   const fullMonthName2 = input2.date.toLocaleString("en-US", options);
-
+  const [errors, setErrors] = useState({});
   // const fromDate = input.date;
   // Create a JavaScript Date object
   const myDate = new Date("2023-11-30");
@@ -106,14 +57,7 @@ const SetupProfileScreen = ({ navigation }) => {
   const timestamp = Timestamp.fromDate(myDate);
 
   console.log("fromDate : ", timestamp);
-  // const fromDate = `${input.date.getDate()} ${fullMonthName.slice(
-  //   0,
-  //   3
-  // )} ,${input.date.getFullYear()}`;
-  // const toDate = `${input2.date.getDate()} ${fullMonthName2.slice(
-  //   0,
-  //   3
-  // )} ,${input2.date.getFullYear()}`;
+
   const fromTime = input3.date.toLocaleTimeString().slice(0, 5).toString();
   const toTime = input4.date.toLocaleTimeString().slice(0, 5).toString();
 
@@ -142,7 +86,46 @@ const SetupProfileScreen = ({ navigation }) => {
   const user = auth.currentUser;
   const colRef = collection(FIRESTORE_DB, "exhibition");
 
-  const { pickImage, image, imagesUrls, images } = useImageFunctions();
+  const { pickOneImage, image, imagesUrls, images } = useImageFunctions();
+
+function validateEvent() {
+  let errors = {};
+
+  // Check for falsy values
+  if (!name) {
+    errors.name = "Name is required";
+  }
+  if (!email) {
+    errors.email = "Email is required";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = "Email is invalid";
+  }
+  if (!contactNumber) {
+    errors.contactNumber = "Contact Number is required";
+  }
+  if (!address) {
+    errors.address = "Address is required";
+  }
+  // if (!date || !date.fromDate || !date.toDate) {
+  //   errors.date = "Invalid date range. From and To dates are required.";
+  // }
+  // if (!time || !time.fromTime || !time.toTime) {
+  //   errors.time = "Invalid time range. From and To times are required.";
+  // }
+  if (!desc) {
+    errors.desc = "Description is required.";
+  }
+  // if (!imgUrls || !imgUrls.length) {
+  //   errors.imgUrls = "Please upload at least one image.";
+  // }
+  // if (!collections || !collections.length) {
+  //   errors.collections = "Please select at least one collection.";
+  // }
+
+  setErrors(errors);
+  // Return errors as an array (empty if no errors)
+  return Object.keys(errors).length === 0;
+}
 
   const writeUserData = () => {
     const handleAddDoc = () => {
@@ -156,7 +139,7 @@ const SetupProfileScreen = ({ navigation }) => {
         desc,
         imgUrls: imagesUrls,
         collections: selectedArtworks,
-        userid: user.uid,
+        artistUid: user.uid,
       })
         .then((result) => {
           // Success callback
@@ -173,14 +156,7 @@ const SetupProfileScreen = ({ navigation }) => {
   };
 
   const handleSaveProfile = () => {
-    // Here you can save the profile data to your backend or perform any necessary actions
-    // For simplicity, we'll just log the data for now.
-    console.log("Profile Data:");
-    console.log("Image:", image);
-    console.log("Full Name:", name);
-    console.log("Contact Number:", contactNumber);
-    console.log("Email:", email);
-    console.log("Desc:", desc);
+  if (validateEvent()){
     navigation.navigate("ExhibitionShow", {
       image,
       images,
@@ -191,7 +167,8 @@ const SetupProfileScreen = ({ navigation }) => {
       desc,
     });
 
-    writeUserData();
+   writeUserData();
+  }
   };
 
   return (
@@ -245,7 +222,7 @@ const SetupProfileScreen = ({ navigation }) => {
                   borderRadius: 10,
                   borderStyle: "dashed",
                 }}
-                onPress={pickImage}
+                onPress={pickOneImage}
               >
                 <Icon
                   name="camera"
@@ -263,7 +240,7 @@ const SetupProfileScreen = ({ navigation }) => {
             <View>
               <TouchableOpacity
                 style={styles.imageContainer}
-                onPress={pickImage}
+                onPress={pickOneImage}
               >
                 <Icon
                   name="camera"
@@ -298,7 +275,9 @@ const SetupProfileScreen = ({ navigation }) => {
           value={name}
           onChangeText={setName}
         />
-
+        {errors.name ? (
+          <Text style={styles.errorMessage}>{errors.name}</Text>
+        ) : null}
         <Text
           style={{
             // height: 50,
@@ -309,7 +288,9 @@ const SetupProfileScreen = ({ navigation }) => {
         >
           DATE
         </Text>
-
+        {/* {errors.date ? (
+          <Text style={styles.errorMessage}>{errors.date}</Text>
+        ) : null} */}
         <View
           style={{
             flexDirection: "row",
@@ -391,6 +372,9 @@ const SetupProfileScreen = ({ navigation }) => {
         >
           TIME
         </Text>
+        {/* {errors.time ? (
+          <Text style={styles.errorMessage}>{errors.time}</Text>
+        ) : null} */}
         <View
           style={{
             flexDirection: "row",
@@ -464,6 +448,9 @@ const SetupProfileScreen = ({ navigation }) => {
           value={address}
           onChangeText={setAddress}
         />
+        {errors.address ? (
+          <Text style={styles.errorMessage}>{errors.address}</Text>
+        ) : null}
         {/* Contact Number Input */}
         <TextInput
           style={styles.input}
@@ -473,6 +460,9 @@ const SetupProfileScreen = ({ navigation }) => {
           onChangeText={setContactNumber}
           keyboardType="numeric"
         />
+        {errors.contactNumber ? (
+          <Text style={styles.errorMessage}>{errors.contactNumber}</Text>
+        ) : null}
         <TextInput
           style={styles.input}
           placeholder="EMAIL"
@@ -480,6 +470,9 @@ const SetupProfileScreen = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
         />
+        {errors.email ? (
+          <Text style={styles.errorMessage}>{errors.email}</Text>
+        ) : null}
         {/* Desc Input */}
         <TextInput
           style={{
@@ -498,6 +491,9 @@ const SetupProfileScreen = ({ navigation }) => {
           onChangeText={setDesc}
           multiline
         />
+        {errors.desc ? (
+          <Text style={styles.errorMessage}>{errors.desc}</Text>
+        ) : null}
         {/* Save Profile Button */}
         <TouchableOpacity
           style={styles.signInButton}

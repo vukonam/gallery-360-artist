@@ -55,9 +55,10 @@ const NewArtwork = ({ navigation }) => {
 
   const [statement, setStatement] = useState("");
   //const [progress, setProgress] = useState("");
+  const [errors, setErrors] = useState({});
   // Ddefault active selector
 
-  const { pickImage, image, imagesUrls, images } = useImageFunctions();
+  const { pickMultipleImages, image, imagesUrls, images } = useImageFunctions();
   const [collectedData, setCollectedData] = useState("");
   const [newCollection, setNewCollection] = useState(null);
   const [selectedTermsAndCondtions, setSelectedTermsAndCondtions] = useState(
@@ -71,6 +72,55 @@ const NewArtwork = ({ navigation }) => {
   const toggleCollection = () => {
     setModalVisible(!isModalVisible);
   };
+
+function validateArtwork() {
+  let errors = {};
+
+  // Check for falsy values (excluding 0 for price)
+  if (!title) {
+    errors.title = "Title is required.";
+   
+  }
+  if (!isAvailable) {
+    errors.isAvailable = "Is Available is required.";
+
+  }
+  if (!artworkType.length) {
+    errors.artworkType = "Artwork Type is required.";
+    
+  }
+  if (!medium) {
+    errors.medium = "Medium is required.";
+  }
+  if (!year) {
+    errors.year = "Year is required.";
+  }
+  if (!condition) {
+    errors.condition = "Condition is required.";
+  }
+
+  // Check for specific cases (e.g., width, height can be 0)
+  if (width < 0) {
+    errors.width = "Width must be a positive number.";
+  }
+  if (height < 0) {
+    errors.height = "Height must be a positive number.";
+  }
+  if (breadth && breadth < 0) {
+    errors.breadth = "Breadth must be a positive number.";
+  }
+  if (length && length < 0) {
+    errors.length = "Length must be a positive number.";
+  }
+  if (price < 0) {
+    errors.price = "Price must be a positive number.";
+  }
+
+  setErrors(errors)
+  // Return errors as an array (empty if no errors)
+  return Object.keys(errors).length === 0;
+}
+
   // const toggleCollection = {};
   const writeUserData = () => {
     let niceCol = "";
@@ -108,7 +158,7 @@ const NewArtwork = ({ navigation }) => {
         artworkType: artworkType,
         availability: selectedArtworks,
         collection: niceCol,
-        userid: user.uid,
+        artistUid: user.uid,
       })
         .then((result) => {
           // Success callback
@@ -153,8 +203,10 @@ const NewArtwork = ({ navigation }) => {
 
   // Function to handle saving the profile
   const handleSaveProfile = () => {
-    writeUserData();
-    navigation.popToTop();
+    if (validateArtwork()) {
+      writeUserData();
+      navigation.popToTop();
+    }
   };
 
   const [collectionModalVisible, setCollectionModalVisible] = useState(false);
@@ -204,7 +256,7 @@ const NewArtwork = ({ navigation }) => {
             />
             <TouchableOpacity
               style={styles.imageContainer2}
-              onPress={pickImage}
+              onPress={pickMultipleImages}
             >
               <Icon
                 name="camera"
@@ -220,7 +272,10 @@ const NewArtwork = ({ navigation }) => {
           </>
         ) : (
           <View>
-            <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+            <TouchableOpacity
+              style={styles.imageContainer}
+              onPress={pickMultipleImages}
+            >
               <Icon
                 name="camera"
                 size={20}
@@ -243,7 +298,9 @@ const NewArtwork = ({ navigation }) => {
           value={title}
           onChangeText={setTitle}
         />
-
+        {errors.title ? (
+          <Text style={styles.errorMessage}>{errors.title}</Text>
+        ) : null}
         <TextInput
           style={styles.input}
           placeholder="MEDIUM"
@@ -251,10 +308,12 @@ const NewArtwork = ({ navigation }) => {
           value={medium}
           onChangeText={setMedium}
         />
+        {errors.medium ? (
+          <Text style={styles.errorMessage}>{errors.medium}</Text>
+        ) : null}
         <View>
           <Text
             style={{
-              // height: 50,
               fontSize: 16,
               color: "#fff",
               paddingHorizontal: 12,
@@ -280,7 +339,9 @@ const NewArtwork = ({ navigation }) => {
               value={width}
               onChangeText={setWidth}
             />
-
+            {errors.width ? (
+              <Text style={styles.errorMessage}>{errors.width}</Text>
+            ) : null}
             <TextInput
               style={styles.dimensionsInput}
               placeholder="HEIGHT"
@@ -289,6 +350,9 @@ const NewArtwork = ({ navigation }) => {
               value={height}
               onChangeText={setHeight}
             />
+            {errors.height ? (
+              <Text style={styles.errorMessage}>{errors.height}</Text>
+            ) : null}
             <TextInput
               style={styles.dimensionsInput}
               placeholder="LENGTH"
@@ -297,6 +361,9 @@ const NewArtwork = ({ navigation }) => {
               value={length}
               onChangeText={setLength}
             />
+            {errors.length ? (
+              <Text style={styles.errorMessage}>{errors.length}</Text>
+            ) : null}
             <TextInput
               style={styles.dimensionsInput}
               placeholder="BREADTH"
@@ -305,6 +372,9 @@ const NewArtwork = ({ navigation }) => {
               value={breadth}
               onChangeText={setBreadth}
             />
+            {errors.breadth ? (
+              <Text style={styles.errorMessage}>{errors.breadth}</Text>
+            ) : null}
           </View>
         </View>
         <TextInput
@@ -315,6 +385,10 @@ const NewArtwork = ({ navigation }) => {
           keyboardType="numeric"
           onChangeText={setYear}
         />
+        {errors.year ? (
+          <Text style={styles.errorMessage}>{errors.year}</Text>
+        ) : null}
+
         <TextInput
           style={styles.input}
           placeholder="PRICE"
@@ -323,6 +397,9 @@ const NewArtwork = ({ navigation }) => {
           keyboardType="numeric"
           onChangeText={setPrice}
         />
+        {errors.price ? (
+          <Text style={styles.errorMessage}>{errors.price}</Text>
+        ) : null}
 
         <SelectList
           data={conditionData}
@@ -335,8 +412,6 @@ const NewArtwork = ({ navigation }) => {
             paddingHorizontal: 12,
             borderColor: "black",
             borderBottomWidth: 5,
-            //marginTop: 8,
-            //marginBottom: 20,
           }}
           inputStyles={{ color: "white" }}
           dropdownStyles={{
@@ -351,6 +426,9 @@ const NewArtwork = ({ navigation }) => {
           //style={{ color: "white" }}
           dropdownTextStyles={{ color: "white" }}
         />
+        {errors.conditionData ? (
+          <Text style={styles.errorMessage}>{errors.conditionData}</Text>
+        ) : null}
         <View
           style={{ borderTopWidth: 1, borderColor: "#ccc", marginBottom: 20 }}
         ></View>
@@ -484,11 +562,6 @@ const NewArtwork = ({ navigation }) => {
             borderColor: "black",
             borderBottomWidth: 5,
           }}
-          // inputStyles={{
-          //   backgroundColor: "black",
-          //   width: "100%",
-          //   color: "white",
-          // }}
           save="value"
           dropdownStyles={{
             backgroundColor: "black",
@@ -506,6 +579,9 @@ const NewArtwork = ({ navigation }) => {
           style={{ color: "white" }}
           dropdownTextStyles={{ color: "white" }}
         />
+        {errors.artworkData ? (
+          <Text style={styles.errorMessage}>{errors.artworkData}</Text>
+        ) : null}
         <View
           style={{ borderTopWidth: 1, borderColor: "#ccc", marginBottom: 20 }}
         ></View>
@@ -527,6 +603,10 @@ const NewArtwork = ({ navigation }) => {
           onChangeText={setStatement}
           multiline
         />
+        {errors.statement ? (
+          <Text style={styles.errorMessage}>{errors.statement}</Text>
+        ) : null}
+
         <View style={styles.returnPolicytextContainer}>
           <Text style={styles.returnPolicytext}>Return Policy </Text>
           <Text style={styles.returnPolicytext2}>GALLERY360</Text>

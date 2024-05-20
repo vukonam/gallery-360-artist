@@ -12,11 +12,8 @@ import {
 } from "firebase/firestore";
 import { FIRESTORE_DB, storage } from "../firebase/firebase.config";
 import auth from "../firebase/firebase.config.js";
-//import { FIRESTORE_DB, storage } from "../../../firebase/firebase.config";
-//import auth from "../firebase/firebase.config.js";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-//import { addDoc, collection, onSnapshot } from "firebase/firestore";
 
 export const useImageFunctions = () => {
   const [image, setImage] = useState("");

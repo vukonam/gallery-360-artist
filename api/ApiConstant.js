@@ -24,7 +24,7 @@ const [progress, setProgress] = useState(0);
 
 const user = auth.currentUser;
 const writeUserData = () => {
-  setDoc(doc(FIRESTORE_DB, "users", user.uid), {
+  setDoc(doc(FIRESTORE_DB, "artists", user.uid), {
     fullname: fullName,
     contactnumber: contactNumber,
     websiteurl: website,
@@ -33,7 +33,7 @@ const writeUserData = () => {
     imageUrl: imageUrl,
     facebook: facebook,
     instagram: instagram,
-    userid: user.uid,
+    artistUid: user.uid,
   })
     .then((result) => {
       // Success callback

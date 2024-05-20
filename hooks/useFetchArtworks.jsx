@@ -21,7 +21,7 @@ export const useFetchArtworks = () => {
     const user = auth.currentUser;
     const colRef = collection(FIRESTORE_DB, "Market");
 
-    const q = query(colRef, where("userid", "==", user.uid));
+    const q = query(colRef, where("artistUid", "==", user.uid));
 
     onSnapshot(q, (querySnapshot) => {
       const collection = [];

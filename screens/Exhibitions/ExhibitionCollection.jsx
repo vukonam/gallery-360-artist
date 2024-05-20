@@ -12,9 +12,6 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAwesome5" with the icon library of your choice.
 import { useFetchArtworks } from "../../hooks/useFetchArtworks";
 import { useCollection } from "../../hooks/useCollection";
-import { useSelector } from "react-redux";
-import { setSelectedArtworks } from "../../features/collectionSlice";
-import { useDispatch } from "react-redux";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

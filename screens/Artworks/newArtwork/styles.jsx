@@ -227,4 +227,10 @@ export default styles = StyleSheet.create({
     color: "#fff", // Set this to your desired button text color
     fontSize: 12,
   },
+  errorMessage: {
+    width: "80%",
+    color: "red",
+    marginBottom: 10,
+    textAlign: "left",
+  },
 });

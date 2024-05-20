@@ -22,7 +22,7 @@ const [instagram, setInstagram] = useState("");
 const [facebook, setFacebook] = useState("");
 const [progress, setProgress] = useState(0);
 
-getDoc(doc(FIRESTORE_DB, "users", user.uid), {})
+getDoc(doc(FIRESTORE_DB, "artists", user.uid), {})
   .then((docData) => {
     // Success callback
     console.log("data ", docData.data());

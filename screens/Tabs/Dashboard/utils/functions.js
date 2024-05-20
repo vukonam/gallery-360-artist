@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { setData } from "../../../../features/loginDetails.js";
 
 const getProfileDoc = () => {
-  getDoc(doc(FIRESTORE_DB, "users", user.uid), {})
+  getDoc(doc(FIRESTORE_DB, "artists", user.uid), {})
     .then((docData) => {
       // Success callback
       console.log("data ", docData.data());

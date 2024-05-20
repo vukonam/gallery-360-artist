@@ -17,7 +17,7 @@ export const fetchUserData = createAsyncThunk(
     try {
       const user = auth.currentUser;
       console.log(user.uid);
-      const docData = await getDoc(doc(FIRESTORE_DB, "users", user.uid), {});
+      const docData = await getDoc(doc(FIRESTORE_DB, "artists", user.uid), {});
 
       if (docData.exists()) {
         const data = docData.data();

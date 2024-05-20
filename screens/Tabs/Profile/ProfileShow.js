@@ -25,7 +25,7 @@ import {
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation, route }) => {
   const { userData } = route.params;
-  const useImage = { uri: userData.imageUrl };
+  const useImage = { uri: userData.photoUrl };
   console.log("userdata: ", userData);
   const [sourceImage, setImage] = useState(useImage);
   const [fullName, setFullName] = useState("");
@@ -36,7 +36,7 @@ const SetupProfileScreen = ({ navigation, route }) => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
 
-  const PrevName = userData.fullname;
+  const PrevName = userData.artistName;
   const prevContactNumber = userData.contactnumber;
   const PrevWebsite = userData.websiteurl;
   const Prevfacebook = userData.facebook;
@@ -46,7 +46,7 @@ const SetupProfileScreen = ({ navigation, route }) => {
 
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const { pickImage, image, imageUrl } = useImageFunctions();
+  const { pickOneImage, image, imageUrl } = useImageFunctions();
   const handleOpenModal = () => {
     setModalIsVisible(true);
   };
@@ -56,15 +56,15 @@ const SetupProfileScreen = ({ navigation, route }) => {
   };
 
   const user = auth.currentUser;
-  const docRef = doc(FIRESTORE_DB, "users", user.uid);
+  const docRef = doc(FIRESTORE_DB, "artists", user.uid);
   const updateProfileData = () => {
     updateDoc(docRef, {
-      fullname: fullName === "" ? PrevName : fullName,
+      artistName: fullName === "" ? PrevName : fullName,
       contactnumber: contactNumber === "" ? prevContactNumber : contactNumber,
       websiteurl: website === "" ? PrevWebsite : website,
       dateofbirth: dateOfBirth === "" ? PrevdateOfBirth : dateOfBirth,
       biography: bio === "" ? Prevbio : bio,
-      imageUrl: imageUrl === null || undefined ? userData.imageUrl : imageUrl,
+      photoUrl: imageUrl === null || undefined ? userData.imageUrl : imageUrl,
       facebook: facebook === "" ? Prevfacebook : facebook,
       instagram: instagram === "" ? Previnstagram : instagram,
     })
@@ -138,7 +138,7 @@ const SetupProfileScreen = ({ navigation, route }) => {
               }}
               source={imageUrl}
             /> */}
-            <TouchableOpacity onPress={pickImage}>
+            <TouchableOpacity onPress={pickOneImage}>
               <Icon
                 name="camera"
                 size={20}

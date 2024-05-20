@@ -11,7 +11,7 @@ const initialState = {
     fullname: "",
     imageUrl: "",
     instagram: "",
-    userid: "",
+    artistUid: "",
     websiteurl: "",
     loading: "",
   },

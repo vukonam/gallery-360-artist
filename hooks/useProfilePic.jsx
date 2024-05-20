@@ -1,20 +1,13 @@
 import auth from "../firebase/firebase.config";
 import { useState, useEffect } from "react";
 import {
-  setDoc,
-  doc,
-  getDoc,
-  getDocs,
-  addDoc,
   query,
   where,
   collection,
   onSnapshot,
 } from "firebase/firestore";
 import { FIRESTORE_DB, storage } from "../firebase/firebase.config";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { setData } from "../features/loginDetails.js";
+
 
 export const useProfileData = () => {
   const profilePic = require("../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
@@ -26,8 +19,8 @@ export const useProfileData = () => {
   useEffect(() => {
     const fetchData = async () => {
       const user = auth.currentUser;
-      const colRef = collection(FIRESTORE_DB, "users");
-      const q = query(colRef, where("userid", "==", user.uid));
+      const colRef = collection(FIRESTORE_DB, "artists");
+      const q = query(colRef, where("artistUid", "==", user.uid));
 
       try {
         onSnapshot(q, (querySnapshot) => {
@@ -35,8 +28,8 @@ export const useProfileData = () => {
             const data = doc.data();
             console.log("data", data);
             setUserData(data);
-            setName(data.fullname);
-            setImage({ uri: data.imageUrl });
+            setName(data.artistName);
+            setImage({ uri: data.photoUrl });
           });
         });
         console.log("data profile: ", data);
