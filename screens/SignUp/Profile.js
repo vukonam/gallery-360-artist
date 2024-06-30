@@ -20,7 +20,7 @@ const SetupProfileScreen = ({ navigation }) => {
   const [website, setWebsite] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
-  const [imageUrl, setImageUrl] = useState(null);
+  // const [imageUrl, setImageUrl] = useState(null);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [instagram, setInstagram] = useState("");
   const [facebook, setFacebook] = useState("");
@@ -74,8 +74,15 @@ const SetupProfileScreen = ({ navigation }) => {
     setModalIsVisible(false);
   };
   // Function to take a photo or select
-  const { pickOneImage, image, video, videoUrl, progress, pickVideo } =
-    useImageFunctions();
+  const {
+    pickOneImage,
+    image,
+    imageUrl,
+    video,
+    videoUrl,
+    progress,
+    pickVideo,
+  } = useImageFunctions();
 
   const handleSaveProfile = () => {
     if (validateForm()) {

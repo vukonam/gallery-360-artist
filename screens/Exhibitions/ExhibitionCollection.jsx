@@ -46,7 +46,7 @@ const ArtworksScreen = ({ navigation }) => {
       </View>
     );
 
-    return firebaseArtworks === null || firebaseArtworks === [] ? (
+    return firebaseArtworks === null || firebaseArtworks.length === 0 ? (
       <View>
         <Text>This Collection Is Empty</Text>
       </View>
