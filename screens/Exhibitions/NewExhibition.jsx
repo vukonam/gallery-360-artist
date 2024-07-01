@@ -32,7 +32,6 @@ import CustomDateTimePicker from "../../components/DateTimePicker";
 
 import useInput from "../../hooks/useDateTimePicker";
 
-
 const SetupProfileScreen = ({ navigation }) => {
   const input = useInput();
   const input2 = useInput();
@@ -62,6 +61,8 @@ const SetupProfileScreen = ({ navigation }) => {
   const toTime = input4.date.toLocaleTimeString().slice(0, 5).toString();
 
   const [selectedArtworks, setSelectedArtworks] = useState([]);
+  const [isFocused, setIsFocused] = useState(false);
+
   useEffect(() => {
     AsyncStorage.getItem("selectedArtworks").then((data) => {
       if (data) {
@@ -88,44 +89,44 @@ const SetupProfileScreen = ({ navigation }) => {
 
   const { pickOneImage, image, imagesUrls, images } = useImageFunctions();
 
-function validateEvent() {
-  let errors = {};
+  function validateEvent() {
+    let errors = {};
 
-  // Check for falsy values
-  if (!name) {
-    errors.name = "Name is required";
-  }
-  if (!email) {
-    errors.email = "Email is required";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errors.email = "Email is invalid";
-  }
-  if (!contactNumber) {
-    errors.contactNumber = "Contact Number is required";
-  }
-  if (!address) {
-    errors.address = "Address is required";
-  }
-  // if (!date || !date.fromDate || !date.toDate) {
-  //   errors.date = "Invalid date range. From and To dates are required.";
-  // }
-  // if (!time || !time.fromTime || !time.toTime) {
-  //   errors.time = "Invalid time range. From and To times are required.";
-  // }
-  if (!desc) {
-    errors.desc = "Description is required.";
-  }
-  // if (!imgUrls || !imgUrls.length) {
-  //   errors.imgUrls = "Please upload at least one image.";
-  // }
-  // if (!collections || !collections.length) {
-  //   errors.collections = "Please select at least one collection.";
-  // }
+    // Check for falsy values
+    if (!name) {
+      errors.name = "Name is required";
+    }
+    if (!email) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Email is invalid";
+    }
+    if (!contactNumber) {
+      errors.contactNumber = "Contact Number is required";
+    }
+    if (!address) {
+      errors.address = "Address is required";
+    }
+    // if (!date || !date.fromDate || !date.toDate) {
+    //   errors.date = "Invalid date range. From and To dates are required.";
+    // }
+    // if (!time || !time.fromTime || !time.toTime) {
+    //   errors.time = "Invalid time range. From and To times are required.";
+    // }
+    if (!desc) {
+      errors.desc = "Description is required.";
+    }
+    // if (!imgUrls || !imgUrls.length) {
+    //   errors.imgUrls = "Please upload at least one image.";
+    // }
+    // if (!collections || !collections.length) {
+    //   errors.collections = "Please select at least one collection.";
+    // }
 
-  setErrors(errors);
-  // Return errors as an array (empty if no errors)
-  return Object.keys(errors).length === 0;
-}
+    setErrors(errors);
+    // Return errors as an array (empty if no errors)
+    return Object.keys(errors).length === 0;
+  }
 
   const writeUserData = () => {
     const handleAddDoc = () => {
@@ -156,20 +157,30 @@ function validateEvent() {
   };
 
   const handleSaveProfile = () => {
-  if (validateEvent()){
-    navigation.navigate("ExhibitionShow", {
-      image,
-      images,
-      name,
-      email,
-      contactNumber,
-      address,
-      desc,
-    });
+    if (validateEvent()) {
+      navigation.navigate("ExhibitionShow", {
+        image,
+        images,
+        name,
+        email,
+        contactNumber,
+        address,
+        desc,
+      });
 
-   writeUserData();
-  }
+      writeUserData();
+    }
   };
+
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
+
+  // <View style={{ padding: 20 }}>
+  //   <TextInput
+
+  //     style={{ height: 40, borderWidth: 1, padding: 10 }}
+  //   />
+  // </View>
 
   return (
     <View style={styles.container}>
@@ -387,7 +398,7 @@ function validateEvent() {
               style={styles.dimensionsInput}
               placeholder="FROM"
               placeholderTextColor="white"
-              value={input3?.date.toLocaleTimeString().slice(0, 5)}
+              value={input3?.date.toLocaleTimeString()}
               onPressIn={input3.showDatepicker2}
             />
           ) : (
@@ -416,7 +427,7 @@ function validateEvent() {
               style={styles.dimensionsInput}
               placeholder="TO"
               placeholderTextColor="white"
-              value={input4?.date.toLocaleTimeString().slice(0, 5)}
+              value={input4?.date.toLocaleTimeString()}
               onPressIn={input4.showDatepicker2}
             />
           ) : (
@@ -443,7 +454,11 @@ function validateEvent() {
         </View>
         <TextInput
           style={styles.input}
-          placeholder="ADDRESS"
+          placeholder={
+            isFocused ? "e.g. 123 street name, soweto, gauteng" : "ADDRESS"
+          }
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           placeholderTextColor="white"
           value={address}
           onChangeText={setAddress}
@@ -459,6 +474,7 @@ function validateEvent() {
           value={contactNumber}
           onChangeText={setContactNumber}
           keyboardType="numeric"
+          maxLength={10}
         />
         {errors.contactNumber ? (
           <Text style={styles.errorMessage}>{errors.contactNumber}</Text>

@@ -31,6 +31,8 @@ const ArtworksScreen = ({ navigation }) => {
   // Fetch collection data from the server
   const { collectionData } = useCollection();
 
+  console.log("userData : ", userData);
+
   useEffect(() => {
     // Set menu items based on collection data
     if (collectionData) {
@@ -104,7 +106,7 @@ const ArtworksScreen = ({ navigation }) => {
     );
   };
 
-  return userData === null ? (
+  return userData.length === 0 ? (
     <View style={styles.container}>
       <Image source={loader2} />
     </View>
