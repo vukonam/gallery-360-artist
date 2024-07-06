@@ -45,7 +45,7 @@ export const useCollection = () => {
 
       console.log("collectionData : ", collectionDataCopy);
       setFirebaseCollection(collection);
-      setCollectionData(collectionDataCopy);
+      setCollectionData([...new Set(collectionDataCopy)]);
       setArtworksCollection(collectionDataCopy2);
     });
   }, []);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FIRESTORE_DB } from "../firebase/firebase.config"; // Import your Firebase configuration
+import { FIRESTORE_DB } from "../firebase/firebase.config";
 import {
   collection,
   query,
   where,
+  orderBy, // Import orderBy for sorting
   onSnapshot,
-  FieldPath,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
@@ -16,17 +16,18 @@ function useFetchUpcoming() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  // Function to fetch data
+  // Function to fetch and sort data
   const fetchData = () => {
     const colRef = collection(FIRESTORE_DB, "exhibition");
     const currentDate = moment().format("YYYY-MM-DD");
-    // const timestamp = Timestamp.fromDate(new Date(currentDate));
+    const timestamp = Timestamp.fromDate(new Date(currentDate)); // Create a Timestamp object
+
+    // Query for upcoming events, sort by fromDate in ascending order
     const q = query(
       colRef,
-      where("date", "==", "fromDate"),
-      where("fromDate", "==", new Date(currentDate))
+      where("fromDate", ">=", timestamp), // Filter for upcoming events
+      orderBy("fromDate", "asc") // Sort by fromDate in ascending order
     );
-    // FieldPath;
 
     onSnapshot(
       q,
@@ -36,7 +37,6 @@ function useFetchUpcoming() {
           collection.push({ ...doc.data(), key: doc.id });
         });
 
-        // Update the state with the new data
         setUpComing(collection);
         setIsLoading(false);
       },
@@ -92,3 +92,63 @@ function useFetchUpcoming() {
 }
 
 export default useFetchUpcoming;
+
+/*
+import React, { useEffect, useState } from "react";
+import { FIRESTORE_DB } from "../firebase/firebase.config";
+import {
+  collection,
+  query,
+  where,
+  orderBy, // Import orderBy for sorting
+  onSnapshot,
+} from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
+import moment from "moment";
+import { View, Text } from "react-native";
+
+function useFetchUpcoming() {
+  const [upComing, setUpComing] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  // Function to fetch and sort data
+  const fetchData = () => {
+    const colRef = collection(FIRESTORE_DB, "exhibition");
+    const currentDate = moment().format("YYYY-MM-DD");
+    const timestamp = Timestamp.fromDate(new Date(currentDate)); // Create a Timestamp object
+
+    // Query for upcoming events, sort by fromDate in ascending order
+    const q = query(
+      colRef,
+      where("fromDate", ">=", timestamp), // Filter for upcoming events
+      orderBy("fromDate", "asc") // Sort by fromDate in ascending order
+    );
+
+    onSnapshot(
+      q,
+      (querySnapshot) => {
+        const collection = [];
+        querySnapshot.docs.forEach((doc) => {
+          collection.push({ ...doc.data(), key: doc.id });
+        });
+
+        setUpComing(collection);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching data:", error);
+        setIsError(true);
+      }
+    );
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // ... rest of your code
+}
+
+export default useFetchUpcoming;
+*/

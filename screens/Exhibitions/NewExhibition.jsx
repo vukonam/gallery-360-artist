@@ -52,10 +52,13 @@ const SetupProfileScreen = ({ navigation }) => {
   // Create a JavaScript Date object
   const myDate = new Date("2023-11-30");
 
-  // Convert the Date object to a Firestore Timestamp
-  const timestamp = Timestamp.fromDate(myDate);
+  const fromDate = Timestamp.fromDate(input.date);
+  const toDate = Timestamp.fromDate(input2.date);
 
-  console.log("fromDate : ", timestamp);
+  // Convert the Date object to a Firestore Timestamp
+
+  console.log("fromDate : ", fromDate);
+  console.log("toDate : ", toDate);
 
   const fromTime = input3.date.toLocaleTimeString().slice(0, 5).toString();
   const toTime = input4.date.toLocaleTimeString().slice(0, 5).toString();
@@ -455,7 +458,9 @@ const SetupProfileScreen = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder={
-            isFocused ? "e.g. 123 street name, soweto, gauteng" : "ADDRESS"
+            isFocused
+              ? "e.g. 123 street name, suburb, city, postal code"
+              : "ADDRESS"
           }
           onFocus={handleFocus}
           onBlur={handleBlur}

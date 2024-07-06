@@ -27,7 +27,7 @@ export default function ExhibitionScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState("All");
 
   const { exhibionData, firebaseExhibition } = useFetchExhibition();
-  
+
   const firebaseExhibitionLength = firebaseExhibition?.length;
   console.log("Exhibition Screen : ", firebaseExhibition);
 
@@ -90,6 +90,7 @@ export default function ExhibitionScreen({ navigation }) {
       );
     }
   };
+
   const renderContent = () => {
     if (selectedOption === "All") {
       // Render the profile card for "All" option
