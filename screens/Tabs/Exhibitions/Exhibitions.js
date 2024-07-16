@@ -25,7 +25,7 @@ import DateCheck from "../../../components/DateCheck.jsx";
 
 export default function ExhibitionScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState("All");
-
+  console.log('in exhibtion');
   const { exhibionData, firebaseExhibition } = useFetchExhibition();
 
   const firebaseExhibitionLength = firebaseExhibition?.length;

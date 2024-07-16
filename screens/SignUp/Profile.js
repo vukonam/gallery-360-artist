@@ -26,7 +26,7 @@ const SetupProfileScreen = ({ navigation }) => {
   const [facebook, setFacebook] = useState("");
   // const [progress, setProgress] = useState(0);
   const [errors, setErrors] = useState({});
-
+  console.log('profile');
   const validateForm = () => {
     console.log("validateForm is hit");
     let errors = {};

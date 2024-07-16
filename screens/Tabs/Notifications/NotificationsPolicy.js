@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome5"; // Replace "FontAweso
 const DashboardScreen = ({ navigation, route }) => {
   // Sample data for the line chart
   //const [name, setName] = useState("John Doe");
+  console.log('in notifications policy');
   const { image } = route.params;
   const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 

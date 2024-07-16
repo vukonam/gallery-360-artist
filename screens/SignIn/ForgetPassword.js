@@ -9,6 +9,7 @@ import {
 } from "react-native";
 //import SpashScreen from "./screens/OnBording/SpashScreen.js";
 export default function App(props) {
+  console.log('in forgot password');
   const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
 
@@ -16,6 +17,7 @@ export default function App(props) {
     console.log("signed in!!!");
     props.closeModal();
   };
+  console.log('forgot password');
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.container}>

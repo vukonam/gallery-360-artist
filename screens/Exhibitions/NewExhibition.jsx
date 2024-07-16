@@ -33,6 +33,7 @@ import CustomDateTimePicker from "../../components/DateTimePicker";
 import useInput from "../../hooks/useDateTimePicker";
 
 const SetupProfileScreen = ({ navigation }) => {
+  console.log('in new exhibiton');
   const input = useInput();
   const input2 = useInput();
   const input3 = useInput();

@@ -18,8 +18,8 @@ export default function App(props) {
     { key: "2", value: "instagram" },
   ];
 
-  console.log(selected);
-
+  console.log({ selected });
+  console.log('add social media');
   const handleSignIn = () => {
     console.log("signed in!!!");
     if (selected == "facebook") {

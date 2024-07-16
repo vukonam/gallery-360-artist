@@ -21,6 +21,7 @@ export default function App({ navigation }) {
   const [error, setError] = useState("");
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
+  console.log('in sign in');
   const handleOpenModal = () => {
     setModalIsVisible(true);
   };
@@ -28,7 +29,7 @@ export default function App({ navigation }) {
   const handleCloseModal = () => {
     setModalIsVisible(false);
   };
-
+  console.log('Sign in');
   //const auth = getAuth(app);
 
   // async function handleSignIn() {
@@ -47,7 +48,7 @@ export default function App({ navigation }) {
   // }
 
   useEffect(() => {
-    console.log(auth);
+    console.log({ authInSignIn: auth });
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         navigation.replace("Tabs");
@@ -119,18 +120,17 @@ export default function App({ navigation }) {
             value={password}
             onChangeText={setPassword}
           />
-          <View style={styles.smallerButtonContainer}>
-            <Text>hello</Text>
-            <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-              <Text style={styles.smallerButtonText}>I forgot my password</Text>
-            </TouchableOpacity>
-          </View>
-          {
+
+          <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
+            <Text style={styles.smallerButtonText}>I forgot my password</Text>
+          </TouchableOpacity>
+
+          {/* {
             <ForgetPassword
               visible={modalIsVisible}
               closeModal={handleCloseModal}
             />
-          }
+          } */}
 
           <TouchableOpacity style={styles.signInButton} onPress={handleLogin}>
             <Text style={styles.buttonText}>Sign In</Text>
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
   accountLoginContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: '100%'
   },
   iconContainer: {
     marginLeft: 100,
@@ -190,15 +191,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     color: "white",
+    
   },
   inputContainer: {
     flex: 1,
-    marginTop: 40,
+    marginTop: 20,
     alignItems: "center",
     backgroundColor: "transparent", // Set this to your desired background color for the whole screen
+    // backgroundColor: 'green',
+    padding: 20
   },
   input: {
-    width: "80%",
+    width: "100%",
     height: 50,
     fontSize: 16,
     borderBottomWidth: 1,
@@ -209,7 +213,7 @@ const styles = StyleSheet.create({
     textDecorationColor: "white",
   },
   signInButton: {
-    width: "80%",
+    width: "100%",
     height: 50,
     backgroundColor: "#CEB89E", // Set this to your desired button background color
     borderRadius: 15,
@@ -223,11 +227,14 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "transparent", // Set this to your desired button color
-    padding: 2,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 5,
     borderRadius: 5,
-
-    marginBottom: 10,
+    // backgroundColor: 'red',
+    marginVertical: 10,
     marginLeft: 100,
+    alignSelf: 'flex-end',
   },
   smallerButtonText: {
     color: "#fff", // Set this to your desired button text color
@@ -236,5 +243,7 @@ const styles = StyleSheet.create({
   smallerButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    backgroundColor: 'green',
+    flex: 1
   },
 });

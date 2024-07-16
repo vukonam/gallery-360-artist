@@ -28,10 +28,11 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const MyPage = ({ route, navigation }) => {
   const signatureRef = useRef(null);
   const [text, setText] = useState("");
-
+  console.log('signature');
   const user = auth.currentUser;
   const { userData } = route.params;
-  console.log(userData);
+  console.log('userdata in signature: ', userData);
+  
   const {
     fullname: fullName,
     contactnumber: contactNumber,
@@ -89,7 +90,7 @@ const MyPage = ({ route, navigation }) => {
           onSave={(val) => {
             //  a base64 encoded image
             console.log("saved signature");
-            console.log(val);
+            console.log('signatureVal: ', val);
             setText(val);
           }}
           onClear={() => {

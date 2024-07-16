@@ -22,15 +22,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.malwandlashaun.Gallery360"
+      "package": "com.gallery360.artist"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "9e95b303-5270-4507-a9e8-c54ac9e69d5b"
-      }
     }
   }
 }

@@ -7,7 +7,9 @@ export function useAuth() {
   const [user, setUser] = useState()
 
   useEffect(() => {
+    console.log({ useAuth: 'finding user '})
     const unsubscribeFromAuthStateChanged = onAuthStateChanged(auth, (user) => {
+      console.log({ foundUser: user });
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User

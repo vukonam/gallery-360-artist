@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 
 const ReviewsComponent = ({ handleRatingSubmit, rating }) => {
+  console.log('in reviews components');
   return (
     <View style={styles.ratingContainer}>
       <View style={styles.reviewsCount}>

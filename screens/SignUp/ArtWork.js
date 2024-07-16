@@ -40,6 +40,7 @@ const MyPage = ({ route, navigation }) => {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const inputRef = useRef();
 
+  console.log('artwork');
   // const {       fullName,
   //        contactNumber,
   //        website,
@@ -65,7 +66,7 @@ const MyPage = ({ route, navigation }) => {
     });
   }, [items, query]);
 
-  console.log(userData);
+  console.log('Userdata in artwork: ', userData);
   return (
     <View style={styles.container}>
       {/* Paragraph */}

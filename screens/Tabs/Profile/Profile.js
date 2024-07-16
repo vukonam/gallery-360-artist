@@ -18,8 +18,9 @@ import styles from "./styles.js";
 import { useFetchProfileData } from "../../../hooks/useFetchProfileData.jsx";
 // Replace "FontAwesome5" with the icon library of your choice.
 const SetupProfileScreen = ({ navigation }) => {
-  const { userData, name, image, dateOfBirth, bio, signature } =
-    useFetchProfileData();
+
+  console.log('in profile');
+  const { userData, name, image, dateOfBirth, bio, signature } = useFetchProfileData();
 
   const Imageloader = () => {
     return (
@@ -45,11 +46,7 @@ const SetupProfileScreen = ({ navigation }) => {
     }
   };
 
-  return userData === null ? (
-    <View style={styles.container}>
-      <Imageloader />
-    </View>
-  ) : (
+  return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.headerContainer}>

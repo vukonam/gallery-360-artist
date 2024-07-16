@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 const SplashScreen = () => {
@@ -18,6 +18,7 @@ const SplashScreen = () => {
 };
 
 const Onboarding = ({ navigation }) => {
+  console.log('in on boarding');
   const onBording = [
     {
       id: 1,
@@ -75,7 +76,6 @@ const Onboarding = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       )}
-      {shouldRenderLogin && <LoginComponent />}
     </View>
   );
 };
@@ -83,14 +83,17 @@ const Onboarding = ({ navigation }) => {
 const App = ({ navigation }) => {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowOnboarding(true)
+    }, 3000)
+  }, [])
   return (
     <View style={styles.container}>
       {showOnboarding ? (
         <Onboarding navigation={navigation} />
       ) : (
-        <TouchableOpacity onPress={() => setShowOnboarding(true)}>
           <SplashScreen />
-        </TouchableOpacity>
       )}
     </View>
   );

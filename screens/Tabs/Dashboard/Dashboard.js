@@ -24,7 +24,7 @@ import styles from "./styles.js";
 
 const DashboardScreen = ({ navigation }) => {
   const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
-
+  console.log('dashboard');
   const [navStack, setNavStack] = useState("NewArtwork");
   const [desc, setDesc] = useState(
     " make your first sale by adding artwork collections"

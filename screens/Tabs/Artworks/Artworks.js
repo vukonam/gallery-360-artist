@@ -32,7 +32,7 @@ const ArtworksScreen = ({ navigation }) => {
   const { collectionData } = useCollection();
 
   // console.log("userData : ", userData);
-
+  console.log('artworks');
   useEffect(() => {
     // Set menu items based on collection data
     if (collectionData) {

@@ -13,6 +13,7 @@ import Carousel from "react-native-snap-carousel"; // Import the library for the
 
 const ExhibitionScreen = ({ navigation, route }) => {
   const { item, image, name } = route.params;
+  console.log('in exhibition show');
 
   return (
     <View style={styles.container}>

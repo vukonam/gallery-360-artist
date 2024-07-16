@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome"; // Replace "FontAwesome" with the icon library of your choice.
 
 const ExhibitionScreen = ({ navigation, route }) => {
+  console.log('in congratulations');
   // const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
   const { image } = route.params;
   const description = `You have successfully created a new exhibition for your collection.`;

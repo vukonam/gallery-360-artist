@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 //import ForgetPassword from "../SignIn/ForgetPassword";
@@ -19,14 +20,13 @@ export default function App({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [errors, setErrors] = useState({});
+  const [artistAgreesToTerms, setArtistAgreesToTerms] = useState(false)
 
-  const Items = ["I agree to Gallery360's Terms & Conditions"];
-  function handleItemSelection(Item) {
-    setSelectedItems((prevSelected) =>
-      prevSelected.includes(Item)
-        ? prevSelected.filter((item) => item !== Item)
-        : [...prevSelected, Item]
-    );
+  const G360_TERMS = "I agree to Gallery360's Terms & Conditions";
+
+  console.log('sign up');
+  const handleTermAgreementToggle = () => {
+    setArtistAgreesToTerms(artistAgreesToTerms => !artistAgreesToTerms)
   }
 
   const validateForm = () => {
@@ -35,7 +35,7 @@ export default function App({ navigation }) {
     if (email.trim() === "") {
       errors.email = "Please enter a valid email";
     } else if (!/\S+@\S.\S{2,}/.test(email.replace(/ /g, ""))) {
-      errors.email = "Please enter a valid work or school email.";
+      errors.email = "Please enter a valid email.";
     }
     if (
       password.length < 8 ||
@@ -44,7 +44,7 @@ export default function App({ navigation }) {
       password.search(/[\d]/) < 0
     ) {
       errors.password =
-        "Must be at least 8 characters including one uppercase letter and one lowercase letter.";
+        "Password must be at least 8 characters long, containing at least one uppercase letter and one lowercase letter.";
     }
 
     setErrors(errors);
@@ -53,9 +53,12 @@ export default function App({ navigation }) {
 
   const handleSignUp = async () => {
     // Validate the form before submiting it
+    setIsLoading(true);
     if (validateForm()) {
+      console.log({ validateForm: validateForm(), email: email, password: password});
+      // return
       try {
-        setIsLoading(true);
+        
         const response = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -64,7 +67,8 @@ export default function App({ navigation }) {
         const user = response.user;
         // console.log("Registered with:", user.email);
         setIsLoading(false);
-        navigation.navigate("Profile");
+        // navigation paused to understand app logic to avoid eternal loader.
+        // navigation.navigate("Profile");
         setEmail("");
         setPassword("");
         setErrors({});
@@ -72,18 +76,13 @@ export default function App({ navigation }) {
         console.log(error);
         alert("Please Enter Your Email And Password");
       }
+    } else {
+      setIsLoading(false)
     }
   };
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text style={{ color: "white", fontSize: 24 }}>Loading...</Text>
-        </View>
-      ) : (
         <ScrollView>
           <View style={styles.imageContainer}>
             <Image
@@ -114,6 +113,7 @@ export default function App({ navigation }) {
                 setErrors({});
                 setEmail(text);
               }}
+              editable={!isLoading}
             />
             {errors.email ? (
               <Text style={styles.errorMessage}>{errors.email}</Text>
@@ -128,49 +128,53 @@ export default function App({ navigation }) {
                 setErrors({});
                 setPassword(text);
               }}
+              editable={!isLoading}
             />
             {errors.password ? (
               <Text style={styles.errorMessage}>{errors.password}</Text>
             ) : null}
 
             <View style={[styles.Items, styles.checkboxContainer]}>
-              {Items.map((Item, index) => (
-                <>
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      selectedItems.includes(Item) && styles.selectedCheckbox,
-                    ]}
-                    onPress={() => handleItemSelection(Item)}
-                  >
-                    <View style={styles.checkbox}>
-                      {selectedItems.includes(Item) && (
-                        <Icon name="check" size={18} color="white" />
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                  <Text
-                    //  key={index}
-                    style={[
-                      styles.checkboxText,
-                      selectedItems.includes(Item) && styles.selectedText,
-                    ]}
-                  >
-                    {Item}
-                  </Text>
-                </>
-              ))}
+              <TouchableOpacity
+                style={[
+                  artistAgreesToTerms && styles.selectedCheckbox
+                ]}
+                onPress={() => handleTermAgreementToggle()}
+                disabled={isLoading}
+              >
+                <View style={styles.checkbox}>
+                  {artistAgreesToTerms && (
+                    <Icon name="check" size={14} color="white" />
+                  )}
+                </View>
+              </TouchableOpacity>
+              <Text
+                //  key={index}
+                style={[
+                  styles.checkboxText,
+                  artistAgreesToTerms && styles.selectedText,
+                ]}
+                
+              >
+                {G360_TERMS}
+              </Text>
             </View>
 
             <TouchableOpacity
               style={styles.signInButton}
-              onPress={handleSignUp}
+              onPress={!isLoading && handleSignUp}
+              disabled={isLoading}
             >
-              <Text style={styles.buttonText}>Sign Up</Text>
+              {
+                isLoading
+                  ? <ActivityIndicator color={'white'} size={'large'}/>
+                  : <Text style={styles.buttonText}>Sign Up</Text>
+              }
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate("Login")}
+              disabled={isLoading}
             >
               <Text style={styles.smallerButtonText}>
                 Already have an account?
@@ -178,7 +182,6 @@ export default function App({ navigation }) {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      )}
     </View>
   );
 }
@@ -200,6 +203,7 @@ const styles = StyleSheet.create({
   accountLoginContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: '100%'
   },
   iconContainer: {
     marginLeft: 100,
@@ -225,15 +229,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "white",
     textAlign: "left",
+    width: '100%'
   },
   inputContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "transparent", // Set this to your desired background color for the whole screen
+    width: '100%',
+    padding: 20,
+    marginTop: 10
   },
   input: {
-    width: "80%",
+    width: "100%",
     height: 50,
     fontSize: 16,
     borderBottomWidth: 1,
@@ -244,7 +252,7 @@ const styles = StyleSheet.create({
     textDecorationColor: "white",
   },
   signInButton: {
-    width: "80%",
+    width: "100%",
     height: 50,
     backgroundColor: "#CEB89E", // Set this to your desired button background color
     borderRadius: 15,
@@ -258,9 +266,9 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "transparent", // Set this to your desired button color
-    padding: 20,
+    padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
+    marginTop: 10
   },
   smallerButtonText: {
     color: "#fff", // Set this to your desired button text color
@@ -273,7 +281,7 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 24,
     height: 24,
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: "white",
     borderRadius: 5,
     justifyContent: "center",
@@ -295,6 +303,7 @@ const styles = StyleSheet.create({
   },
   selectedCheckbox: {
     backgroundColor: "#CEB89E", // Customize the background color when the checkbox is selected
+    borderRadius: 5
   },
   selectedText: {
     fontWeight: "bold", // Customize the style when the checkbox is selected
@@ -305,8 +314,8 @@ const styles = StyleSheet.create({
     //flexWrap: "wrap",
   },
   errorMessage: {
-    width: "80%",
-    color: "red",
+    width: "100%",
+    color: "rgb(220, 80, 90)",
     marginBottom: 10,
     textAlign: "left",
   },

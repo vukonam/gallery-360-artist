@@ -10,6 +10,7 @@ import {
 import NewCollectionModal from "../../components/Modals/NewCollection";
 
 export default function NewTypeModal(props) {
+  console.log('in new type modal');
   const [name, setName] = useState("");
   const [collectionModalVisible, setCollectionModalVisible] = useState(false);
 

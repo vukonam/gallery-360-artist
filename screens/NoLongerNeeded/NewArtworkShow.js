@@ -81,7 +81,7 @@ const ExhibitionScreen = ({ route, navigation }) => {
       },
       (error) => {
         // handle error
-        console.log(error);
+        console.log({ errorInNewArtwork: error });
         alert("Upload Error : ", error);
       },
       () => {

@@ -13,6 +13,7 @@ import ProfilePic from "../../../components/ProfilePic";
 const DashboardScreen = ({ navigation, route }) => {
   // Sample data for the line chart
   //const [name, setName] = useState("John Doe");
+  console.log('in notifications show');
   const { image, name } = route.params;
   //const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
 

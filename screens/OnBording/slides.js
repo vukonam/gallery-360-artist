@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TouchableOpacity, StyleSheet, View, Text, Image } from "react-native";
 //import SpashScreen from "./screens/OnBording/SpashScreen.js";
 export default function App() {
+  console.log('in slides');
   const onBording = [
     {
       id: 1,

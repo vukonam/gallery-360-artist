@@ -39,6 +39,8 @@ import { useImageFunctions } from "../../../hooks/useImageFunctions";
  */
 
 const NewArtwork = ({ navigation }) => {
+
+  console.log('in new artworks index');
   const { collectionData, firebaseCollection } = useCollection();
 
   const [title, setTitle] = useState("");
@@ -180,7 +182,7 @@ function validateArtwork() {
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const [selected, setSelected] = useState("");
 
-  console.log(selected);
+  console.log({ selected });
   const availability = ["Stand alone", "Limited Edition"];
   const artworks = ["I agree to Gallery360's Terms & Conditions"];
   function handleArtworkSelection(artwork) {

@@ -12,6 +12,7 @@ import Carousel from "react-native-snap-carousel"; // Import the library for the
 //import BottomNavigationMenu from "./screens/Tabs/components/BottomNavigationMenu";
 
 const ExhibitionScreen = ({ navigation, route }) => {
+  console.log('in exhibtion show');
   //const profilePic = require("../../assets/images/userImage.jpg"); // Replace with the path to your profile picture
   //const coverImage = require("../../assets/images/art1.png"); // Replace with the path to your cover image
 

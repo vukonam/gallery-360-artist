@@ -21,6 +21,7 @@ import { FIRESTORE_DB, storage } from "../../firebase/firebase.config";
 import styles from "./styles";
 
 const ExhibitionScreen = ({ route, navigation }) => {
+  console.log('in artwork');
   const [rating, setRating] = useState(0);
   console.log("route data : ", route.params);
 

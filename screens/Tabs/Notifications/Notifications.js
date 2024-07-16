@@ -26,6 +26,8 @@ import { setData } from "../../../features/loginDetails.js";
 import { useFetchExhibition } from "../../../hooks/useFetchExhibition";
 import UseFetchUpcoming from "../../../hooks/UseFetchUpcoming";
 const DashboardScreen = ({ navigation }) => {
+
+  console.log('in notifications');
   const { image, name, userData } = useProfileData();
 
   const [navStack, setNavStack] = useState("NewArtwork");

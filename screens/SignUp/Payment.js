@@ -23,7 +23,7 @@ const PaymentScreen = ({ navigation }) => {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
   const [errors, setErrors] = useState({});
-
+  console.log('payment');
   const validateForm = () => {
     console.log("validateForm is hit");
     let errors = {};

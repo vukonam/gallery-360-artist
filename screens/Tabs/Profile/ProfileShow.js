@@ -45,7 +45,7 @@ const SetupProfileScreen = ({ navigation, route }) => {
   const Prevbio = userData.biography;
 
   const [modalIsVisible, setModalIsVisible] = useState(false);
-
+  console.log('in profile show');
   const { pickOneImage, image, imageUrl } = useImageFunctions();
   const handleOpenModal = () => {
     setModalIsVisible(true);

@@ -23,18 +23,24 @@ export const useProfileData = () => {
       const q = query(colRef, where("artistUid", "==", user.uid));
 
       try {
+        console.log('Before snap');
         onSnapshot(q, (querySnapshot) => {
+          console.log('after snap');
           querySnapshot?.docs.forEach((doc) => {
             const data = doc.data();
+            console.log({ data });
+            if (!data) return null
             console.log("data", data);
             setUserData(data);
             setName(data.artistName);
             setImage({ uri: data.photoUrl });
+            console.log("data profile: ", data);
           });
         });
-        console.log("data profile: ", data);
+
       } catch (error) {
         console.log("new error : ", error);
+        console.log('err');
       }
     };
     fetchData();

@@ -16,6 +16,7 @@ import { useCollection } from "../../hooks/useCollection";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ArtworksScreen = ({ navigation }) => {
+  console.log('in exhibition collection');
   const [selectedArtworks, setSelectedArtworks] = useState([]);
   const { artworkData, firebaseArtworks } = useFetchArtworks();
 
