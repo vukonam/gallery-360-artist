@@ -16,7 +16,7 @@ import { useProfileData } from "../../../hooks/useProfilePic.jsx";
 
 import ProfilePic from "../../../components/ProfilePic.js";
 import ProfileCard from "../../../components/ProfileCard.js";
-import loader2 from "../../../assets/images/loader2.gif"; // this is the bas guy
+import loader2 from "../../../assets/images/loader2.gif"; // this is the bad guy
 
 //import { useSelector } from "react-redux";
 import data from "./utils/data.js";
@@ -24,7 +24,7 @@ import styles from "./styles.js";
 
 const DashboardScreen = ({ navigation }) => {
   const profilePic = require("../../../assets/images/userImage.jpg"); // Replace with the actual path to the profile picture
-  console.log('dashboard');
+  console.log('in dashboard');
   const [navStack, setNavStack] = useState("NewArtwork");
   const [desc, setDesc] = useState(
     " make your first sale by adding artwork collections"

@@ -43,7 +43,7 @@ export const useProfileData = () => {
         console.log('err');
       }
     };
-    fetchData();
+    // fetchData();
   }, []);
 
   // Your component rendering and JSX code here...

@@ -14,12 +14,14 @@ import ForgetPassword from "./ForgetPassword";
 
 import auth from "../../firebase/firebase.config.js";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import ActionButton from "../../components/ActionButton.jsx";
 
 export default function App({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   console.log('in sign in');
   const handleOpenModal = () => {
@@ -51,13 +53,14 @@ export default function App({ navigation }) {
     console.log({ authInSignIn: auth });
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigation.replace("Tabs");
+        // navigation.replace("Tabs");
       }
     });
     return unsubscribe;
   }, []);
 
   const handleLogin = async () => {
+    setIsLoading(true)
     try {
       const userCredentials = await signInWithEmailAndPassword(
         auth,
@@ -66,8 +69,10 @@ export default function App({ navigation }) {
       );
       const user = userCredentials.user;
       console.log("Logged in with:", user.email);
-      navigation.replace("Tabs");
+      setIsLoading(false)
+      // navigation.replace("Tabs");
     } catch (error) {
+      setIsLoading(false)
       if (error.code === "auth/wrong-password") {
         // Handle incorrect password error
         console.log("Your password is incorrect. Please try again.");
@@ -124,17 +129,11 @@ export default function App({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
             <Text style={styles.smallerButtonText}>I forgot my password</Text>
           </TouchableOpacity>
-
-          {/* {
-            <ForgetPassword
-              visible={modalIsVisible}
-              closeModal={handleCloseModal}
+          <ActionButton
+              handleOnPress={handleLogin}
+              isLoading={isLoading}
+              text="Sign In"
             />
-          } */}
-
-          <TouchableOpacity style={styles.signInButton} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Signup")}
@@ -219,11 +218,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff", // Set this to your desired button text color
-    fontSize: 18,
-    fontWeight: "bold",
   },
   button: {
     backgroundColor: "transparent", // Set this to your desired button color

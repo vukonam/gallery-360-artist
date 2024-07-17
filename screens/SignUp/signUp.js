@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 //import ForgetPassword from "../SignIn/ForgetPassword";
 import auth from "../../firebase/firebase.config.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import ActionButton from "../../components/ActionButton.jsx";
 
 export default function App({ navigation }) {
   const [email, setEmail] = useState("");
@@ -159,18 +160,11 @@ export default function App({ navigation }) {
                 {G360_TERMS}
               </Text>
             </View>
-
-            <TouchableOpacity
-              style={styles.signInButton}
-              onPress={!isLoading && handleSignUp}
-              disabled={isLoading}
-            >
-              {
-                isLoading
-                  ? <ActivityIndicator color={'white'} size={'large'}/>
-                  : <Text style={styles.buttonText}>Sign Up</Text>
-              }
-            </TouchableOpacity>
+            <ActionButton
+              handleOnPress={handleSignUp}
+              isLoading={isLoading}
+              text="Sign Up"
+            />
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate("Login")}
