@@ -57,6 +57,8 @@ const loginDetailsSlice = createSlice({
       state.data.image = action.payload;
     },
     setLoading: (state, action) => {
+      console.log(state);
+      console.log(action);
       state.data.loading = action.payload;
     },
   },

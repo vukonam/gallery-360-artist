@@ -16,7 +16,7 @@ import { useProfileData } from "../../../hooks/useProfilePic.jsx";
 
 import ProfilePic from "../../../components/ProfilePic.js";
 import ProfileCard from "../../../components/ProfileCard.js";
-import loader2 from "../../../assets/images/loader2.gif";
+import loader2 from "../../../assets/images/loader2.gif"; // this is the bas guy
 
 //import { useSelector } from "react-redux";
 import data from "./utils/data.js";
