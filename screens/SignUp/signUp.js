@@ -69,7 +69,7 @@ export default function App({ navigation }) {
         // console.log("Registered with:", user.email);
         setIsLoading(false);
         // navigation paused to understand app logic to avoid eternal loader.
-        // navigation.navigate("Profile");
+        navigation.navigate("Profile");
         setEmail("");
         setPassword("");
         setErrors({});
