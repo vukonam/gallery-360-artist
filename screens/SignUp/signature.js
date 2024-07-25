@@ -32,7 +32,7 @@ const MyPage = ({ route, navigation }) => {
   const user = auth.currentUser;
   const { userData } = route.params;
   console.log('userdata in signature: ', userData);
-  
+
   const {
     fullname: fullName,
     contactnumber: contactNumber,
@@ -46,6 +46,7 @@ const MyPage = ({ route, navigation }) => {
   } = userData;
 
   const writeUserData = () => {
+    console.log('trying to save data');
     setDoc(doc(FIRESTORE_DB, "artists", user.uid), {
       artistName: fullName,
       contactnumber: contactNumber,
@@ -75,7 +76,10 @@ const MyPage = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        style={{  }}
+        contentContainerStyle={{ flex: 1, paddingTop: 40, paddingBottom: 20 }}
+      >
         <Text style={styles.header}>Signature</Text>
         <Text style={styles.paragraph}>
           This signature will be used as proof of authenticity for your artwork.
@@ -83,7 +87,7 @@ const MyPage = ({ route, navigation }) => {
         <SignatureView
           style={{
             borderWidth: 2,
-            height: 500,
+            flex: 1
           }}
           ref={signatureRef}
           // onSave is automatically called whenever signature-pad onEnd is called and saveSignature is called
@@ -128,16 +132,17 @@ const MyPage = ({ route, navigation }) => {
             <Text style={{ color: "white" }}>Save</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => writeUserData()}>
+        <TouchableOpacity style={[styles.button, { marginVertical: 20, marginHorizontal: 20 }]} onPress={() => writeUserData()}>
           <Text style={styles.smallerButtonText}>UPLOAD SIGNATURE</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={() => navigation.navigate("Payment")}
+        >
+          <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.continueButton}
-        onPress={() => navigation.navigate("Payment")}
-      >
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
+
     </View>
   );
 };
@@ -146,7 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
-    paddingTop: 40,
+    // paddingTop: 40,
     //padding: 20,
   },
   paragraph: {
@@ -157,7 +162,6 @@ const styles = StyleSheet.create({
   },
 
   continueButton: {
-    position: "absolute",
     backgroundColor: "#CEB89E",
     height: 50,
     borderRadius: 15,
@@ -165,8 +169,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "90%",
     alignSelf: "center",
-    bottom: 40,
-    marginHorizontal: 20,
   },
   buttonText: {
     color: "white",

@@ -62,7 +62,7 @@ const MainStack = () => {
 const DashboardStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Dashboard" component={DashboardScreen} /> */}
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
       <Stack.Screen name="NewArtwork" component={NewArtwork} />
       {/* <Stack.Screen name="AddArtwork" component={AddArtwork} />
       <Stack.Screen name="SearchArtwork" component={SearchArtwork} /> */}
