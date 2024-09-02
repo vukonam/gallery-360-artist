@@ -70,7 +70,7 @@ export default function App({ navigation }) {
       const user = userCredentials.user;
       console.log("Logged in with:", user.email);
       setIsLoading(false)
-      // navigation.replace("Tabs");
+      navigation.replace("Tabs");
     } catch (error) {
       setIsLoading(false)
       if (error.code === "auth/wrong-password") {
